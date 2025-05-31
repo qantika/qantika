@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeFiTuna Multi-Pair Strategy Backtester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .controls {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .control-group {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            color: #aaa;
+        }
+        input, select {
+            width: 100px;
+            padding: 5px;
+            background: #3a3a3a;
+            color: #e0e0e0;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #optimizeBtn {
+            background: #2196F3;
+        }
+        #optimizeBtn:hover {
+            background: #1976D2;
+        }
+        .results {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .metric {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+        .metric-label {
+            color: #888;
+            font-size: 12px;
+        }
+        .metric-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .negative {
+            color: #f44336;
+        }
+        canvas {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            margin-top: 20px;
+        }
+        .position-log {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background: #333;
+            color: #aaa;
+        }
+        .in-range {
+            color: #4CAF50;
+        }
+        .out-range {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DeFiTuna Multi-Pair Strategy Backtester</h1>
+        
+        <div class="controls">
+            <h3>Backtest Parameters</h3>
+            <div class="control-group">
+                <label>Trading Pair:</label>
+                <select id="tradingPair">
+                    <option value="JLP/SOL">JLP/SOL</option>
+                    <option value="cbBTC/SOL">cbBTC/SOL</option>
+                    <option value="Fartcoin/SOL">Fartcoin/SOL</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Range Width %:</label>
+                <input type="number" id="rangeWidth" value="15" step="1" min="5" max="50">
+            </div>
+            <div class="control-group">
+                <label>Daily Investment:</label>
+                <input type="number" id="dailyInvestment" value="1000" step="100">
+            </div>
+            <div class="control-group">
+                <label>Leverage:</label>
+                <select id="leverage">
+                    <option value="1">1x</option>
+                    <option value="2">2x</option>
+                    <option value="3">3x</option>
+                    <option value="4">4x</option>
+                    <option value="5" selected>5x</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Start Date:</label>
+                <input type="date" id="startDate" value="2024-06-01">
+            </div>
+            <div class="control-group">
+                <label>End Date:</label>
+                <input type="date" id="endDate" value="2025-05-29">
+            </div>
+            <button id="runBtn">Run Backtest</button>
+            <button id="optimizeBtn">Run Range Optimization</button>
+        </div>
+
+        <div class="results" id="results">
+            <h3>Backtest Results</h3>
+            <div id="metrics"></div>
+        </div>
+
+        <canvas id="chart" width="1360" height="400" style="display:none;"></canvas>
+        <canvas id="optimizationChart" width="1360" height="400" style="display:none; margin-top: 20px;"></canvas>
+
+        <div class="position-log" id="positionLog" style="display:none;">
+            <h3>Position Details</h3>
+            <table id="positionTable">
+                <thead>
+                    <tr>
+                        <th>Entry Date</th>
+                        <th>Entry Price</th>
+                        <th>Range</th>
+                        <th>Days Active</th>
+                        <th>Exit Date</th>
+                        <th>Final P&L</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="positionTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Historical Data Generators
+        
+        // JLP/SOL Historical Data Generator
+        function generateJLPSOLData() {
+            const keyPoints = [
+                { date: '2024-06-01', price: 0.0175 },
+                { date: '2024-07-15', price: 0.0235 },
+                { date: '2024-08-15', price: 0.0245 },
+                { date: '2024-09-15', price: 0.0225 },
+                { date: '2024-10-15', price: 0.0205 },
+                { date: '2024-11-01', price: 0.0185 },
+                { date: '2024-11-20', price: 0.0165 },
+                { date: '2024-12-15', price: 0.0175 },
+                { date: '2025-01-10', price: 0.0195 },
+                { date: '2025-01-25', price: 0.0215 },
+                { date: '2025-02-10', price: 0.0235 },
+                { date: '2025-02-20', price: 0.0255 },
+                { date: '2025-03-01', price: 0.0285 },
+                { date: '2025-03-15', price: 0.0310 },
+                { date: '2025-03-25', price: 0.0295 },
+                { date: '2025-04-10', price: 0.0285 },
+                { date: '2025-04-25', price: 0.0275 },
+                { date: '2025-05-15', price: 0.0270 },
+                { date: '2025-05-29', price: 0.0271 }
+            ];
+            return generateDataFromKeyPoints(keyPoints);
+        }
+        
+        // cbBTC/SOL Historical Data Generator
+        function generateCbBTCSOLData() {
+            const keyPoints = [
+                { date: '2024-06-01', price: 2.778 },  // 500/180
+                { date: '2024-08-01', price: 2.667 },
+                { date: '2024-10-01', price: 2.556 },
+                { date: '2024-12-01', price: 2.611 },
+                { date: '2024-12-15', price: 2.889 },
+                { date: '2025-01-01', price: 2.722 },
+                { date: '2025-01-15', price: 2.333 },
+                { date: '2025-02-01', price: 2.111 },
+                { date: '2025-02-15', price: 2.500 },
+                { date: '2025-03-01', price: 2.889 },
+                { date: '2025-03-10', price: 3.778 },
+                { date: '2025-03-15', price: 4.333 },
+                { date: '2025-03-20', price: 4.000 },
+                { date: '2025-04-01', price: 3.778 },
+                { date: '2025-04-15', price: 3.556 },
+                { date: '2025-05-01', price: 3.333 },
+                { date: '2025-05-15', price: 3.222 },
+                { date: '2025-05-29', price: 3.517 }
+            ];
+            return generateDataFromKeyPoints(keyPoints);
+        }
+        
+        // Fartcoin/SOL Historical Data Generator
+        function generateFartcoinSOLData() {
+            const keyPoints = [
+                { date: '2024-06-01', price: 0.000050 },
+                { date: '2024-09-01', price: 0.000100 },
+                { date: '2024-11-01', price: 0.000999 },
+                { date: '2024-11-10', price: 0.001500 },
+                { date: '2024-11-15', price: 0.004000 },
+                { date: '2024-11-20', price: 0.011500 },
+                { date: '2024-11-25', price: 0.006000 },
+                { date: '2024-12-01', price: 0.004500 },
+                { date: '2024-12-15', price: 0.003500 },
+                { date: '2025-01-01', price: 0.002800 },
+                { date: '2025-01-15', price: 0.002200 },
+                { date: '2025-01-25', price: 0.001999 },
+                { date: '2025-02-10', price: 0.002500 },
+                { date: '2025-03-01', price: 0.003500 },
+                { date: '2025-03-15', price: 0.004200 },
+                { date: '2025-04-01', price: 0.005500 },
+                { date: '2025-04-15', price: 0.006800 },
+                { date: '2025-05-01', price: 0.007999 },
+                { date: '2025-05-15', price: 0.008499 },
+                { date: '2025-05-29', price: 0.007450 }
+            ];
+            return generateDataFromKeyPoints(keyPoints);
+        }
+        
+        // Generic data generator from key points - pure interpolation
+        function generateDataFromKeyPoints(keyPoints) {
+            const data = [];
+            const startDate = new Date('2024-06-01');
+            const endDate = new Date('2025-05-29');
+            
+            let currentDate = new Date(startDate);
+            let keyPointIndex = 0;
+            
+            while (currentDate <= endDate) {
+                const dateStr = currentDate.toISOString().split('T')[0];
+                
+                while (keyPointIndex < keyPoints.length - 1 && 
+                       new Date(keyPoints[keyPointIndex + 1].date) <= currentDate) {
+                    keyPointIndex++;
+                }
+                
+                let price;
+                if (keyPointIndex === 0) {
+                    price = keyPoints[0].price;
+                } else if (keyPointIndex >= keyPoints.length - 1) {
+                    price = keyPoints[keyPoints.length - 1].price;
+                } else {
+                    const prevPoint = keyPoints[keyPointIndex];
+                    const nextPoint = keyPoints[keyPointIndex + 1];
+                    const prevDate = new Date(prevPoint.date);
+                    const nextDate = new Date(nextPoint.date);
+                    
+                    const progress = (currentDate - prevDate) / (nextDate - prevDate);
+                    price = prevPoint.price + (nextPoint.price - prevPoint.price) * progress;
+                }
+                
+                data.push({
+                    date: dateStr,
+                    price: parseFloat(price.toFixed(8))
+                });
+                
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return data;
+        }
+
+        // Fee model based on empirical data from DeFiTuna
+        function calculateDailyYield(rangeWidthPercent, pair) {
+            let baseYield;
+            
+            switch(pair) {
+                case 'JLP/SOL':
+                    if (rangeWidthPercent <= 5) {
+                        baseYield = Math.max(0.8, 1.45 * (rangeWidthPercent / 5));
+                    } else if (rangeWidthPercent <= 10) {
+                        const t = (rangeWidthPercent - 5) / 5;
+                        baseYield = (1.45 * (1 - t) + 0.82 * t);
+                    } else if (rangeWidthPercent <= 16) {
+                        const t = (rangeWidthPercent - 10) / 6;
+                        baseYield = (0.82 * (1 - t) + 0.57 * t);
+                    } else if (rangeWidthPercent <= 22) {
+                        const t = (rangeWidthPercent - 16) / 6;
+                        baseYield = (0.57 * (1 - t) + 0.44 * t);
+                    } else {
+                        baseYield = 0.44 * Math.pow(22 / rangeWidthPercent, 0.5);
+                    }
+                    break;
+                    
+                case 'cbBTC/SOL':
+                    if (rangeWidthPercent <= 5) {
+                        baseYield = 1.83;
+                    } else if (rangeWidthPercent <= 10) {
+                        const t = (rangeWidthPercent - 5) / 5;
+                        baseYield = 1.83 * (1 - t) + 0.92 * t;
+                    } else if (rangeWidthPercent <= 15) {
+                        const t = (rangeWidthPercent - 10) / 5;
+                        baseYield = 0.92 * (1 - t) + 0.61 * t;
+                    } else if (rangeWidthPercent <= 20) {
+                        const t = (rangeWidthPercent - 15) / 5;
+                        baseYield = 0.61 * (1 - t) + 0.46 * t;
+                    } else {
+                        baseYield = 0.46 * Math.pow(20 / rangeWidthPercent, 0.5);
+                    }
+                    break;
+                    
+                case 'Fartcoin/SOL':
+                    if (rangeWidthPercent <= 5) {
+                        baseYield = 6.23;
+                    } else if (rangeWidthPercent <= 10) {
+                        const t = (rangeWidthPercent - 5) / 5;
+                        baseYield = 6.23 * (1 - t) + 3.09 * t;
+                    } else if (rangeWidthPercent <= 20) {
+                        const t = (rangeWidthPercent - 10) / 10;
+                        baseYield = 3.09 * (1 - t) + 1.58 * t;
+                    } else if (rangeWidthPercent <= 30) {
+                        const t = (rangeWidthPercent - 20) / 10;
+                        baseYield = 1.58 * (1 - t) + 1.05 * t;
+                    } else if (rangeWidthPercent <= 40) {
+                        const t = (rangeWidthPercent - 30) / 10;
+                        baseYield = 1.05 * (1 - t) + 0.80 * t;
+                    } else if (rangeWidthPercent <= 50) {
+                        const t = (rangeWidthPercent - 40) / 10;
+                        baseYield = 0.80 * (1 - t) + 0.64 * t;
+                    } else {
+                        baseYield = 0.64 * Math.pow(50 / rangeWidthPercent, 0.3);
+                    }
+                    break;
+                    
+                default:
+                    baseYield = 0.5;
+            }
+            
+            return Math.max(0.2, Math.min(3.0, baseYield)) / 100;
+        }
+
+        // Calculate impermanent loss for concentrated liquidity
+        function calculateImpermanentLoss(entryPrice, exitPrice, rangeLow, rangeHigh) {
+            let il = 0;
+            
+            if (exitPrice <= rangeLow) {
+                const moveToBottom = (entryPrice - rangeLow) / entryPrice;
+                const priceDecline = (rangeLow - exitPrice) / rangeLow;
+                il = -(moveToBottom + priceDecline);
+            } else if (exitPrice >= rangeHigh) {
+                const moveToTop = (rangeHigh - entryPrice) / entryPrice;
+                const priceSurge = (exitPrice - rangeHigh) / rangeHigh;
+                il = -(moveToTop / (1 + moveToTop) + priceSurge / (1 + priceSurge));
+            }
+            
+            const rangeWidth = (rangeHigh - rangeLow) / entryPrice;
+            const severityMultiplier = Math.min(2, 0.3 / rangeWidth);
+            
+            return il * severityMultiplier * 0.7;
+        }
+
+        // Main backtesting function
+        function runBacktest() {
+            const selectedPair = document.getElementById('tradingPair').value;
+            const rangeWidth = parseFloat(document.getElementById('rangeWidth').value) / 100;
+            const dailyInvestment = parseFloat(document.getElementById('dailyInvestment').value);
+            const leverage = parseFloat(document.getElementById('leverage').value);
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            
+            let historicalData;
+            switch(selectedPair) {
+                case 'cbBTC/SOL':
+                    historicalData = generateCbBTCSOLData();
+                    break;
+                case 'Fartcoin/SOL':
+                    historicalData = generateFartcoinSOLData();
+                    break;
+                case 'JLP/SOL':
+                default:
+                    historicalData = generateJLPSOLData();
+                    break;
+            }
+            
+            const positions = [];
+            let totalInvested = 0;
+            let totalReturned = 0;
+            let cashAvailable = 0;
+            let activePositions = [];
+            const dailyPortfolioValue = [];
+            const dailyBlackSwanValue = [];
+            
+            let currentDate = new Date(startDate);
+            let dayIndex = 0;
+            
+            while (currentDate <= endDate && dayIndex < historicalData.length) {
+                const todayData = historicalData.find(d => d.date === currentDate.toISOString().split('T')[0]);
+                if (!todayData) {
+                    currentDate.setDate(currentDate.getDate() + 1);
+                    continue;
+                }
+                
+                const currentPrice = todayData.price;
+                
+                const rangeLow = currentPrice * (1 - rangeWidth / 2);
+                const rangeHigh = currentPrice * (1 + rangeWidth / 2);
+                const dailyYield = calculateDailyYield(rangeWidth * 100, selectedPair);
+                
+                const newPosition = {
+                    id: positions.length,
+                    entryDate: new Date(currentDate),
+                    entryPrice: currentPrice,
+                    rangeLow: rangeLow,
+                    rangeHigh: rangeHigh,
+                    investment: dailyInvestment,
+                    leveragedAmount: dailyInvestment * leverage,
+                    dailyYield: dailyYield,
+                    accumulatedFees: 0,
+                    daysActive: 0,
+                    status: 'active',
+                    exitDate: null,
+                    finalPnL: 0
+                };
+                
+                positions.push(newPosition);
+                activePositions.push(newPosition);
+                totalInvested += dailyInvestment;
+                
+                let portfolioValue = 0;
+                let blackSwanValue = 0;
+                const positionsToClose = [];
+                
+                activePositions.forEach(position => {
+                    position.daysActive++;
+                    
+                    if (currentPrice >= position.rangeLow && currentPrice <= position.rangeHigh) {
+                        const dailyReturn = position.leveragedAmount * position.dailyYield;
+                        position.accumulatedFees += dailyReturn;
+                        
+                        const currentValue = position.investment + position.accumulatedFees;
+                        portfolioValue += currentValue;
+                        
+                        const worstIL = Math.max(
+                            Math.abs(calculateImpermanentLoss(position.entryPrice, position.rangeLow, position.rangeLow, position.rangeHigh)),
+                            Math.abs(calculateImpermanentLoss(position.entryPrice, position.rangeHigh, position.rangeLow, position.rangeHigh))
+                        );
+                        const worstLoss = position.investment * worstIL;
+                        blackSwanValue += Math.max(0, position.investment - Math.abs(worstLoss));
+                    } else {
+                        const il = calculateImpermanentLoss(position.entryPrice, currentPrice, position.rangeLow, position.rangeHigh);
+                        const ilLoss = position.investment * il;
+                        position.finalPnL = position.accumulatedFees + ilLoss;
+                        position.exitDate = new Date(currentDate);
+                        position.status = 'closed';
+                        
+                        const returnedValue = position.investment + position.finalPnL;
+                        const actualReturn = Math.max(0, returnedValue);
+                        totalReturned += actualReturn;
+                        cashAvailable += actualReturn;
+                        portfolioValue += actualReturn;
+                        
+                        positionsToClose.push(position);
+                    }
+                });
+                
+                positionsToClose.forEach(pos => {
+                    const index = activePositions.indexOf(pos);
+                    if (index > -1) activePositions.splice(index, 1);
+                });
+                
+                dailyPortfolioValue.push({
+                    date: currentDate.toISOString().split('T')[0],
+                    value: portfolioValue + totalReturned,
+                    invested: totalInvested,
+                    cashAvailable: cashAvailable
+                });
+                
+                dailyBlackSwanValue.push({
+                    date: currentDate.toISOString().split('T')[0],
+                    value: blackSwanValue
+                });
+                
+                currentDate.setDate(currentDate.getDate() + 1);
+                dayIndex++;
+            }
+            
+            activePositions.forEach(position => {
+                const finalPrice = historicalData[historicalData.length - 1].price;
+                if (finalPrice >= position.rangeLow && finalPrice <= position.rangeHigh) {
+                    position.finalPnL = position.accumulatedFees;
+                    position.status = 'active';
+                } else {
+                    const il = calculateImpermanentLoss(position.entryPrice, finalPrice, position.rangeLow, position.rangeHigh);
+                    const ilLoss = position.investment * il;
+                    position.finalPnL = position.accumulatedFees + ilLoss;
+                    position.status = position.finalPnL > 0 ? 'profitable' : 'loss';
+                }
+                position.exitDate = endDate;
+                totalReturned += position.investment + position.finalPnL;
+            });
+            
+            const activeValue = activePositions.reduce((sum, p) => sum + p.investment + p.accumulatedFees, 0);
+            const finalPortfolioValue = totalReturned + activeValue;
+            const totalProfit = finalPortfolioValue - totalInvested;
+            const roi = totalInvested > 0 ? (totalProfit / totalInvested * 100).toFixed(2) : 0;
+            const winRate = positions.length > 0 ? (positions.filter(p => p.finalPnL > 0).length / positions.length * 100).toFixed(1) : 0;
+            const avgDaysInRange = positions.length > 0 ? (positions.reduce((sum, p) => sum + p.daysActive, 0) / positions.length).toFixed(1) : 0;
+            
+            displayResults({
+                totalInvested,
+                finalPortfolioValue,
+                totalProfit,
+                roi,
+                winRate,
+                avgDaysInRange,
+                totalPositions: positions.length,
+                closedPositions: positions.filter(p => p.status === 'closed').length,
+                profitableExits: positions.filter(p => p.status === 'closed' && p.finalPnL > 0).length,
+                activePositions: activePositions.length,
+                cashReturned: totalReturned
+            });
+            
+            drawChart(dailyPortfolioValue, dailyBlackSwanValue);
+            displayPositionLog(positions);
+        }
+
+        function displayResults(metrics) {
+            const metricsHtml = `
+                <div class="metric">
+                    <div class="metric-label">Total Invested</div>
+                    <div class="metric-value">$${metrics.totalInvested.toLocaleString()}</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Final Portfolio Value</div>
+                    <div class="metric-value">$${metrics.finalPortfolioValue.toLocaleString()}</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Total Profit</div>
+                    <div class="metric-value ${metrics.totalProfit < 0 ? 'negative' : ''}">$${metrics.totalProfit.toLocaleString()}</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">ROI</div>
+                    <div class="metric-value ${metrics.roi < 0 ? 'negative' : ''}">${metrics.roi}%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Win Rate</div>
+                    <div class="metric-value">${metrics.winRate}%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Avg Days in Range</div>
+                    <div class="metric-value">${metrics.avgDaysInRange}</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Total Positions</div>
+                    <div class="metric-value">${metrics.totalPositions}</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Closed Positions</div>
+                    <div class="metric-value">${metrics.closedPositions}</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Profitable Exits</div>
+                    <div class="metric-value">${metrics.profitableExits}</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Active Positions</div>
+                    <div class="metric-value">${metrics.activePositions}</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Cash Returned</div>
+                    <div class="metric-value">$${metrics.cashReturned.toLocaleString()}</div>
+                </div>
+            `;
+            
+            document.getElementById('metrics').innerHTML = metricsHtml;
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function drawChart(portfolioData, bsvData) {
+            const canvas = document.getElementById('chart');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const allValues = [...portfolioData.map(d => d.value), ...portfolioData.map(d => d.invested)];
+            const maxValue = Math.max(...allValues) * 1.1;
+            const minValue = 0;
+            
+            ctx.strokeStyle = '#444';
+            ctx.beginPath();
+            ctx.moveTo(50, 350);
+            ctx.lineTo(1310, 350);
+            ctx.moveTo(50, 50);
+            ctx.lineTo(50, 350);
+            ctx.stroke();
+            
+            ctx.strokeStyle = '#4CAF50';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            portfolioData.forEach((point, i) => {
+                const x = 50 + (i / portfolioData.length) * 1260;
+                const y = 350 - ((point.value - minValue) / (maxValue - minValue)) * 300;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            ctx.strokeStyle = '#2196F3';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            portfolioData.forEach((point, i) => {
+                const x = 50 + (i / portfolioData.length) * 1260;
+                const y = 350 - ((point.invested - minValue) / (maxValue - minValue)) * 300;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(100, 20, 20, 10);
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px Arial';
+            ctx.fillText('Portfolio Value', 130, 30);
+            
+            ctx.fillStyle = '#2196F3';
+            ctx.fillRect(250, 20, 20, 10);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Total Invested', 280, 30);
+            
+            canvas.style.display = 'block';
+        }
+
+        function displayPositionLog(positions) {
+            const tbody = document.getElementById('positionTableBody');
+            tbody.innerHTML = '';
+            
+            positions.forEach(position => {
+                const row = document.createElement('tr');
+                const profitClass = position.finalPnL > 0 ? 'in-range' : 'out-range';
+                const statusDisplay = position.status === 'closed' ? 
+                    (position.finalPnL > 0 ? 'closed (profit)' : 'closed (loss)') : 
+                    position.status;
+                
+                row.innerHTML = `
+                    <td>${position.entryDate.toISOString().split('T')[0]}</td>
+                    <td>${position.entryPrice.toFixed(6)}</td>
+                    <td>${position.rangeLow.toFixed(6)} - ${position.rangeHigh.toFixed(6)}</td>
+                    <td>${position.daysActive}</td>
+                    <td>${position.exitDate ? position.exitDate.toISOString().split('T')[0] : 'Active'}</td>
+                    <td class="${profitClass}">$${position.finalPnL.toFixed(2)}</td>
+                    <td class="${position.status === 'active' ? 'in-range' : 'out-range'}">${statusDisplay}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('positionLog').style.display = 'block';
+        }
+
+        // Run optimization across multiple range widths
+        async function runOptimization() {
+            const selectedPair = document.getElementById('tradingPair').value;
+            const leverage = parseFloat(document.getElementById('leverage').value);
+            const dailyInvestment = parseFloat(document.getElementById('dailyInvestment').value);
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            
+            document.getElementById('metrics').innerHTML = '<div style="color: #4CAF50;">Running optimization... This may take a moment.</div>';
+            document.getElementById('results').style.display = 'block';
+            
+            const rangeWidths = [];
+            const rois = [];
+            const winRates = [];
+            const avgDaysInRange = [];
+            
+            for (let width = 5; width <= 50; width += 2.5) {
+                rangeWidths.push(width);
+            }
+            
+            let historicalData;
+            switch(selectedPair) {
+                case 'cbBTC/SOL':
+                    historicalData = generateCbBTCSOLData();
+                    break;
+                case 'Fartcoin/SOL':
+                    historicalData = generateFartcoinSOLData();
+                    break;
+                case 'JLP/SOL':
+                default:
+                    historicalData = generateJLPSOLData();
+                    break;
+            }
+            
+            for (const width of rangeWidths) {
+                const rangeWidth = width / 100;
+                
+                const positions = [];
+                let totalInvested = 0;
+                let totalReturned = 0;
+                let activePositions = [];
+                
+                let currentDate = new Date(startDate);
+                let dayIndex = 0;
+                
+                while (currentDate <= endDate && dayIndex < historicalData.length) {
+                    const todayData = historicalData.find(d => d.date === currentDate.toISOString().split('T')[0]);
+                    if (!todayData) {
+                        currentDate.setDate(currentDate.getDate() + 1);
+                        continue;
+                    }
+                    
+                    const currentPrice = todayData.price;
+                    
+                    const rangeLow = currentPrice * (1 - rangeWidth / 2);
+                    const rangeHigh = currentPrice * (1 + rangeWidth / 2);
+                    const dailyYield = calculateDailyYield(width, selectedPair);
+                    
+                    const newPosition = {
+                        entryDate: new Date(currentDate),
+                        entryPrice: currentPrice,
+                        rangeLow: rangeLow,
+                        rangeHigh: rangeHigh,
+                        investment: dailyInvestment,
+                        leveragedAmount: dailyInvestment * leverage,
+                        dailyYield: dailyYield,
+                        accumulatedFees: 0,
+                        daysActive: 0,
+                        finalPnL: 0
+                    };
+                    
+                    positions.push(newPosition);
+                    activePositions.push(newPosition);
+                    totalInvested += dailyInvestment;
+                    
+                    const positionsToClose = [];
+                    activePositions.forEach(position => {
+                        position.daysActive++;
+                        
+                        if (currentPrice >= position.rangeLow && currentPrice <= position.rangeHigh) {
+                            const dailyReturn = position.leveragedAmount * position.dailyYield;
+                            position.accumulatedFees += dailyReturn;
+                        } else {
+                            const il = calculateImpermanentLoss(position.entryPrice, currentPrice, position.rangeLow, position.rangeHigh);
+                            const ilLoss = position.investment * il;
+                            position.finalPnL = position.accumulatedFees + ilLoss;
+                            totalReturned += Math.max(0, position.investment + position.finalPnL);
+                            positionsToClose.push(position);
+                        }
+                    });
+                    
+                    positionsToClose.forEach(pos => {
+                        const index = activePositions.indexOf(pos);
+                        if (index > -1) activePositions.splice(index, 1);
+                    });
+                    
+                    currentDate.setDate(currentDate.getDate() + 1);
+                    dayIndex++;
+                }
+                
+                activePositions.forEach(position => {
+                    totalReturned += position.investment + position.accumulatedFees;
+                });
+                
+                const finalValue = totalReturned + activePositions.reduce((sum, p) => sum + p.investment + p.accumulatedFees, 0);
+                const roi = ((finalValue - totalInvested) / totalInvested * 100);
+                const winRate = positions.filter(p => p.finalPnL > 0).length / positions.length * 100;
+                const avgDays = positions.reduce((sum, p) => sum + p.daysActive, 0) / positions.length;
+                
+                rois.push(roi);
+                winRates.push(winRate);
+                avgDaysInRange.push(avgDays);
+            }
+            
+            const maxRoi = Math.max(...rois);
+            const optimalIndex = rois.indexOf(maxRoi);
+            const optimalRange = rangeWidths[optimalIndex];
+            
+            document.getElementById('metrics').innerHTML = `
+                <h3>Optimization Results for ${selectedPair}</h3>
+                <div class="metric">
+                    <div class="metric-label">Optimal Range Width</div>
+                    <div class="metric-value">${optimalRange.toFixed(1)}%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Max ROI</div>
+                    <div class="metric-value">${maxRoi.toFixed(2)}%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Win Rate at Optimal</div>
+                    <div class="metric-value">${winRates[optimalIndex].toFixed(1)}%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Avg Days in Range</div>
+                    <div class="metric-value">${avgDaysInRange[optimalIndex].toFixed(1)}</div>
+                </div>
+            `;
+            
+            drawOptimizationChart(rangeWidths, rois, winRates, optimalRange);
+        }
+        
+        function drawOptimizationChart(rangeWidths, rois, winRates, optimalRange) {
+            const canvas = document.getElementById('optimizationChart');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const maxRoi = Math.max(...rois);
+            const minRoi = Math.min(...rois);
+            const roiRange = maxRoi - minRoi;
+            
+            ctx.strokeStyle = '#444';
+            ctx.beginPath();
+            ctx.moveTo(50, 350);
+            ctx.lineTo(1310, 350);
+            ctx.moveTo(50, 50);
+            ctx.lineTo(50, 350);
+            ctx.stroke();
+            
+            ctx.strokeStyle = '#4CAF50';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            rangeWidths.forEach((width, i) => {
+                const x = 50 + (i / (rangeWidths.length - 1)) * 1260;
+                const y = 350 - ((rois[i] - minRoi) / roiRange) * 280;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            ctx.strokeStyle = '#2196F3';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            rangeWidths.forEach((width, i) => {
+                const x = 50 + (i / (rangeWidths.length - 1)) * 1260;
+                const y = 350 - (winRates[i] / 100) * 280;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            const optimalIndex = rangeWidths.indexOf(optimalRange);
+            const optimalX = 50 + (optimalIndex / (rangeWidths.length - 1)) * 1260;
+            const optimalY = 350 - ((rois[optimalIndex] - minRoi) / roiRange) * 280;
+            
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(optimalX, optimalY, 8, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px Arial';
+            
+            ctx.textAlign = 'center';
+            for (let i = 0; i < rangeWidths.length; i += 4) {
+                const x = 50 + (i / (rangeWidths.length - 1)) * 1260;
+                ctx.fillText(rangeWidths[i] + '%', x, 370);
+            }
+            
+            ctx.textAlign = 'right';
+            for (let i = 0; i <= 5; i++) {
+                const roi = minRoi + (roiRange * i / 5);
+                const y = 350 - (i * 280 / 5);
+                ctx.fillText(roi.toFixed(0) + '%', 45, y + 5);
+            }
+            
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(100, 20, 20, 10);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('ROI %', 130, 30);
+            
+            ctx.fillStyle = '#2196F3';
+            ctx.fillRect(200, 20, 20, 10);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Win Rate %', 230, 30);
+            
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(340, 25, 5, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Optimal Range', 350, 30);
+            
+            ctx.font = '14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Range Width (%) vs ROI', 680, 390);
+            
+            canvas.style.display = 'block';
+        }
+
+        // Set up event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, setting up buttons...');
+            
+            const runBtn = document.getElementById('runBtn');
+            const optimizeBtn = document.getElementById('optimizeBtn');
+            
+            if (runBtn) {
+                runBtn.addEventListener('click', runBacktest);
+                console.log('Run button ready');
+            }
+            
+            if (optimizeBtn) {
+                optimizeBtn.addEventListener('click', runOptimization);
+                console.log('Optimize button ready');
+            }
+        });
+    </script>
+</body>
+</html>
