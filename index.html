@@ -52,7 +52,7 @@
             display: inline-flex;
             align-items: center;
             gap: 20px;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
         
         /* SVG Logo */
@@ -70,98 +70,149 @@
             background-clip: text;
         }
         
-        /* Main content */
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            max-width: 1200px;
+        .tagline {
+            font-size: 1.2rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+        
+        /* Main sections container */
+        .main-sections {
+            padding: 3rem 2rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
         
-        h1 {
-            font-size: 2.5rem;
+        /* Main category cards */
+        .category-section {
+            margin-bottom: 3rem;
+        }
+        
+        .category-header {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
             margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #00d4ff, #0066ff);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #00d4ff);
+            opacity: 0.8;
+        }
+        
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .category-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #667eea 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .tagline {
-            font-size: 1.5rem;
-            color: #888;
-            margin-bottom: 3rem;
+        .category-description {
+            color: #aaa;
+            font-size: 1rem;
         }
         
-        /* Feature cards */
-        .features {
+        /* Subsection tiles grid */
+        .subsection-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
         }
         
-        .feature-card {
+        .subsection-tile {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
-        .feature-card:hover {
+        .subsection-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(102, 126, 234, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .subsection-tile:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 100, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.5);
         }
         
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .subsection-tile:hover::before {
+            opacity: 1;
         }
         
-        .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        .subsection-tile h4 {
+            font-size: 1.1rem;
             color: #00d4ff;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
         
-        .feature-description {
-            color: #aaa;
-            line-height: 1.6;
-        }
-        
-        /* CTA Section */
-        .cta {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            margin-top: 4rem;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 3rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
-        }
-        
-        .coming-soon {
-            margin-top: 1rem;
-            color: #888;
+        .subsection-tile p {
             font-size: 0.9rem;
+            color: #888;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Special styling for different categories */
+        .trading-tile {
+            border-color: rgba(102, 234, 126, 0.2);
+        }
+        
+        .trading-tile:hover {
+            box-shadow: 0 10px 30px rgba(102, 234, 126, 0.3);
+            border-color: rgba(102, 234, 126, 0.5);
+        }
+        
+        .analysis-tile {
+            border-color: rgba(234, 126, 102, 0.2);
+        }
+        
+        .analysis-tile:hover {
+            box-shadow: 0 10px 30px rgba(234, 126, 102, 0.3);
+            border-color: rgba(234, 126, 102, 0.5);
+        }
+        
+        .docs-tile {
+            border-color: rgba(234, 202, 102, 0.2);
+        }
+        
+        .docs-tile:hover {
+            box-shadow: 0 10px 30px rgba(234, 202, 102, 0.3);
+            border-color: rgba(234, 202, 102, 0.5);
         }
         
         /* Footer */
@@ -170,6 +221,13 @@
             padding: 2rem;
             color: #666;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+        
+        /* Links */
+        a {
+            text-decoration: none;
+            color: inherit;
         }
         
         /* Responsive */
@@ -177,11 +235,11 @@
             .logo-text {
                 font-size: 2rem;
             }
-            h1 {
-                font-size: 2rem;
+            .category-title {
+                font-size: 1.5rem;
             }
-            .tagline {
-                font-size: 1.2rem;
+            .subsection-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -216,46 +274,115 @@
             </svg>
             <span class="logo-text">Quantika</span>
         </div>
+        <p class="tagline">Advanced DeFi Analytics & Strategy Optimization</p>
     </header>
     
-    <section class="hero">
-        <h1>Advanced DeFi Analytics & Strategy Optimization</h1>
-        <p class="tagline">Maximize your yields with data-driven insights</p>
-    </section>
-    
-    <section class="features">
-        <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3 class="feature-title">LP Strategy Backtester</h3>
-            <p class="feature-description">
-                Test and optimize your liquidity provision strategies across multiple pairs. 
-                Find the perfect balance between yield and risk.
-            </p>
+    <div class="main-sections">
+        <!-- Automated Trading Section -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">🤖</div>
+                <h2 class="category-title">Automated Trading</h2>
+                <p class="category-description">Deploy sophisticated trading strategies with our automated systems</p>
+            </div>
+            <div class="subsection-grid">
+                <div class="subsection-tile trading-tile">
+                    <h4>Stablecoin Optimizer</h4>
+                    <p>Coming soon</p>
+                </div>
+                <div class="subsection-tile trading-tile">
+                    <h4>JLP Volcano</h4>
+                    <p>Coming soon</p>
+                </div>
+                <div class="subsection-tile trading-tile">
+                    <h4>cbBTC Volcano</h4>
+                    <p>Coming soon</p>
+                </div>
+                <div class="subsection-tile trading-tile">
+                    <h4>High Risk Volcano</h4>
+                    <p>Coming soon</p>
+                </div>
+                <div class="subsection-tile trading-tile">
+                    <h4>SOL Shooter</h4>
+                    <p>Coming soon</p>
+                </div>
+                <div class="subsection-tile trading-tile">
+                    <h4>JLP Shooter</h4>
+                    <p>Coming soon</p>
+                </div>
+                <div class="subsection-tile trading-tile">
+                    <h4>cbBTC Shooter</h4>
+                    <p>Coming soon</p>
+                </div>
+                <div class="subsection-tile trading-tile">
+                    <h4>Automated Signal Trading</h4>
+                    <p>Coming soon</p>
+                </div>
+            </div>
         </div>
         
-        <div class="feature-card">
-            <div class="feature-icon">🔬</div>
-            <h3 class="feature-title">Range Optimization</h3>
-            <p class="feature-description">
-                Discover optimal range widths for concentrated liquidity positions. 
-                Maximize compound interest while minimizing impermanent loss.
-            </p>
+        <!-- Data Analysis Section -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">📊</div>
+                <h2 class="category-title">Data Analysis</h2>
+                <p class="category-description">Analyze and optimize your DeFi strategies with powerful tools</p>
+            </div>
+            <div class="subsection-grid">
+                <a href="backtester/index.html" class="subsection-tile analysis-tile">
+                    <h4>LP Strategy Backtester</h4>
+                    <p>Test and validate your liquidity provision strategies</p>
+                </a>
+                <div class="subsection-tile analysis-tile">
+                    <h4>LP Range Optimization</h4>
+                    <p>Find the optimal range width for maximum returns</p>
+                </div>
+                <div class="subsection-tile analysis-tile">
+                    <h4>Multi-Pair Analysis</h4>
+                    <p>Compare performance across different trading pairs</p>
+                </div>
+            </div>
         </div>
         
-        <div class="feature-card">
-            <div class="feature-icon">🚀</div>
-            <h3 class="feature-title">Multi-Pair Analysis</h3>
-            <p class="feature-description">
-                Compare performance across different trading pairs. 
-                From stable pairs to volatile meme coins, find your edge.
-            </p>
+        <!-- Documentation Section -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">📚</div>
+                <h2 class="category-title">Documentation</h2>
+                <p class="category-description">Learn the strategies and concepts behind successful DeFi trading</p>
+            </div>
+            <div class="subsection-grid">
+                <div class="subsection-tile docs-tile">
+                    <h4>What is LP Trading</h4>
+                    <p>Understanding liquidity provision fundamentals</p>
+                </div>
+                <div class="subsection-tile docs-tile">
+                    <h4>Use of Leverage in LP Trading</h4>
+                    <p>Maximizing returns with calculated risk</p>
+                </div>
+                <div class="subsection-tile docs-tile">
+                    <h4>Going Beyond Delta-Neutral</h4>
+                    <p>Advanced positioning strategies</p>
+                </div>
+                <div class="subsection-tile docs-tile">
+                    <h4>The Power of DCA on Volcano Trades</h4>
+                    <p>Dollar-cost averaging for optimal entries</p>
+                </div>
+                <div class="subsection-tile docs-tile">
+                    <h4>The Creation of the Pseudo-Bell Curve Position</h4>
+                    <p>Building robust position structures</p>
+                </div>
+                <div class="subsection-tile docs-tile">
+                    <h4>The Benefits of TA Signals</h4>
+                    <p>Technical analysis for entry optimization</p>
+                </div>
+                <div class="subsection-tile docs-tile">
+                    <h4>Quantika Wallet Signals</h4>
+                    <p>Following smart money movements</p>
+                </div>
+            </div>
         </div>
-    </section>
-    
-    <section class="cta">
-        <a href="backtester/index.html" class="cta-button">Launch Backtester</a>
-        <p class="coming-soon">More tools coming soon...</p>
-    </section>
+    </div>
     
     <footer>
         <p>&copy; 2024 Quantika.io - Building the future of DeFi analytics</p>
@@ -267,17 +394,17 @@
     <script>
         // Add some interactive sparkle
         document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.feature-card');
+            const tiles = document.querySelectorAll('.subsection-tile');
             
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
+            tiles.forEach((tile, index) => {
+                tile.style.opacity = '0';
+                tile.style.transform = 'translateY(20px)';
                 
                 setTimeout(() => {
-                    card.style.transition = 'all 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 100 * (index + 1));
+                    tile.style.transition = 'all 0.5s ease';
+                    tile.style.opacity = '1';
+                    tile.style.transform = 'translateY(0)';
+                }, 50 * (index + 1));
             });
         });
     </script>
