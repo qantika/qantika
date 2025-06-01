@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Power of DCA on Volcano Trades - Qantika Docs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+            background: 
+                radial-gradient(circle at 20% 50%, #1e3c72 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, #2a5298 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, #7e8ba3 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Main content */
+        .doc-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .doc-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #00d4ff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .doc-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .doc-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+        
+        .doc-content h2 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .doc-content p {
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .doc-content strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        /* Volcano Visualization */
+        .volcano-viz {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .viz-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .canvas-wrapper {
+            flex: 1;
+            position: relative;
+        }
+        
+        .canvas-wrapper h4 {
+            color: #00d4ff;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        #volcanoCanvas, #bellCurveCanvas {
+            width: 100%;
+            height: 350px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .viz-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .viz-controls button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .viz-controls button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .viz-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .viz-info {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        #dayCounter {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .risk-gradient {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+        
+        .risk-label {
+            font-size: 0.9rem;
+            color: #888;
+            min-width: 80px;
+        }
+        
+        .risk-bar {
+            flex: 1;
+            height: 20px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #4CAF50, #FFD700, #FF6B6B);
+            position: relative;
+        }
+        
+        .doc-nav {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .doc-nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .doc-nav a:hover {
+            transform: translateX(5px);
+        }
+        
+        .doc-nav a.prev:hover {
+            transform: translateX(-5px);
+        }
+        
+        .back-to-docs {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-to-docs a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .back-to-docs a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .doc-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="header-content">
+            <a href="../index.html" class="logo-link">
+                <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(50,50)">
+                        <circle cx="0" cy="0" r="40" fill="none" stroke="url(#logoGradient)" stroke-width="8"/>
+                        <rect x="-25" y="5" width="10" height="20" fill="url(#logoGradient)" opacity="0.7"/>
+                        <rect x="-10" y="-5" width="10" height="30" fill="url(#logoGradient)" opacity="0.8"/>
+                        <rect x="5" y="-15" width="10" height="40" fill="url(#logoGradient)" opacity="0.9"/>
+                        <path d="M 20,20 L 35,35" stroke="url(#logoGradient)" stroke-width="8" stroke-linecap="round"/>
+                    </g>
+                </svg>
+                <span class="logo-text">Qantika</span>
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#trading">Trading</a>
+                <a href="../index.html#analysis">Analysis</a>
+                <a href="../index.html#docs">Docs</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="doc-container">
+        <div class="doc-header">
+            <h1>The Power of DCA on Volcano Trades</h1>
+            <div class="doc-meta">Dollar-Cost Averaging for Optimal Entries</div>
+        </div>
+        
+        <div class="doc-content">
+            <p><strong>When using leverage, each trade begins at maximum risk.</strong> At inception, a leveraged LP position has earned zero fees and faces significant losses if price moves quickly out of range. Since our entire strategy depends on long-lasting trades, we employ multiple methods to maximize their chances of survival and success.</p>
+            
+            <p>First, we use pseudo delta-neutral positioning to reduce the impact of sudden downward moves. Second, we carefully balance range width – too narrow and trades won't last long enough before incurring impermanent loss; too wide and daily fees won't cover borrowing costs. This delicate balance is crucial, but even with perfect optimization, we cannot risk our entire capital on a single entry. The solution? Dollar-Cost Averaging (DCA).</p>
+            
+            <div class="highlight-box">
+                <p><strong>The 100-Day Strategy:</strong> Instead of a single $100K position, we take 100 positions of $1K each on consecutive days. Each trade enters at the current price level, creating a distribution across the entire range.</p>
+            </div>
+            
+            <div class="volcano-viz">
+                <h3 style="color: #00d4ff; margin-bottom: 1rem;">Volcano Formation Visualization - JLP/SOL</h3>
+                <div class="viz-container">
+                    <div class="canvas-wrapper">
+                        <h4>Individual LP Positions</h4>
+                        <canvas id="volcanoCanvas"></canvas>
+                    </div>
+                    <div class="canvas-wrapper">
+                        <h4>Aggregate Liquidity Distribution</h4>
+                        <canvas id="bellCurveCanvas"></canvas>
+                    </div>
+                </div>
+                <div class="viz-controls">
+                    <button onclick="startAnimation()">Start Animation</button>
+                    <button onclick="pauseAnimation()">Pause</button>
+                    <button onclick="resetAnimation()">Reset</button>
+                    <span class="viz-info">Day: <span id="dayCounter">0</span> / 365</span>
+                </div>
+            </div>
+            
+            <p>The genius of DCA emerges through time-based risk reduction. Each new trade we place makes all previous trades safer. Consider day 10: today's trade carries maximum risk, yesterday's is slightly safer with ~1% in accumulated fees, and the trade from 10 days ago might already be quite secure. Depending on pair volatility, trades can become remarkably safe after just two weeks – potentially profitable even in a black swan event.</p>
+            
+            <div class="risk-gradient">
+                <span class="risk-label">Day 1</span>
+                <div class="risk-bar"></div>
+                <span class="risk-label">Day 100</span>
+            </div>
+            <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 0.5rem;">
+                Risk decreases as positions age and accumulate fees
+            </p>
+            
+            <p>For the true Volcano effect, imagine a trade that's three months old. Market movements become almost irrelevant – that position will generate substantial returns regardless of exit conditions. When we aggregate all these positions, they form a distinctive bell curve that self-centers around the current price. <strong>This automatic rebalancing is the key to everything</strong> – as price moves, new positions naturally shift the curve's center, maintaining optimal positioning without manual intervention.</p>
+            
+            <p>The Volcano strategy transforms high-risk leveraged trades into a robust, self-balancing portfolio. Each day's small position contributes to an ever-growing, ever-safer aggregate position that can weather extreme market conditions while continuously compounding returns. This is how we turn the danger of leverage into a systematic advantage.</p>
+            
+            <div class="doc-nav">
+                <a href="beyond-delta-neutral.html" class="prev">← Previous: Going Beyond Delta-Neutral</a>
+                <a href="pseudo-bell-curve.html">Next: Creation of the Pseudo-Bell Curve →</a>
+            </div>
+        </div>
+        
+        <div class="back-to-docs">
+            <a href="../index.html#docs">← Back to Documentation</a>
+        </div>
+    </div>
+    
+    <script>
+        // JLP/SOL Historical Data Generator
+        function generateJLPSOLData() {
+            const keyPoints = [
+                { date: '2024-06-01', price: 0.0245 },
+                { date: '2024-06-15', price: 0.0255 },
+                { date: '2024-07-01', price: 0.0217 },
+                { date: '2024-07-15', price: 0.0205 },
+                { date: '2024-08-01', price: 0.0185 },
+                { date: '2024-08-22', price: 0.0165 },
+                { date: '2024-09-01', price: 0.0175 },
+                { date: '2024-09-20', price: 0.0194 },
+                { date: '2024-10-15', price: 0.0171 },
+                { date: '2024-11-01', price: 0.0185 },
+                { date: '2024-11-20', price: 0.0220 },
+                { date: '2024-12-01', price: 0.0240 },
+                { date: '2024-12-10', price: 0.0260 },
+                { date: '2024-12-31', price: 0.0245 },
+                { date: '2025-01-15', price: 0.0180 },
+                { date: '2025-01-24', price: 0.0170 },
+                { date: '2025-02-01', price: 0.0185 },
+                { date: '2025-02-20', price: 0.0224 },
+                { date: '2025-03-01', price: 0.0245 },
+                { date: '2025-03-15', price: 0.0265 },
+                { date: '2025-03-20', price: 0.0280 },
+                { date: '2025-04-01', price: 0.0270 },
+                { date: '2025-04-15', price: 0.0255 },
+                { date: '2025-05-01', price: 0.0240 },
+                { date: '2025-05-15', price: 0.0235 },
+                { date: '2025-05-31', price: 0.0278 }
+            ];
+            
+            const data = [];
+            const startDate = new Date('2024-06-01');
+            const endDate = new Date('2025-05-31');
+            
+            let currentDate = new Date(startDate);
+            let keyPointIndex = 0;
+            
+            while (currentDate <= endDate) {
+                const dateStr = currentDate.toISOString().split('T')[0];
+                
+                while (keyPointIndex < keyPoints.length - 1 && 
+                       new Date(keyPoints[keyPointIndex + 1].date) <= currentDate) {
+                    keyPointIndex++;
+                }
+                
+                let price;
+                if (keyPointIndex === 0) {
+                    price = keyPoints[0].price;
+                } else if (keyPointIndex >= keyPoints.length - 1) {
+                    price = keyPoints[keyPoints.length - 1].price;
+                } else {
+                    const prevPoint = keyPoints[keyPointIndex];
+                    const nextPoint = keyPoints[keyPointIndex + 1];
+                    const prevDate = new Date(prevPoint.date);
+                    const nextDate = new Date(nextPoint.date);
+                    
+                    const progress = (currentDate - prevDate) / (nextDate - prevDate);
+                    price = prevPoint.price + (nextPoint.price - prevPoint.price) * progress;
+                }
+                
+                data.push({
+                    date: dateStr,
+                    price: parseFloat(price.toFixed(8))
+                });
+                
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return data;
+        }
+
+        // Volcano visualization with real JLP/SOL data
+        const canvas = document.getElementById('volcanoCanvas');
+        const ctx = canvas.getContext('2d');
+        const bellCanvas = document.getElementById('bellCurveCanvas');
+        const bellCtx = bellCanvas.getContext('2d');
+        const dayCounter = document.getElementById('dayCounter');
+        
+        let animationId;
+        let animationFrame = 0;
+        let currentDay = 0;
+        let positions = [];
+        let isPaused = false;
+        let speed = 0.25; // Slowed down 4x (was 1, now 0.25)
+        
+        const jlpData = generateJLPSOLData();
+        const rangeWidth = 0.30; // 30% range width (more appropriate for JLP volatility)
+        const dailyInvestment = 1000;
+        
+        // Set canvas sizes
+        function resizeCanvases() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            bellCanvas.width = bellCanvas.offsetWidth;
+            bellCanvas.height = bellCanvas.offsetHeight;
+        }
+        resizeCanvases();
+        window.addEventListener('resize', resizeCanvases);
+        
+        function drawPositions() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Find price range for display
+            const allPrices = positions.flatMap(p => [p.rangeLow, p.rangeHigh]);
+            if (allPrices.length === 0) return;
+            
+            const minPrice = Math.min(...allPrices) * 0.9;
+            const maxPrice = Math.max(...allPrices) * 1.1;
+            const priceRange = maxPrice - minPrice;
+            
+            // Draw price grid lines
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.font = '10px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            
+            for(let i = 0; i <= 10; i++) {
+                const price = minPrice + (priceRange * i / 10);
+                const y = canvas.height - ((price - minPrice) / priceRange) * canvas.height;
+                
+                ctx.beginPath();
+                ctx.moveTo(40, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+                
+                ctx.fillText(price.toFixed(4), 5, y + 3);
+            }
+            
+            // Draw individual positions
+            positions.forEach((pos, index) => {
+                const age = currentDay - pos.day;
+                const currentPrice = jlpData[currentDay]?.price || jlpData[jlpData.length - 1].price;
+                
+                // Check if position is still in range
+                const inRange = currentPrice >= pos.rangeLow && currentPrice <= pos.rangeHigh;
+                
+                // Check if position just went out of range
+                if (inRange) {
+                    pos.lastInRange = currentDay;
+                } else if (!pos.stoppedOut && pos.lastInRange && (currentDay - pos.lastInRange) > 1) {
+                    pos.stoppedOut = true;
+                    pos.exitDay = currentDay;
+                }
+                
+                // Color based on status and age
+                let color;
+                if (pos.stoppedOut) {
+                    color = 'rgba(128, 128, 128, 0.3)';
+                } else if (!inRange) {
+                    color = 'rgba(255, 0, 0, 0.8)';
+                } else if (age < 7) {
+                    color = 'rgba(255, 107, 107, 0.6)';
+                } else if (age < 30) {
+                    color = 'rgba(255, 215, 0, 0.6)';
+                } else {
+                    color = 'rgba(76, 175, 80, 0.6)';
+                }
+                
+                // Draw the position rectangle
+                const yLow = canvas.height - ((pos.rangeLow - minPrice) / priceRange) * canvas.height;
+                const yHigh = canvas.height - ((pos.rangeHigh - minPrice) / priceRange) * canvas.height;
+                const rectHeight = yLow - yHigh;
+                
+                ctx.fillStyle = color;
+                const rectWidth = Math.max(1, (canvas.width - 50) / Math.min(positions.length, 365));
+                ctx.fillRect(50 + index * rectWidth, yHigh, rectWidth - 1, rectHeight);
+            });
+            
+            // Draw current price line
+            if (currentDay < jlpData.length) {
+                const currentPrice = jlpData[currentDay].price;
+                const y = canvas.height - ((currentPrice - minPrice) / priceRange) * canvas.height;
+                
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(40, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                ctx.fillStyle = '#00d4ff';
+                ctx.font = '12px Arial';
+                ctx.fillText(`Current: ${currentPrice.toFixed(4)}`, canvas.width - 120, y - 5);
+            }
+            
+            // Draw Y-axis label
+            ctx.save();
+            ctx.translate(20, canvas.height / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Price', 0, 0);
+            ctx.restore();
+        }
+        
+        function drawBellCurve() {
+            bellCtx.clearRect(0, 0, bellCanvas.width, bellCanvas.height);
+            
+            if (positions.length < 5) return;
+            
+            // Create histogram bins for liquidity
+            const bins = 100;
+            const liquidityHistogram = new Array(bins).fill(0);
+            
+            // Find active positions and calculate range
+            const activePrices = [];
+            positions.forEach(pos => {
+                if (!pos.stoppedOut) {
+                    activePrices.push(pos.rangeLow, pos.rangeHigh);
+                }
+            });
+            
+            if (activePrices.length === 0) return;
+            
+            const minPrice = Math.min(...activePrices) * 0.9;
+            const maxPrice = Math.max(...activePrices) * 1.1;
+            const priceRange = maxPrice - minPrice;
+            
+            // Calculate liquidity distribution
+            positions.forEach(pos => {
+                if (pos.stoppedOut) return;
+                
+                const age = currentDay - pos.day;
+                const dailyYield = 0.0046;
+                const daysActive = pos.stoppedOut ? (pos.exitDay - pos.day) : age;
+                const accumulatedValue = pos.investment * Math.pow(1 + dailyYield, daysActive);
+                
+                for(let i = 0; i < bins; i++) {
+                    const binPrice = minPrice + (priceRange * i / bins);
+                    if (binPrice >= pos.rangeLow && binPrice <= pos.rangeHigh) {
+                        liquidityHistogram[i] += accumulatedValue;
+                    }
+                }
+            });
+            
+            const maxLiquidity = Math.max(...liquidityHistogram);
+            if (maxLiquidity === 0) return;
+            
+            // Draw axes
+            const leftMargin = 60;
+            const bottomMargin = 50;
+            const topMargin = 30;
+            const rightMargin = 30;
+            
+            bellCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            bellCtx.lineWidth = 1;
+            bellCtx.beginPath();
+            bellCtx.moveTo(leftMargin, bellCanvas.height - bottomMargin);
+            bellCtx.lineTo(bellCanvas.width - rightMargin, bellCanvas.height - bottomMargin);
+            bellCtx.moveTo(leftMargin, topMargin);
+            bellCtx.lineTo(leftMargin, bellCanvas.height - bottomMargin);
+            bellCtx.stroke();
+            
+            // Draw the bell curve
+            const chartWidth = bellCanvas.width - leftMargin - rightMargin;
+            const chartHeight = bellCanvas.height - bottomMargin - topMargin;
+            
+            bellCtx.beginPath();
+            bellCtx.strokeStyle = 'rgba(102, 126, 234, 1)';
+            bellCtx.lineWidth = 3;
+            
+            for(let i = 0; i < bins; i++) {
+                const x = leftMargin + (i / (bins - 1)) * chartWidth;
+                const y = bellCanvas.height - bottomMargin - (liquidityHistogram[i] / maxLiquidity) * chartHeight;
+                
+                if(i === 0) bellCtx.moveTo(x, y);
+                else bellCtx.lineTo(x, y);
+            }
+            bellCtx.stroke();
+            
+            // Fill under the curve
+            bellCtx.lineTo(bellCanvas.width - rightMargin, bellCanvas.height - bottomMargin);
+            bellCtx.lineTo(leftMargin, bellCanvas.height - bottomMargin);
+            bellCtx.closePath();
+            
+            const gradient = bellCtx.createLinearGradient(0, topMargin, 0, bellCanvas.height - bottomMargin);
+            gradient.addColorStop(0, 'rgba(102, 126, 234, 0.3)');
+            gradient.addColorStop(1, 'rgba(102, 126, 234, 0.05)');
+            bellCtx.fillStyle = gradient;
+            bellCtx.fill();
+            
+            // Draw current price line
+            if (currentDay < jlpData.length) {
+                const currentPrice = jlpData[currentDay].price;
+                const xPos = leftMargin + ((currentPrice - minPrice) / priceRange) * chartWidth;
+                
+                bellCtx.strokeStyle = '#00d4ff';
+                bellCtx.lineWidth = 2;
+                bellCtx.setLineDash([5, 5]);
+                bellCtx.beginPath();
+                bellCtx.moveTo(xPos, topMargin);
+                bellCtx.lineTo(xPos, bellCanvas.height - bottomMargin);
+                bellCtx.stroke();
+                bellCtx.setLineDash([]);
+            }
+            
+            // Labels
+            bellCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            bellCtx.font = '12px Arial';
+            bellCtx.textAlign = 'center';
+            
+            // X-axis labels
+            for(let i = 0; i <= 5; i++) {
+                const price = minPrice + (priceRange * i / 5);
+                const x = leftMargin + (i / 5) * chartWidth;
+                bellCtx.fillText(price.toFixed(4), x, bellCanvas.height - bottomMargin + 20);
+            }
+            
+            bellCtx.fillText('Price Range', bellCanvas.width / 2, bellCanvas.height - 10);
+            
+            // Y-axis label
+            bellCtx.save();
+            bellCtx.translate(20, bellCanvas.height / 2);
+            bellCtx.rotate(-Math.PI / 2);
+            bellCtx.fillText('Total Liquidity Value', 0, 0);
+            bellCtx.restore();
+            
+            // Stats
+            const activePositions = positions.filter(p => !p.stoppedOut).length;
+            const totalValue = liquidityHistogram.reduce((a, b) => a + b, 0);
+            
+            bellCtx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            bellCtx.font = '11px Arial';
+            bellCtx.textAlign = 'left';
+            bellCtx.fillText(`Active: ${activePositions}`, leftMargin + 10, topMargin + 20);
+            bellCtx.fillText(`Value: ${(totalValue / 1000).toFixed(1)}k`, leftMargin + 10, topMargin + 35);
+        }
+        
+        function animate() {
+            if (!isPaused && currentDay < 365 && currentDay < jlpData.length) {
+                // Update every 4 frames to slow down 4x
+                if (animationFrame % 4 === 0) {
+                    for(let s = 0; s < speed; s++) {
+                        if (currentDay >= 365 || currentDay >= jlpData.length) break;
+                        
+                        currentDay++;
+                        dayCounter.textContent = currentDay;
+                        
+                        // Add new position
+                        const currentPrice = jlpData[currentDay].price;
+                        const rangeLow = currentPrice * (1 - rangeWidth / 2);
+                        const rangeHigh = currentPrice * (1 + rangeWidth / 2);
+                        
+                        positions.push({
+                            day: currentDay,
+                            entryPrice: currentPrice,
+                            rangeLow: rangeLow,
+                            rangeHigh: rangeHigh,
+                            investment: dailyInvestment,
+                            lastInRange: currentDay
+                        });
+                    }
+                    
+                    drawPositions();
+                    drawBellCurve();
+                }
+                
+                animationFrame++;
+                animationId = requestAnimationFrame(animate);
+            } else if (currentDay >= 365 || currentDay >= jlpData.length) {
+                // Animation completed, pause for 3 seconds then restart
+                setTimeout(() => {
+                    resetAnimation();
+                    startAnimation();
+                }, 3000);
+            } else {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+        
+        function startAnimation() {
+            isPaused = false;
+            if (!animationId) animate();
+        }
+        
+        function pauseAnimation() {
+            isPaused = true;
+        }
+        
+        function resetAnimation() {
+            currentDay = 0;
+            animationFrame = 0;
+            positions = [];
+            dayCounter.textContent = '0';
+            isPaused = false;
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            drawPositions();
+            drawBellCurve();
+        }
+        
+        // Speed controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') speed = Math.min(10, speed + 1);
+            if (e.key === 'ArrowLeft') speed = Math.max(1, speed - 1);
+        });
+        
+        // Auto-start the animation on page load
+        setTimeout(() => {
+            startAnimation();
+        }, 1000);
+    </script>
+</body>
+</html>
