@@ -170,7 +170,7 @@
         
         #taChart {
             width: 100%;
-            height: 500px;
+            height: 600px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             background: rgba(0, 0, 0, 0.3);
@@ -362,8 +362,8 @@
             <p>The true power emerges when we combine these TA signals with our next-generation approach: <strong>wallet-based signals that track and analyze the movements of successful DeFi participants.</strong> This creates a multi-layered signal system that leverages both mathematical analysis and behavioral intelligence, giving us a genuine edge in the competitive DeFi landscape.</p>
             
             <div class="doc-nav">
-                <a href="dca-volcano.html" class="prev">← Previous: The Power of DCA on Volcano Trades</a>
-                <a href="wallet-signals.html">Next: Qantika Wallet Signals →</a>
+                <a href="dca-volcano-trades.html" class="prev">← Previous: The Power of DCA on Volcano Trades</a>
+                <a href="compound_interest.html">Next: The Power of Compound Interest →</a>
             </div>
         </div>
         
@@ -492,11 +492,11 @@
             const data = generateTAData();
             const indicators = calculateIndicators(data);
             
-            const margin = { top: 40, right: 60, bottom: 120, left: 60 };
+            const margin = { top: 40, right: 60, bottom: 60, left: 60 };
             const chartWidth = canvas.width - margin.left - margin.right;
-            const priceHeight = 250;
-            const macdHeight = 80;
-            const rsiHeight = 60;
+            const priceHeight = 280;
+            const macdHeight = 100;
+            const rsiHeight = 100;
             
             // Clear canvas
             ctx.fillStyle = '#1a1a1a';
@@ -514,7 +514,7 @@
             drawMACDSection(ctx, indicators.macd, indicators.signal, margin, chartWidth, macdHeight, priceHeight + 50);
             
             // Draw RSI
-            drawRSISection(ctx, indicators.rsi, margin, chartWidth, rsiHeight, priceHeight + macdHeight + 80);
+            drawRSISection(ctx, indicators.rsi, margin, chartWidth, rsiHeight, priceHeight + macdHeight + 60);
             
             // Add buy/sell signals
             addSignalArrows(ctx, data, indicators, margin, chartWidth, priceHeight, minPrice, maxPrice);
@@ -654,6 +654,15 @@
             ctx.fillStyle = '#ffc107';
             ctx.font = '12px Arial';
             ctx.fillText('RSI (14)', margin.left, margin.top + offsetY - 5);
+            
+            // Add RSI level labels
+            ctx.fillStyle = 'rgba(255, 193, 7, 0.7)';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'right';
+            ctx.fillText('70', margin.left - 5, overboughtY + 3);
+            ctx.fillText('30', margin.left - 5, oversoldY + 3);
+            ctx.fillText('50', margin.left - 5, margin.top + offsetY + height/2 + 3);
+            ctx.textAlign = 'left'; // Reset
         }
         
         function addSignalArrows(ctx, data, indicators, margin, width, height, minPrice, maxPrice) {
