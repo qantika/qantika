@@ -1,67 +1,4 @@
-        .highlight-box {
-            background: rgba(255, 107, 53, 0.1);
-            border-left: 4px solid #ff6b35;
-            padding: 1rem 1.5rem;
-            margin: 2rem 0;
-            border-radius: 8px;
-        }
-        
-        /* Entry Conditions */
-        .entry-conditions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .condition-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .condition-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .condition-title {
-            color: #ff6b35;
-            font-weight: bold;
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
-        }
-        
-        .condition-desc {
-            color: #aaa;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-        
-        .condition-status {
-            font-size: 0.9rem;
-            font-weight: bold;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-        }
-        
-        .condition-status.positive {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4CAF50;
-        }
-        
-        .condition-status.execute {
-            background: rgba(255, 107, 53, 0.2);
-            color: #ff6b35;
-        }
-        
-        .condition-status.waiting {
-            background: rgba(255, 193, 7, 0.2);
-            color: #FFC107;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -223,6 +160,15 @@
             margin-bottom: 1rem;
         }
         
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 4px solid #ff6b35;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
         /* Strategy Visualization */
         .strategy-viz-section {
             background: rgba(0, 0, 0, 0.5);
@@ -268,7 +214,7 @@
             margin-bottom: 1rem;
         }
         
-        #shooterRangeChart, #protectionChart {
+        #traditionalRangeChart, #shooterRangeChart, #protectionChart {
             width: 100%;
             height: 300px;
         }
@@ -432,29 +378,25 @@
             color: #FFC107;
         }
         
+        /* Navigation */
         .doc-nav {
             margin-top: 3rem;
             padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
         
         .doc-nav a {
             color: #00d4ff;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: transform 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
         
         .doc-nav a:hover {
-            transform: translateX(5px);
-        }
-        
-        .doc-nav a.prev:hover {
-            transform: translateX(-5px);
+            color: #ffffff;
         }
         
         .back-to-docs {
@@ -691,9 +633,10 @@
             
             <p><strong>This represents the evolution from mechanical trading to intelligent trading</strong> – using sophisticated multi-source analysis to identify only the highest-probability opportunities, then applying asymmetric risk management to transform successful entries into unstoppable compound machines.</p>
             
+            <!-- Navigation Links -->
             <div class="doc-nav">
-                <a href="wallet_signals.html" class="prev">← Previous: Qantika Wallet Signals</a>
-                <span></span>
+                <a href="wallet_signals.html">← Previous: Qantika Wallet Signals</a>
+                <a href="multi-timeframe-macd.html">Next: Multi-Timeframe MACD →</a>
             </div>
         </div>
         
