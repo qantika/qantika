@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qantika Business Plan - Revolutionary DeFi Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+        }
+        
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 1in;
+            min-height: 11in;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .cover-page {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 9in;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .logo-section {
+            margin-bottom: 3rem;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+        }
+        
+        .company-name {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+        
+        .plan-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .date-version {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2 {
+            color: #34495e;
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem 0;
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+        }
+        
+        h3 {
+            color: #2980b9;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.8rem 0;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        
+        .executive-summary {
+            background: #f8f9ff;
+            padding: 2rem;
+            border-left: 5px solid #667eea;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box {
+            background: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .competitive-advantage {
+            background: #e8f5e8;
+            border: 1px solid #27ae60;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .financial-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+        }
+        
+        .financial-table th,
+        .financial-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: right;
+        }
+        
+        .financial-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .financial-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .strategy-card {
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 1.5rem;
+            background: #fdfdfd;
+        }
+        
+        .strategy-card h4 {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .risk-category {
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .risk-category.low {
+            background: #d5f4e6;
+            border: 1px solid #27ae60;
+        }
+        
+        .risk-category.medium {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+        }
+        
+        .risk-category.high {
+            background: #f8d7da;
+            border: 1px solid #dc3545;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .team-member {
+            text-align: center;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .team-member h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member .title {
+            color: #6c757d;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .milestone-timeline {
+            margin: 2rem 0;
+        }
+        
+        .milestone {
+            display: flex;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .milestone-date {
+            min-width: 150px;
+            font-weight: bold;
+            color: #2980b9;
+        }
+        
+        .milestone-content {
+            flex: 1;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 0.5in;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            border: none;
+            padding: 0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dotted #ccc;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="page cover-page">
+        <div class="logo-section">
+            <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#e0e0e0;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <g transform="translate(50,50)">
+                    <circle cx="0" cy="0" r="40" fill="none" stroke="url(#logoGradient)" stroke-width="8"/>
+                    <rect x="-25" y="5" width="10" height="20" fill="url(#logoGradient)" opacity="0.9"/>
+                    <rect x="-10" y="-5" width="10" height="30" fill="url(#logoGradient)" opacity="0.9"/>
+                    <rect x="5" y="-15" width="10" height="40" fill="url(#logoGradient)" opacity="0.9"/>
+                    <path d="M 20,20 L 35,35" stroke="url(#logoGradient)" stroke-width="8" stroke-linecap="round"/>
+                </g>
+            </svg>
+            <div class="company-name">Qantika</div>
+            <div class="tagline">Revolutionary DeFi Intelligence Platform</div>
+        </div>
+        
+        <div class="plan-title">Business Plan</div>
+        <div class="date-version">
+            June 2025 | Version 1.0<br>
+            Confidential & Proprietary
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="page">
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><span>1. Executive Summary</span><span>3</span></li>
+                <li><span>2. Company Overview</span><span>4</span></li>
+                <li><span>3. Market Analysis</span><span>5</span></li>
+                <li><span>4. Technology & Competitive Advantage</span><span>6</span></li>
+                <li><span>5. Products & Services</span><span>7</span></li>
+                <li><span>6. Revenue Model</span><span>8</span></li>
+                <li><span>7. Financial Projections</span><span>9</span></li>
+                <li><span>8. Marketing Strategy</span><span>10</span></li>
+                <li><span>9. Team & Operations</span><span>11</span></li>
+                <li><span>10. Risk Analysis</span><span>12</span></li>
+                <li><span>11. Implementation Timeline</span><span>13</span></li>
+                <li><span>12. Funding Requirements</span><span>14</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="page page-break">
+        <h1>1. Executive Summary</h1>
+        
+        <div class="executive-summary">
+            <p><strong>Qantika is revolutionizing DeFi trading through unprecedented blockchain intelligence and sophisticated algorithmic strategies that transform traditional zero-sum trading into consistent alpha generation.</strong></p>
+        </div>
+        
+        <p>The decentralized finance (DeFi) ecosystem has created an entirely new category of financial opportunities, but current trading approaches fail to leverage the unique transparency advantages that blockchain technology provides. While traditional financial markets hide institutional activity behind closed doors, every DeFi transaction is permanently recorded and publicly accessible, creating an intelligence goldmine that has remained largely untapped.</p>
+        
+        <p>Qantika addresses this opportunity by combining three revolutionary approaches:</p>
+        
+        <div class="strategy-grid">
+            <div class="strategy-card">
+                <h4>🌋 Volcano Strategy</h4>
+                <p>Pseudo delta-neutral LP positions using time-based compound interest accumulation to transform high-risk leveraged trades into self-securing profit engines through systematic daily entries.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>🎯 Shooter Strategy</h4>
+                <p>Asymmetric risk LP positions with dynamic short protection, targeting explosive directional moves while using intelligent entry timing based on multi-source signal convergence.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>🧠 Intelligence Platform</h4>
+                <p>Revolutionary whale behavior analysis system that tracks and classifies the wallets that actually move markets, combined with multi-timeframe technical analysis for unprecedented trading intelligence.</p>
+            </div>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">533%</div>
+                <div class="metric-label">Annual Returns<br>(Target)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$50M</div>
+                <div class="metric-label">AUM Target<br>(Year 3)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$2.5M</div>
+                <div class="metric-label">Funding Required</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">18 months</div>
+                <div class="metric-label">Time to Market</div>
+            </div>
+        </div>
+        
+        <p><strong>Investment Opportunity:</strong> Qantika is seeking $2.5M in Series A funding to complete platform development, obtain necessary regulatory compliance, and scale operations. Our proven mathematical models and live trading results demonstrate the viability of generating consistent alpha in the rapidly growing $200B+ DeFi market.</p>
+        
+        <p><strong>Competitive Moats:</strong> Our sophisticated whale classification system, multi-timeframe signal integration, and compound interest optimization strategies create significant barriers to entry. The mathematical complexity and data infrastructure requirements make replication extremely difficult.</p>
+    </div>
+
+    <!-- Company Overview -->
+    <div class="page page-break">
+        <h1>2. Company Overview</h1>
+        
+        <h2>Mission Statement</h2>
+        <p>To democratize sophisticated trading intelligence by leveraging blockchain transparency and mathematical innovation, transforming DeFi from a zero-sum speculation environment into a systematic alpha generation ecosystem.</p>
+        
+        <h2>Vision</h2>
+        <p>To become the leading provider of institutional-grade DeFi trading intelligence, enabling both retail and institutional investors to achieve consistent, risk-adjusted returns through scientifically-driven strategies.</p>
+        
+        <h2>Core Values</h2>
+        <div class="highlight-box">
+            <h3>Mathematical Rigor</h3>
+            <p>Every strategy is built on proven mathematical foundations with extensive backtesting and real-world validation. We prioritize evidence-based decision making over speculation.</p>
+            
+            <h3>Transparency</h3>
+            <p>Unlike traditional finance, we leverage blockchain transparency as a competitive advantage while maintaining complete openness about our methodologies and risk management approaches.</p>
+            
+            <h3>Innovation</h3>
+            <p>We continuously push the boundaries of what's possible in algorithmic trading by combining cutting-edge technology with deep market understanding and mathematical innovation.</p>
+            
+            <h3>Risk Management</h3>
+            <p>Preservation of capital is paramount. Our strategies are designed to generate alpha while maintaining strict risk controls and capital preservation protocols.</p>
+        </div>
+        
+        <h2>Legal Structure</h2>
+        <p>Qantika will be structured as a Delaware C-Corporation with plans to establish regulated investment advisory capabilities. We are actively engaging with regulatory experts to ensure full compliance with applicable securities laws and investment advisor regulations.</p>
+        
+        <h2>Intellectual Property</h2>
+        <p>Our competitive advantage lies in proprietary algorithms, whale classification methodologies, and signal integration techniques. We are pursuing patent protection for our core innovations while maintaining trade secret protection for operational implementations.</p>
+        
+        <div class="competitive-advantage">
+            <h3>🔬 Unique Technological Advantages</h3>
+            <ul>
+                <li><strong>Whale Behavior Classification:</strong> Proprietary system for identifying and tracking the wallets that actually move markets</li>
+                <li><strong>Multi-Timeframe Signal Integration:</strong> Revolutionary approach to combining technical analysis across multiple time horizons</li>
+                <li><strong>Compound Interest Optimization:</strong> Mathematical frameworks for transforming time decay into profitable alpha generation</li>
+                <li><strong>Dynamic Risk Management:</strong> Adaptive protection systems that adjust based on position maturity and market conditions</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Market Analysis -->
+    <div class="page page-break">
+        <h1>3. Market Analysis</h1>
+        
+        <h2>DeFi Market Size & Growth</h2>
+        <p>The decentralized finance ecosystem represents one of the fastest-growing segments in the financial technology sector, with total value locked (TVL) exceeding $200 billion and continuing to expand rapidly as institutional adoption accelerates.</p>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">$200B+</div>
+                <div class="metric-label">Total Value Locked</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">450%</div>
+                <div class="metric-label">Growth (2 Years)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$50B</div>
+                <div class="metric-label">Daily Volume</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">89%</div>
+                <div class="metric-label">Retail Participation</div>
+            </div>
+        </div>
+        
+        <h2>Target Market Segments</h2>
+        
+        <h3>Primary Market: Sophisticated Retail Traders</h3>
+        <p>Individual traders with $50K+ in crypto assets who are actively seeking alpha generation strategies beyond simple buy-and-hold approaches. This segment is underserved by existing platforms that focus on basic trading tools rather than sophisticated intelligence.</p>
+        
+        <h3>Secondary Market: Institutional Investors</h3>
+        <p>Hedge funds, family offices, and institutional traders seeking systematic DeFi exposure with institutional-grade risk management. This rapidly growing segment requires sophisticated analytics and proven track records.</p>
+        
+        <h3>Tertiary Market: Technology Licensing</h3>
+        <p>Financial institutions and trading platforms seeking to integrate advanced DeFi intelligence capabilities into their existing offerings through our API and licensing model.</p>
+        
+        <h2>Market Problems We Solve</h2>
+        
+        <div class="highlight-box">
+            <h3>Problem 1: Zero-Sum Trading Environment</h3>
+            <p>Traditional trading strategies in DeFi create zero-sum competition where everyone analyzes the same price data with the same indicators. Most participants lose money due to lack of genuine edge.</p>
+            <p><strong>Our Solution:</strong> Escape the zero-sum game through LP fee collection and blockchain intelligence that provides genuine information advantages.</p>
+        </div>
+        
+        <div class="highlight-box">
+            <h3>Problem 2: Lack of Institutional-Grade Analytics</h3>
+            <p>Existing DeFi platforms provide basic charting and trading tools but lack the sophisticated analytics and risk management capabilities that professional traders require.</p>
+            <p><strong>Our Solution:</strong> Provide institutional-grade intelligence through whale behavior analysis, multi-timeframe signal integration, and systematic risk management.</p>
+        </div>
+        
+        <div class="highlight-box">
+            <h3>Problem 3: Information Asymmetry</h3>
+            <p>Large traders and institutions have significant advantages in traditional markets due to privileged information access. DeFi promises transparency but most participants don't know how to leverage it.</p>
+            <p><strong>Our Solution:</strong> Democratize sophisticated market intelligence by making whale behavior analysis and systematic trading strategies accessible to all participants.</p>
+        </div>
+        
+        <h2>Competitive Landscape</h2>
+        <p>The current competitive landscape consists primarily of basic trading platforms (Uniswap, SushiSwap), simple analytics tools (DeFiPulse, DeFiLlama), and traditional technical analysis platforms adapted for crypto. None of these competitors address the fundamental opportunities that blockchain transparency creates for systematic alpha generation.</p>
+        
+        <p><strong>Key Differentiators:</strong> Our approach is fundamentally different because we focus on generating alpha through systematic exploitation of blockchain transparency rather than simply providing tools for manual trading or basic analytics.</p>
+    </div>
+
+    <!-- Technology & Competitive Advantage -->
+    <div class="page page-break">
+        <h1>4. Technology & Competitive Advantage</h1>
+        
+        <h2>Core Technology Stack</h2>
+        
+        <h3>Blockchain Intelligence Engine</h3>
+        <p>Our proprietary system continuously monitors and analyzes wallet behavior across target trading pairs, classifying wallets based on trading patterns, transaction sizes, and market impact. This creates the foundation for our unique information advantage.</p>
+        
+        <div class="strategy-grid">
+            <div class="strategy-card">
+                <h4>🔄 Arbitrage Traders</h4>
+                <p>High-frequency traders across exchanges. Low intelligence value due to noise, but useful for volume analysis.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>📈 Swing Traders</h4>
+                <p>Gradual accumulation patterns. High intelligence value for signal generation and timing analysis.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>🐋 Market Movers</h4>
+                <p>Large single transactions with immediate impact. Extreme intelligence value for immediate signal generation.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>💎 Top Holders</h4>
+                <p>Diamond hands with massive positions. Critical intelligence value when they finally move.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>⚡ Fast Movers</h4>
+                <p>First movers in significant market movements. Premium intelligence value for timing optimization.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>🏛️ Long-term Holders</h4>
+                <p>Strategic position adjustments. Medium intelligence value for trend analysis.</p>
+            </div>
+        </div>
+        
+        <h3>Multi-Timeframe Technical Analysis</h3>
+        <p>Revolutionary approach to MACD analysis that combines signals across 1-minute, 5-minute, 15-minute, and 1-hour timeframes with progressive position sizing based on signal confluence strength.</p>
+        
+        <div class="competitive-advantage">
+            <h3>Mathematical Innovation: Progressive Signal Scaling</h3>
+            <p>Instead of traditional binary signals, our system uses:</p>
+            <ul>
+                <li><strong>Timeframe State Analysis:</strong> Proximity to crossover across multiple time horizons</li>
+                <li><strong>Divergence Mathematics:</strong> Quantified strength scoring based on MACD separation dynamics</li>
+                <li><strong>Dynamic Position Sizing:</strong> Kelly Criterion approach adapted for signal confluence</li>
+                <li><strong>False Signal Recognition:</strong> Machine learning pattern recognition for signal validation</li>
+            </ul>
+        </div>
+        
+        <h2>Proprietary Strategies</h2>
+        
+        <h3>Volcano Strategy: Time-Based Alpha Generation</h3>
+        <p>Systematic daily LP position creation with wide ranges and pseudo delta-neutral positioning. Positions become safer over time through fee accumulation, creating a self-securing portfolio that generates alpha through compound interest rather than directional betting.</p>
+        
+        <h3>Shooter Strategy: Asymmetric Risk Optimization</h3>
+        <p>Signal-driven LP positions with 10/90 asymmetric ranges and dynamic short protection. Uses revolving capital pool to provide maximum protection during vulnerable early period while positions mature into self-sufficiency.</p>
+        
+        <h2>Data Infrastructure</h2>
+        <p>Real-time blockchain monitoring, historical pattern analysis, and multi-source price feed integration create a comprehensive data foundation that enables sophisticated analysis and rapid decision-making.</p>
+        
+        <h2>Barriers to Entry</h2>
+        
+        <div class="highlight-box">
+            <h3>Technical Complexity</h3>
+            <p>Our mathematical models and signal integration techniques require deep expertise in quantitative finance, blockchain technology, and algorithmic trading. The learning curve is extremely steep.</p>
+            
+            <h3>Data Infrastructure Requirements</h3>
+            <p>Real-time blockchain monitoring and analysis requires significant technical infrastructure and ongoing operational costs that create natural barriers for smaller competitors.</p>
+            
+            <h3>Mathematical Sophistication</h3>
+            <p>The compound interest optimization and risk management mathematics underlying our strategies represent years of development and testing that would be difficult to replicate quickly.</p>
+            
+            <h3>Track Record & Trust</h3>
+            <p>Demonstrated live trading results and proven mathematical frameworks create trust barriers that new entrants would need years to overcome.</p>
+        </div>
+    </div>
+
+    <!-- Products & Services -->
+    <div class="page page-break">
+        <h1>5. Products & Services</h1>
+        
+        <h2>Core Platform Offerings</h2>
+        
+        <h3>Qantika Intelligence Platform</h3>
+        <p>Comprehensive analytics dashboard providing real-time whale behavior analysis, multi-timeframe technical signals, and integrated trading intelligence. Includes the proprietary 0-100 Qantika Score that combines all intelligence sources into actionable signals.</p>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">Real-time</div>
+                <div class="metric-label">Whale Tracking</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">4 Timeframes</div>
+                <div class="metric-label">MACD Analysis</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">0-100</div>
+                <div class="metric-label">Composite Score</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">24/7</div>
+                <div class="metric-label">Market Monitoring</div>
+            </div>
+        </div>
+        
+        <h3>Automated Strategy Execution</h3>
+        
+        <div class="strategy-grid">
+            <div class="strategy-card">
+                <h4>🌋 Volcano Automation</h4>
+                <p><strong>Target Returns:</strong> 533% annually through compound interest<br>
+                <strong>Risk Profile:</strong> Medium risk, high consistency<br>
+                <strong>Method:</strong> Daily systematic LP position creation<br>
+                <strong>Minimum Investment:</strong> $25,000</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>🎯 Shooter Automation</h4>
+                <p><strong>Target Returns:</strong> 800%+ annually on successful positions<br>
+                <strong>Risk Profile:</strong> Higher risk, asymmetric reward<br>
+                <strong>Method:</strong> Signal-driven optimal entry timing<br>
+                <strong>Minimum Investment:</strong> $50,000</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>📊 Custom Strategies</h4>
+                <p><strong>Target Returns:</strong> Customized based on risk tolerance<br>
+                <strong>Risk Profile:</strong> Tailored to client requirements<br>
+                <strong>Method:</strong> Hybrid approaches and custom parameters<br>
+                <strong>Minimum Investment:</strong> $100,000</p>
+            </div>
+        </div>
+        
+        <h2>Service Tiers</h2>
+        
+        <h3>Retail Platform ($199/month)</h3>
+        <ul>
+            <li>Real-time Qantika Intelligence Score</li>
+            <li>Whale behavior alerts and analysis</li>
+            <li>Multi-timeframe technical signals</li>
+            <li>Educational content and strategy guides</li>
+            <li>Community access and support</li>
+        </ul>
+        
+        <h3>Professional Platform ($999/month)</h3>
+        <ul>
+            <li>All Retail features plus:</li>
+            <li>Advanced analytics and custom indicators</li>
+            <li>API access for algorithmic integration</li>
+            <li>Priority support and strategy consultation</li>
+            <li>Historical backtesting capabilities</li>
+            <li>Risk management tools and portfolio analysis</li>
+        </ul>
+        
+        <h3>Institutional Platform ($5,000+/month)</h3>
+        <ul>
+            <li>All Professional features plus:</li>
+            <li>White-label platform customization</li>
+            <li>Dedicated infrastructure and support</li>
+            <li>Custom strategy development</li>
+            <li>Regulatory compliance assistance</li>
+            <li>Direct market access and execution</li>
+        </ul>
+        
+        <h2>Managed Services</h2>
+        
+        <h3>Qantika Managed Funds</h3>
+        <p>Professionally managed investment vehicles that implement our strategies on behalf of clients, providing institutional-grade execution with transparent reporting and risk management.</p>
+        
+        <div class="highlight-box">
+            <h3>Fund Structure Options</h3>
+            <ul>
+                <li><strong>Conservative Fund:</strong> Volcano strategy focus, 2% management fee, 20% performance fee</li>
+                <li><strong>Growth Fund:</strong> Balanced Volcano/Shooter approach, 2.5% management fee, 25% performance fee</li>
+                <li><strong>Aggressive Fund:</strong> Shooter strategy focus, 3% management fee, 30% performance fee</li>
+            </ul>
+        </div>
+        
+        <h2>Technology Licensing</h2>
+        <p>Strategic partnerships with financial institutions, trading platforms, and fintech companies seeking to integrate our intelligence capabilities into their existing offerings through API licensing and technology transfer agreements.</p>
+    </div>
+
+    <!-- Revenue Model -->
+    <div class="page page-break">
+        <h1>6. Revenue Model</h1>
+        
+        <h2>Multiple Revenue Streams</h2>
+        
+        <h3>Subscription Revenue (SaaS Model)</h3>
+        <p>Recurring monthly subscriptions across three tiers providing predictable revenue growth and high customer lifetime value. Target pricing reflects the significant alpha generation potential of our intelligence platform.</p>
+        
+        <table class="financial-table">
+            <thead>
+                <tr>
+                    <th>Tier</th>
+                    <th>Monthly Price</th>
+                    <th>Target Users (Year 3)</th>
+                    <th>Annual Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Retail</td>
+                    <td>$199</td>
+                    <td>2,500</td>
+                    <td>$5,970,000</td>
+                </tr>
+                <tr>
+                    <td>Professional</td>
+                    <td>$999</td>
+                    <td>500</td>
+                    <td>$5,994,000</td>
+                </tr>
+                <tr>
+                    <td>Institutional</td>
+                    <td>$5,000+</td>
+                    <td>50</td>
+                    <td>$3,000,000</td>
+                </tr>
+                <tr style="background: #e8f4fd; font-weight: bold;">
+                    <td>Total Subscription</td>
+                    <td>-</td>
+                    <td>3,050</td>
+                    <td>$14,964,000</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>Management & Performance Fees</h3>
+        <p>Traditional asset management fee structure applied to our managed fund offerings, providing significant revenue scaling potential as assets under management grow.</p>
+        
+        <table class="financial-table">
+            <thead>
+                <tr>
+                    <th>Fund Type</th>
+                    <th>Target AUM (Year 3)</th>
+                    <th>Management Fee</th>
+                    <th>Performance Fee</th>
+                    <th>Estimated Annual Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Conservative</td>
+                    <td>$20M</td>
+                    <td>2%</td>
+                    <td>20%</td>
+                    <td>$2,500,000</td>
+                </tr>
+                <tr>
+                    <td>Growth</td>
+                    <td>$20M</td>
+                    <td>2.5%</td>
+                    <td>25%</td>
+                    <td>$3,250,000</td>
+                </tr>
+                <tr>
+                    <td>Aggressive</td>
+                    <td>$10M</td>
+                    <td>3%</td>
+                    <td>30%</td>
+                    <td>$2,100,000</td>
+                </tr>
+                <tr style="background: #e8f4fd; font-weight: bold;">
+                    <td>Total Management</td>
+                    <td>$50M</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>$7,850,000</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>Technology Licensing</h3>
+        <p>API licensing and technology transfer agreements with financial institutions seeking to integrate our capabilities. Conservative estimates based on industry benchmarks for fintech licensing.</p>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">5-10</div>
+                <div class="metric-label">Enterprise Clients</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$100K-500K</div>
+                <div class="metric-label">Annual Licensing</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$2M</div>
+                <div class="metric-label">Total Revenue (Year 3)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">85%</div>
+                <div class="metric-label">Gross Margin</div>
+            </div>
+        </div>
+        
+        <h2>Revenue Growth Strategy</h2>
+        
+        <div class="highlight-box">
+            <h3>Phase 1: Platform Launch (Months 1-12)</h3>
+            <p>Focus on retail and professional subscriptions while building track record for managed funds. Target 500 paying subscribers by end of year one.</p>
+            
+            <h3>Phase 2: Managed Fund Launch (Months 6-18)</h3>
+            <p>Launch managed fund offerings with proven track record from platform users. Target $10M AUM by month 18 across all fund strategies.</p>
+            
+            <h3>Phase 3: Enterprise Expansion (Months 12-36)</h3>
+            <p>Develop technology licensing partnerships and institutional relationships. Target 5+ enterprise clients by month 36.</p>
+        </div>
+        
+        <h2>Unit Economics</h2>
+        
+        <table class="financial-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Retail</th>
+                    <th>Professional</th>
+                    <th>Institutional</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Customer Acquisition Cost</td>
+                    <td>$150</td>
+                    <td>$800</td>
+                    <td>$5,000</td>
+                </tr>
+                <tr>
+                    <td>Average Customer Lifetime</td>
+                    <td>18 months</td>
+                    <td>36 months</td>
+                    <td>60 months</td>
+                </tr>
+                <tr>
+                    <td>Customer Lifetime Value</td>
+                    <td>$3,582</td>
+                    <td>$35,964</td>
+                    <td>$300,000</td>
+                </tr>
+                <tr>
+                    <td>LTV/CAC Ratio</td>
+                    <td>23.9x</td>
+                    <td>45.0x</td>
+                    <td>60.0x</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Financial Projections -->
+    <div class="page page-break">
+        <h1>7. Financial Projections</h1>
+        
+        <h2>Three-Year Revenue Forecast</h2>
+        
+        <table class="financial-table">
+            <thead>
+                <tr>
+                    <th>Revenue Stream</th>
+                    <th>Year 1</th>
+                    <th>Year 2</th>
+                    <th>Year 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Subscription Revenue</td>
+                    <td>$1,200,000</td>
+                    <td>$6,500,000</td>
+                    <td>$14,964,000</td>
+                </tr>
+                <tr>
+                    <td>Management Fees</td>
+                    <td>$200,000</td>
+                    <td>$2,100,000</td>
+                    <td>$7,850,000</td>
+                </tr>
+                <tr>
+                    <td>Technology Licensing</td>
+                    <td>$100,000</td>
+                    <td>$800,000</td>
+                    <td>$2,000,000</td>
+                </tr>
+                <tr style="background: #e8f4fd; font-weight: bold;">
+                    <td>Total Revenue</td>
+                    <td>$1,500,000</td>
+                    <td>$9,400,000</td>
+                    <td>$24,814,000</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2>Operating Expenses</h2>
+        
+        <table class="financial-table">
+            <thead>
+                <tr>
+                    <th>Expense Category</th>
+                    <th>Year 1</th>
+                    <th>Year 2</th>
+                    <th>Year 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Personnel Costs</td>
+                    <td>$800,000</td>
+                    <td>$2,400,000</td>
+                    <td>$4,800,000</td>
+                </tr>
+                <tr>
+                    <td>Technology Infrastructure</td>
+                    <td>$150,000</td>
+                    <td>$400,000</td>
+                    <td>$800,000</td>
+                </tr>
+                <tr>
+                    <td>Marketing & Sales</td>
+                    <td>$300,000</td>
+                    <td>$1,200,000</td>
+                    <td>$2,500,000</td>
+                </tr>
+                <tr>
+                    <td>Legal & Regulatory</td>
+                    <td>$200,000</td>
+                    <td>$300,000</td>
+                    <td>$500,000</td>
+                </tr>
+                <tr>
+                    <td>Operations & Admin</td>
+                    <td>$150,000</td>
+                    <td>$400,000</td>
+                    <td>$800,000</td>
+                </tr>
+                <tr style="background: #f8d7da; font-weight: bold;">
+                    <td>Total Expenses</td>
+                    <td>$1,600,000</td>
+                    <td>$4,700,000</td>
+                    <td>$9,400,000</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2>Profitability Analysis</h2>
+        
+        <table class="financial-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Year 1</th>
+                    <th>Year 2</th>
+                    <th>Year 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Gross Revenue</td>
+                    <td>$1,500,000</td>
+                    <td>$9,400,000</td>
+                    <td>$24,814,000</td>
+                </tr>
+                <tr>
+                    <td>Operating Expenses</td>
+                    <td>$1,600,000</td>
+                    <td>$4,700,000</td>
+                    <td>$9,400,000</td>
+                </tr>
+                <tr style="background: #e8f4fd;">
+                    <td>EBITDA</td>
+                    <td>($100,000)</td>
+                    <td>$4,700,000</td>
+                    <td>$15,414,000</td>
+                </tr>
+                <tr>
+                    <td>EBITDA Margin</td>
+                    <td>-6.7%</td>
+                    <td>50.0%</td>
+                    <td>62.1%</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2>Key Financial Assumptions</h2>
+        
+        <div class="highlight-box">
+            <h3>Customer Growth Assumptions</h3>
+            <ul>
+                <li><strong>Year 1:</strong> 500 retail, 50 professional, 5 institutional subscribers</li>
+                <li><strong>Year 2:</strong> 1,500 retail, 200 professional, 20 institutional subscribers</li>
+                <li><strong>Year 3:</strong> 2,500 retail, 500 professional, 50 institutional subscribers</li>
+            </ul>
+            
+            <h3>Managed Fund Growth</h3>
+            <ul>
+                <li><strong>Year 1:</strong> $2M AUM across pilot funds</li>
+                <li><strong>Year 2:</strong> $15M AUM with track record establishment</li>
+                <li><strong>Year 3:</strong> $50M AUM with institutional recognition</li>
+            </ul>
+            
+            <h3>Performance Assumptions</h3>
+            <ul>
+                <li><strong>Conservative Fund:</strong> 25% annual returns (net of fees)</li>
+                <li><strong>Growth Fund:</strong> 40% annual returns (net of fees)</li>
+                <li><strong>Aggressive Fund:</strong> 60% annual returns (net of fees)</li>
+            </ul>
+        </div>
+        
+        <h2>Sensitivity Analysis</h2>
+        
+        <p>Our financial projections include conservative assumptions about market adoption and performance. Sensitivity analysis indicates that even with 50% lower customer acquisition rates, the business model remains highly profitable due to the recurring revenue nature and high gross margins of the subscription business.</p>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">Break-even</div>
+                <div class="metric-label">Month 14</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">62%</div>
+                <div class="metric-label">Gross Margin (Year 3)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">$15.4M</div>
+                <div class="metric-label">EBITDA (Year 3)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">45x</div>
+                <div class="metric-label">Average LTV/CAC</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marketing Strategy -->
+    <div class="page page-break">
+        <h1>8. Marketing Strategy</h1>
+        
+        <h2>Go-to-Market Strategy</h2>
+        
+        <h3>Phase 1: Thought Leadership & Community Building</h3>
+        <p>Establish credibility through educational content, mathematical demonstrations, and transparent sharing of our methodologies. Build initial user base through crypto trading communities and DeFi forums.</p>
+        
+        <div class="strategy-grid">
+            <div class="strategy-card">
+                <h4>📚 Educational Content</h4>
+                <p>Comprehensive documentation, video tutorials, and mathematical explanations of our strategies to build trust and demonstrate expertise.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>🎯 Community Engagement</h4>
+                <p>Active participation in DeFi communities, trading forums, and social media to build brand awareness and establish thought leadership.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>📊 Live Results</h4>
+                <p>Transparent sharing of live trading results and performance metrics to demonstrate the effectiveness of our strategies.</p>
+            </div>
+        </div>
+        
+        <h3>Phase 2: Performance Marketing & Scaling</h3>
+        <p>Leverage proven results and customer testimonials to scale customer acquisition through targeted digital marketing and strategic partnerships.</p>
+        
+        <h2>Customer Acquisition Channels</h2>
+        
+        <h3>Digital Marketing</h3>
+        <ul>
+            <li><strong>Content Marketing:</strong> SEO-optimized educational content targeting DeFi trading keywords</li>
+            <li><strong>Social Media:</strong> YouTube, Twitter, and LinkedIn presence with algorithmic trading content</li>
+            <li><strong>Paid Advertising:</strong> Targeted campaigns on crypto-focused platforms and publications</li>
+            <li><strong>Influencer Partnerships:</strong> Collaborations with respected DeFi analysts and educators</li>
+        </ul>
+        
+        <h3>Community & Partnerships</h3>
+        <ul>
+            <li><strong>DeFi Protocols:</strong> Strategic partnerships with major DeFi platforms for cross-promotion</li>
+            <li><strong>Trading Communities:</strong> Sponsorships and partnerships with established trading education platforms</li>
+            <li><strong>Conferences & Events:</strong> Speaking opportunities at DeFi and fintech conferences</li>
+            <li><strong>Referral Program:</strong> Incentivized referral system leveraging satisfied customers</li>
+        </ul>
+        
+        <h2>Brand Positioning</h2>
+        
+        <div class="competitive-advantage">
+            <h3>🎯 Brand Promise</h3>
+            <p>"The only trading intelligence platform that transforms DeFi from speculation into science."</p>
+            
+            <h3>🔬 Core Messaging</h3>
+            <ul>
+                <li><strong>Scientific Approach:</strong> Mathematics-driven strategies with proven results</li>
+                <li><strong>Information Advantage:</strong> Unique blockchain intelligence unavailable elsewhere</li>
+                <li><strong>Risk Management:</strong> Systematic approach to capital preservation</li>
+                <li><strong>Transparency:</strong> Open methodology and real-time performance tracking</li>
+            </ul>
+        </div>
+        
+        <h2>Customer Retention Strategy</h2>
+        
+        <h3>Product Excellence</h3>
+        <p>Continuous improvement of signal accuracy and user experience based on customer feedback and performance data. Regular updates and new feature releases to maintain competitive advantage.</p>
+        
+        <h3>Customer Success</h3>
+        <p>Dedicated customer success team providing education, strategy consultation, and technical support to ensure customers achieve optimal results with our platform.</p>
+        
+        <h3>Community Building</h3>
+        <p>Exclusive community access for subscribers including strategy discussions, market analysis, and direct interaction with our research team.</p>
+        
+        <h2>Marketing Budget Allocation</h2>
+        
+        <table class="financial-table">
+            <thead>
+                <tr>
+                    <th>Channel</th>
+                    <th>Year 1 Budget</th>
+                    <th>Expected CAC</th>
+                    <th>Expected Customers</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Content Marketing</td>
+                    <td>$75,000</td>
+                    <td>$50</td>
+                    <td>300</td>
+                </tr>
+                <tr>
+                    <td>Paid Advertising</td>
+                    <td>$100,000</td>
+                    <td>$200</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td>Influencer Partnerships</td>
+                    <td>$50,000</td>
+                    <td>$100</td>
+                    <td>150</td>
+                </tr>
+                <tr>
+                    <td>Events & Conferences</td>
+                    <td>$45,000</td>
+                    <td>$300</td>
+                    <td>75</td>
+                </tr>
+                <tr>
+                    <td>Referral Program</td>
+                    <td>$30,000</td>
+                    <td>$75</td>
+                    <td>100</td>
+                </tr>
+                <tr style="background: #e8f4fd; font-weight: bold;">
+                    <td>Total</td>
+                    <td>$300,000</td>
+                    <td>$145</td>
+                    <td>825</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2>Competitive Differentiation</h2>
+        
+        <p>Our marketing strategy emphasizes the fundamental differences between Qantika and existing solutions:</p>
+        
+        <div class="highlight-box">
+            <h3>vs. Traditional Trading Platforms</h3>
+            <p>While others provide tools for manual trading, we provide intelligence for systematic alpha generation. Our approach is fundamentally different because we focus on mathematical edge creation rather than speculation.</p>
+            
+            <h3>vs. Basic DeFi Analytics</h3>
+            <p>Existing analytics platforms show what happened; Qantika predicts what will happen next. Our whale behavior analysis and signal integration create actionable intelligence rather than historical reporting.</p>
+            
+            <h3>vs. Traditional Hedge Funds</h3>
+            <p>We democratize sophisticated strategies that were previously available only to institutional investors, while providing transparency and education that traditional funds cannot match.</p>
+        </div>
+    </div>
+
+    <!-- Team & Operations -->
+    <div class="page page-break">
+        <h1>9. Team & Operations</h1>
+        
+        <h2>Founding Team</h2>
+        
+        <div class="team-grid">
+            <div class="team-member">
+                <h4>Founder & CEO</h4>
+                <div class="title">Strategy & Product Development</div>
+                <p>Quantitative finance background with deep expertise in algorithmic trading and DeFi markets. Developed all core strategies and mathematical frameworks.</p>
+            </div>
+            
+            <div class="team-member">
+                <h4>CTO - To Be Hired</h4>
+                <div class="title">Technology & Infrastructure</div>
+                <p>Senior engineering leader with blockchain and fintech experience. Will oversee platform development and technical infrastructure scaling.</p>
+            </div>
+            
+            <div class="team-member">
+                <h4>Head of Research - To Be Hired</h4>
+                <div class="title">Quantitative Analysis</div>
+                <p>PhD in Mathematics/Finance with experience in systematic trading strategies and risk management. Will lead strategy optimization and new development.</p>
+            </div>
+            
+            <div class="team-member">
+                <h4>Head of Compliance - To Be Hired</h4>
+                <div class="title">Legal & Regulatory</div>
+                <p>Securities law expert with experience in investment advisor regulations and fund management compliance. Critical for scaling managed fund offerings.</p>
+            </div>
+        </div>
+        
+        <h2>Advisory Board</h2>
+        
+        <div class="highlight-box">
+            <h3>Target Advisory Profile</h3>
+            <ul>
+                <li><strong>DeFi Industry Veteran:</strong> Former executive from major DeFi protocol or exchange</li>
+                <li><strong>Traditional Finance Expert:</strong> Former hedge fund manager or institutional trading head</li>
+                <li><strong>Regulatory Specialist:</strong> Former SEC or CFTC official with fintech experience</li>
+                <li><strong>Technology Leader:</strong> Senior engineering executive from fintech or trading technology company</li>
+            </ul>
+        </div>
+        
+        <h2>Organizational Structure</h2>
+        
+        <h3>Development Team (6 people by Year 1)</h3>
+        <ul>
+            <li>Senior Full-Stack Developer</li>
+            <li>Blockchain Developer</li>
+            <li>DevOps Engineer</li>
+            <li>Frontend Developer</li>
+            <li>QA Engineer</li>
+            <li>Data Engineer</li>
+        </ul>
+        
+        <h3>Operations Team (4 people by Year 1)</h3>
+        <ul>
+            <li>Customer Success Manager</li>
+            <li>Marketing Manager</li>
+            <li>Operations Manager</li>
+            <li>Financial Analyst</li>
+        </ul>
+        
+        <h2>Key Hiring Priorities</h2>
+        
+        <div class="strategy-grid">
+            <div class="strategy-card">
+                <h4>🔧 CTO (Immediate)</h4>
+                <p>Critical for scaling technical infrastructure and leading engineering team. Must have blockchain and fintech experience with proven ability to build scalable platforms.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>⚖️ Head of Compliance (Month 6)</h4>
+                <p>Essential for managed fund launch and regulatory compliance. Must have securities law expertise and experience with investment advisor regulations.</p>
+            </div>
+            
+            <div class="strategy-card">
+                <h4>🧠 Head of Research (Month 9)</h4>
+                <p>Important for strategy optimization and new development. PhD-level quantitative background with systematic trading experience preferred.</p>
+            </div>
+        </div>
+        
+        <h2>Operational Infrastructure</h2>
+        
+        <h3>Technology Infrastructure</h3>
+        <ul>
+            <li><strong>Cloud Infrastructure:</strong> AWS-based scalable architecture with global distribution</li>
+            <li><strong>Data Pipeline:</strong> Real-time blockchain monitoring and analysis infrastructure</li>
+            <li><strong>Security:</strong> Enterprise-grade security with institutional custody integration</li>
+            <li><strong>Compliance:</strong> Automated reporting and audit trail capabilities</li>
+        </ul>
+        
+        <h3>Legal & Regulatory</h3>
+        <ul>
+            <li><strong>Corporate Structure:</strong> Delaware C-Corp with subsidiary structures for different business lines</li>
+            <li><strong>Investment Advisor Registration:</strong> SEC registration for managed fund offerings</li>
+            <li><strong>Fund Formation:</strong> 3(c)(7) and 3(c)(1) fund structures for different investor types</li>
+            <li><strong>Compliance Program:</strong> Comprehensive compliance policies and procedures</li>
+        </ul>
+        
+        <h2>Culture & Values</h2>
+        
+        <div class="competitive-advantage">
+            <h3>🎯 Performance-Driven Culture</h3>
+            <p>Results-oriented environment where mathematical rigor and proven performance drive all decisions. High standards for both individual and team performance.</p>
+            
+            <h3>🔬 Innovation Focus</h3>
+            <p>Continuous learning and experimentation culture that encourages pushing boundaries in quantitative finance and blockchain technology.</p>
+            
+            <h3>🤝 Transparency & Integrity</h3>
+            <p>Open communication, ethical business practices, and commitment to client success above all else. Transparency in methodologies and performance reporting.</p>
+        </div>
+        
+        <h2>Compensation Philosophy</h2>
+        
+        <p>Competitive base salaries with significant equity participation for all team members. Performance-based bonuses tied to both individual and company success metrics. Equity participation ensures alignment with long-term company success.</p>
+        
+        <table class="financial-table">
+            <thead>
+                <tr>
+                    <th>Role Level</th>
+                    <th>Base Salary Range</th>
+                    <th>Equity Range</th>
+                    <th>Performance Bonus</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Senior Leadership</td>
+                    <td>$200K - $350K</td>
+                    <td>2% - 8%</td>
+                    <td>20% - 50%</td>
+                </tr>
+                <tr>
+                    <td>Mid-Level</td>
+                    <td>$120K - $200K</td>
+                    <td>0.5% - 2%</td>
+                    <td>10% - 25%</td>
+                </tr>
+                <tr>
+                    <td>Junior Level</td>
+                    <td>$80K - $120K</td>
+                    <td>0.1% - 0.5%</td>
+                    <td>5% - 15%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Risk Analysis -->
+    <div class="page page-break">
+        <h1>10. Risk Analysis</h1>
+        
+        <h2>Market Risks</h2>
+        
+        <div class="risk-matrix">
+            <div class="risk-category medium">
+                <h3>DeFi Market Volatility</h3>
+                <p><strong>Risk:</strong> Extreme market downturns could impact both platform usage and managed fund performance.</p>
+                <p><strong>Mitigation:</strong> Diversified revenue streams, conservative risk management, and strategies designed to perform in volatile conditions.</p>
+                <p><strong>Probability:</strong> Medium | <strong>Impact:</strong> Medium</p>
+            </div>
+            
+            <div class="risk-category low">
+                <h3>Competition from Incumbents</h3>
+                <p><strong>Risk:</strong> Large trading platforms or financial institutions could develop competing solutions.</p>
+                <p><strong>Mitigation:</strong> Strong technical moats, first-mover advantage, and continuous innovation to stay ahead of competition.</p>
+                <p><strong>Probability:</strong> Medium | <strong>Impact:</strong> Low</p>
+            </div>
+        </div>
+        
+        <div class="risk-matrix">
+            <div class="risk-category high">
+                <h3>Regulatory Changes</h3>
+                <p><strong>Risk:</strong> Changes in cryptocurrency or investment advisor regulations could impact operations.</p>
+                <p><strong>Mitigation:</strong> Proactive compliance program, legal expertise, and flexible business model that can adapt to regulatory changes.</p>
+                <p><strong>Probability:</strong> High | <strong>Impact:</strong> Medium</p>
+            </div>
+            
+            <div class="risk-category medium">
+                <h3>Technology Disruption</h3>
+                <p><strong>Risk:</strong> Blockchain or DeFi protocol changes could impact our analysis capabilities.</p>
+                <p><strong>Mitigation:</strong> Flexible architecture, multiple data sources, and continuous technology adaptation.</p>
+                <p><strong>Probability:</strong> Medium | <strong>Impact:</strong> Low</p>
+            </div>
+        </div>
+        
+        <h2>Operational Risks</h2>
+        
+        <h3>Key Personnel Risk</h3>
+        <p>Heavy dependence on founder's expertise in strategy development and mathematical innovation. Mitigation through knowledge transfer, documentation, and strategic hiring of additional quantitative experts.</p>
+        
+        <h3>Technical Infrastructure Risk</h3>
+        <p>Platform downtime or security breaches could impact customer trust and retention. Mitigation through redundant systems, comprehensive security measures, and professional insurance coverage.</p>
+        
+        <h3>Customer Concentration Risk</h3>
+        <p>Initial dependence on early adopters and high-value customers. Mitigation through diversified customer acquisition and multiple product offerings appealing to different market segments.</p>
+        
+        <h2>Financial Risks</h2>
+        
+        <div class="highlight-box">
+            <h3>Performance Risk</h3>
+            <p><strong>Challenge:</strong> Managed fund performance below expectations could impact both performance fees and platform credibility.</p>
+            <p><strong>Mitigation:</strong> Conservative performance projections, robust risk management, and diversified strategy offerings to reduce dependence on any single approach.</p>
+            
+            <h3>Funding Risk</h3>
+            <p><strong>Challenge:</strong> Inability to raise additional funding could limit growth opportunities or force premature profitability focus.</p>
+            <p><strong>Mitigation:</strong> Conservative cash management, multiple funding sources, and business model designed to achieve profitability
