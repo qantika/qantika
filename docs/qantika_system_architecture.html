@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Architecture | Qantika Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 180, 216, 0.05));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #00d4ff, #00b4d8, #0077b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            margin-bottom: 1rem;
+        }
+
+        .nav-breadcrumb {
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        .nav-breadcrumb a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .nav-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section h2 {
+            color: #00d4ff;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h3 {
+            color: #4ecdc4;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .architecture-diagram {
+            background: #000;
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagram-layer {
+            border: 2px solid;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .layer-local {
+            border-color: #4caf50;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+        }
+
+        .layer-vps {
+            border-color: #2196f3;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(33, 150, 243, 0.05));
+        }
+
+        .layer-cloud {
+            border-color: #ff9800;
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(255, 152, 0, 0.05));
+        }
+
+        .layer-external {
+            border-color: #9c27b0;
+            background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(156, 39, 176, 0.05));
+        }
+
+        .layer-title {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #000;
+            padding: 0 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .component {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .component:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .component-secure {
+            border-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .component-title {
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .component-desc {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        .security-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .connection-line {
+            height: 2px;
+            background: linear-gradient(90deg, #00d4ff, #4ecdc4);
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .connection-secure {
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        .connection-label {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #4caf50;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .security-card {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+            border: 1px solid #4caf50;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .security-card h4 {
+            color: #4caf50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .security-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .security-list li {
+            padding: 0.3rem 0;
+            color: #e0e0e0;
+            border-left: 2px solid #4caf50;
+            padding-left: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .data-flow {
+            background: #111;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .flow-number {
+            background: #00d4ff;
+            color: #000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(78, 205, 196, 0.05));
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box h4 {
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        .deployment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .deployment-table th,
+        .deployment-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .deployment-table th {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        .deployment-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .risk-level {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .risk-low {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .risk-medium {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .risk-high {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-breadcrumb">
+            <a href="../index.html">← Back to Qantika Home</a> / Documentation / System Architecture
+        </nav>
+
+        <header class="header">
+            <h1>🏗️ System Architecture</h1>
+            <p class="subtitle">Secure, Scalable, and Production-Ready Trading Infrastructure</p>
+        </header>
+
+        <section class="section">
+            <h2>🎯 Architecture Overview</h2>
+            <p>The Qantika system employs a multi-layered security architecture that separates sensitive trading operations from public data analysis, ensuring maximum security while maintaining scalability and performance.</p>
+            
+            <div class="highlight-box">
+                <h4>🔐 Security-First Design Principles</h4>
+                <p>Our architecture follows defense-in-depth principles: local AI supervision for trading decisions, secure API connections with encrypted channels, and complete isolation of private keys from internet-connected systems.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📊 System Architecture Diagram</h2>
+            
+            <div class="architecture-diagram">
+                <!-- Local/Desktop Layer -->
+                <div class="diagram-layer layer-local">
+                    <div class="layer-title" style="color: #4caf50;">🖥️ LOCAL DESKTOP (Air-Gapped Security)</div>
+                    <div class="component-grid">
+                        <div class="component component-secure">
+                            <div class="security-badge">🔒</div>
+                            <div class="component-title">Desktop AI Supervisor</div>
+                            <div class="component-desc">Ollama/LLaMA local AI<br>Trading decision approval<br>No internet dependency</div>
+                        </div>
+                        <div class="component component-secure">
+                            <div class="security-badge">🔐</div>
+                            <div class="component-title">Private Key Manager</div>
+                            <div class="component-desc">Hardware wallet integration<br>Local key storage<br>Air-gapped signing</div>
+                        </div>
+                        <div class="component component-secure">
+                            <div class="security-badge">💾</div>
+                            <div class="component-title">Local Database</div>
+                            <div class="component-desc">SQLite trading history<br>Strategy parameters<br>Performance metrics</div>
+                        </div>
+                        <div class="component component-secure">
+                            <div class="security-badge">🧠</div>
+                            <div class="component-title">Strategy Engine</div>
+                            <div class="component-desc">Volcano/Shooter logic<br>Risk management<br>Position sizing</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="connection-line connection-secure">
+                    <div class="connection-label">🔒 Encrypted WebSocket (TLS 1.3)</div>
+                </div>
+
+                <!-- VPS Layer -->
+                <div class="diagram-layer layer-vps">
+                    <div class="layer-title" style="color: #2196f3;">☁️ VPS (24/7 Data Operations)</div>
+                    <div class="component-grid">
+                        <div class="component">
+                            <div class="component-title">Data Collector</div>
+                            <div class="component-desc">1-minute price feeds<br>SOL, BTC, JLP, FARTCOIN<br>API redundancy</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-title">Signal Monitor</div>
+                            <div class="component-desc">Technical analysis<br>Whale intelligence<br>Signal generation</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-title">Data Pipeline</div>
+                            <div class="component-desc">CSV generation<br>Data validation<br>Historical storage</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-title">Alert System</div>
+                            <div class="component-desc">Trading opportunities<br>Risk notifications<br>System health</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="connection-line">
+                    <div class="connection-label">📡 HTTPS API Calls</div>
+                </div>
+
+                <!-- Cloud/Website Layer -->
+                <div class="diagram-layer layer-cloud">
+                    <div class="layer-title" style="color: #ff9800;">🌐 QANTIKA WEBSITE (Public Interface)</div>
+                    <div class="component-grid">
+                        <div class="component">
+                            <div class="component-title">Web Dashboard</div>
+                            <div class="component-desc">Real-time charts<br>Strategy performance<br>Portfolio overview</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-title">Backtester</div>
+                            <div class="component-desc">Historical simulations<br>Strategy optimization<br>Performance analysis</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-title">Documentation</div>
+                            <div class="component-desc">Strategy guides<br>API documentation<br>Educational content</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-title">User Interface</div>
+                            <div class="component-desc">Strategy configuration<br>Risk parameters<br>Monitoring tools</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="connection-line connection-secure">
+                    <div class="connection-label">🔐 OAuth 2.0 + API Keys</div>
+                </div>
+
+                <!-- External Services Layer -->
+                <div class="diagram-layer layer-external">
+                    <div class="layer-title" style="color: #9c27b0;">🔌 EXTERNAL SERVICES (Secure Connections)</div>
+                    <div class="component-grid">
+                        <div class="component component-secure">
+                            <div class="security-badge">🏦</div>
+                            <div class="component-title">DeFiTuna API</div>
+                            <div class="component-desc">LP position management<br>Automated strategies<br>Risk monitoring</div>
+                        </div>
+                        <div class="component component-secure">
+                            <div class="security-badge">⚡</div>
+                            <div class="component-title">Jupiter API</div>
+                            <div class="component-desc">DEX aggregation<br>Optimal routing<br>Price discovery</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-title">Price Data APIs</div>
+                            <div class="component-desc">Birdeye, Helius<br>Moralis, CoinGecko<br>Multi-source feeds</div>
+                        </div>
+                        <div class="component">
+                            <div class="component-title">Blockchain RPCs</div>
+                            <div class="component-desc">Solana, Ethereum<br>Transaction submission<br>State queries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔐 Security Architecture</h2>
+            
+            <div class="security-grid">
+                <div class="security-card">
+                    <h4>🛡️ Local Security</h4>
+                    <ul class="security-list">
+                        <li>Air-gapped private key storage</li>
+                        <li>Hardware wallet integration</li>
+                        <li>Local AI decision making</li>
+                        <li>Encrypted local database</li>
+                        <li>No internet-exposed keys</li>
+                    </ul>
+                </div>
+                
+                <div class="security-card">
+                    <h4>🔗 Connection Security</h4>
+                    <ul class="security-list">
+                        <li>TLS 1.3 encrypted channels</li>
+                        <li>OAuth 2.0 authentication</li>
+                        <li>API key rotation</li>
+                        <li>Rate limiting protection</li>
+                        <li>VPN tunneling options</li>
+                    </ul>
+                </div>
+                
+                <div class="security-card">
+                    <h4>🏦 Trading Security</h4>
+                    <ul class="security-list">
+                        <li>Multi-signature approvals</li>
+                        <li>Transaction size limits</li>
+                        <li>AI-supervised decisions</li>
+                        <li>Real-time risk monitoring</li>
+                        <li>Emergency stop mechanisms</li>
+                    </ul>
+                </div>
+                
+                <div class="security-card">
+                    <h4>📊 Data Security</h4>
+                    <ul class="security-list">
+                        <li>Encrypted data transmission</li>
+                        <li>API key segregation</li>
+                        <li>Read-only data access</li>
+                        <li>Audit logging</li>
+                        <li>Backup encryption</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📋 Component Deployment Matrix</h2>
+            
+            <table class="deployment-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Location</th>
+                        <th>Security Level</th>
+                        <th>Purpose</th>
+                        <th>Dependencies</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Desktop AI Supervisor</strong></td>
+                        <td>Local Machine</td>
+                        <td><span class="risk-level risk-low">Maximum</span></td>
+                        <td>Trading decision approval</td>
+                        <td>Ollama, Local DB</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Private Key Manager</strong></td>
+                        <td>Local Machine</td>
+                        <td><span class="risk-level risk-low">Maximum</span></td>
+                        <td>Transaction signing</td>
+                        <td>Hardware Wallet</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Collector</strong></td>
+                        <td>VPS</td>
+                        <td><span class="risk-level risk-medium">Medium</span></td>
+                        <td>24/7 price monitoring</td>
+                        <td>Price APIs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Signal Monitor</strong></td>
+                        <td>VPS</td>
+                        <td><span class="risk-level risk-medium">Medium</span></td>
+                        <td>Technical analysis</td>
+                        <td>Historical Data</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Web Dashboard</strong></td>
+                        <td>Cloud/Website</td>
+                        <td><span class="risk-level risk-high">Low</span></td>
+                        <td>User interface</td>
+                        <td>VPS Data Feed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Backtester</strong></td>
+                        <td>Cloud/Website</td>
+                        <td><span class="risk-level risk-high">Low</span></td>
+                        <td>Strategy simulation</td>
+                        <td>Historical Data</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DeFiTuna Connection</strong></td>
+                        <td>VPS Proxy</td>
+                        <td><span class="risk-level risk-low">High</span></td>
+                        <td>LP management</td>
+                        <td>API Keys, Desktop Auth</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jupiter Integration</strong></td>
+                        <td>VPS Proxy</td>
+                        <td><span class="risk-level risk-low">High</span></td>
+                        <td>DEX operations</td>
+                        <td>API Keys, Desktop Auth</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>🔄 Data Flow & Decision Process</h2>
+            
+            <div class="data-flow">
+                <h3 style="color: #00d4ff; margin-bottom: 1rem;">Trading Decision Flow</h3>
+                
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div>
+                        <strong>Data Collection (VPS)</strong><br>
+                        Continuous price feeds, technical analysis, and whale intelligence monitoring
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div>
+                        <strong>Signal Generation (VPS)</strong><br>
+                        Combine TA signals with whale intelligence to identify trading opportunities
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div>
+                        <strong>Secure Transmission (Encrypted)</strong><br>
+                        Send trading signals to local desktop via encrypted WebSocket connection
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div>
+                        <strong>AI Analysis (Local)</strong><br>
+                        Desktop AI analyzes signals against historical performance and risk parameters
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div>
+                        <strong>Decision Approval (Local)</strong><br>
+                        AI supervisor decides whether to approve trade based on comprehensive analysis
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">6</div>
+                    <div>
+                        <strong>Secure Execution (Local)</strong><br>
+                        If approved, transaction signed locally and submitted via secure proxy
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>⚡ Secure Connection Protocols</h2>
+            
+            <h3>🔐 DeFiTuna Integration</h3>
+            <div class="code-block">
+// Secure DeFiTuna connection through VPS proxy
+const defitunaProxy = {
+    endpoint: 'https://vps.qantika.com/api/defituna',
+    auth: {
+        method: 'OAuth2 + API Key',
+        tokenRefresh: 'automatic',
+        keyRotation: '24h'
+    },
+    security: {
+        tls: '1.3',
+        certPinning: true,
+        requestSigning: true
+    }
+};
+            </div>
+
+            <h3>⚡ Jupiter API Security</h3>
+            <div class="code-block">
+// Jupiter integration with secure key management
+const jupiterConfig = {
+    endpoint: 'https://vps.qantika.com/api/jupiter',
+    rateLimiting: {
+        maxRequestsPerMinute: 60,
+        burstLimit: 10
+    },
+    security: {
+        apiKeyEncryption: 'AES-256',
+        requestValidation: true,
+        ipWhitelisting: true
+    }
+};
+            </div>
+
+            <h3>🖥️ Desktop-VPS Communication</h3>
+            <div class="code-block">
+// Secure WebSocket connection for real-time communication
+const secureConnection = {
+    protocol: 'WSS (WebSocket Secure)',
+    encryption: 'TLS 1.3 + ChaCha20-Poly1305',
+    authentication: 'HMAC-SHA256 signatures',
+    reconnection: 'automatic with backoff',
+    heartbeat: 'every 30 seconds'
+};
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🛡️ Risk Mitigation Strategies</h2>
+            
+            <div class="security-grid">
+                <div class="security-card">
+                    <h4>🔒 Key Management</h4>
+                    <ul class="security-list">
+                        <li>Hardware wallet requirements</li>
+                        <li>Multi-signature wallets</li>
+                        <li>Air-gapped key generation</li>
+                        <li>Secure backup procedures</li>
+                        <li>Key rotation policies</li>
+                    </ul>
+                </div>
+                
+                <div class="security-card">
+                    <h4>⚠️ Risk Controls</h4>
+                    <ul class="security-list">
+                        <li>Maximum position sizing</li>
+                        <li>Daily loss limits</li>
+                        <li>AI approval thresholds</li>
+                        <li>Emergency stop triggers</li>
+                        <li>Real-time monitoring</li>
+                    </ul>
+                </div>
+                
+                <div class="security-card">
+                    <h4>📊 Monitoring</h4>
+                    <ul class="security-list">
+                        <li>24/7 system health checks</li>
+                        <li>Transaction anomaly detection</li>
+                        <li>Performance benchmarking</li>
+                        <li>Security event logging</li>
+                        <li>Automated alerting</li>
+                    </ul>
+                </div>
+                
+                <div class="security-card">
+                    <h4>💾 Backup & Recovery</h4>
+                    <ul class="security-list">
+                        <li>Encrypted data backups</li>
+                        <li>Multiple backup locations</li>
+                        <li>Disaster recovery plans</li>
+                        <li>System redundancy</li>
+                        <li>Quick failover procedures</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🚀 Deployment Phases</h2>
+            
+            <div class="highlight-box">
+                <h4>📅 Phase 1: Foundation (Current)</h4>
+                <p>Set up VPS data collection, implement basic technical analysis, establish secure connections to price APIs.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📅 Phase 2: Intelligence Layer</h4>
+                <p>Add whale intelligence monitoring, implement desktop AI supervisor, establish secure WebSocket communication.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📅 Phase 3: Trading Integration</h4>
+                <p>Integrate DeFiTuna and Jupiter APIs, implement secure transaction signing, deploy automated strategies.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📅 Phase 4: Production Scaling</h4>
+                <p>Add advanced monitoring, implement fail-safes, optimize performance, enhance security measures.</p>
+            </div>
+        </section>
+
+        <footer style="text-align: center; margin-top: 3rem; padding: 2rem; color: #888; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <p>&copy; 2025 Qantika. Advanced DeFi Analytics & LP Strategy Platform.</p>
+            <p style="margin-top: 0.5rem;">Enterprise-grade security meets innovative trading strategies.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animate components on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all components
+        document.querySelectorAll('.component, .security-card, .flow-step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
