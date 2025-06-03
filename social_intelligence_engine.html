@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Intelligence Engine | Qantika Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 180, 216, 0.05));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #00d4ff, #00b4d8, #0077b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            margin-bottom: 1rem;
+        }
+
+        .header .tagline {
+            font-size: 1rem;
+            color: #00d4ff;
+            font-style: italic;
+        }
+
+        .nav-breadcrumb {
+            margin-bottom: 2rem;
+            color: #888;
+        }
+
+        .nav-breadcrumb a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .nav-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section h2 {
+            color: #00d4ff;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h3 {
+            color: #4ecdc4;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .intelligence-layers {
+            background: #000;
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .intelligence-layer {
+            border: 2px solid;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .intelligence-layer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .layer-social {
+            border-color: #e91e63;
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(233, 30, 99, 0.05));
+        }
+
+        .layer-whale {
+            border-color: #9c27b0;
+            background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(156, 39, 176, 0.05));
+        }
+
+        .layer-technical {
+            border-color: #2196f3;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(33, 150, 243, 0.05));
+        }
+
+        .layer-execution {
+            border-color: #4caf50;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+        }
+
+        .layer-title {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #000;
+            padding: 0 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .influencer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .influencer-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .influencer-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00d4ff;
+        }
+
+        .influencer-tier {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e91e63;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .tier-1 { background: #4caf50; }
+        .tier-2 { background: #ff9800; }
+        .tier-3 { background: #9c27b0; }
+
+        .influencer-name {
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .influencer-handle {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .influencer-weight {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4caf50;
+            margin-bottom: 0.5rem;
+        }
+
+        .influencer-specialty {
+            font-size: 0.8rem;
+            color: #ccc;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .signal-flow {
+            background: #111;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #e91e63;
+        }
+
+        .flow-number {
+            background: #e91e63;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .code-block .comment {
+            color: #888;
+        }
+
+        .code-block .keyword {
+            color: #00d4ff;
+        }
+
+        .code-block .string {
+            color: #4ecdc4;
+        }
+
+        .code-block .function {
+            color: #ffd700;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(233, 30, 99, 0.05));
+            border: 2px solid rgba(233, 30, 99, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box h4 {
+            color: #e91e63;
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .platform-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-2px);
+            border-color: #e91e63;
+        }
+
+        .platform-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-name {
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-desc {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        .sentiment-analyzer {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .sentiment-example {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #4caf50;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .sentiment-bullish { border-color: #4caf50; }
+        .sentiment-bearish { border-color: #f44336; }
+        .sentiment-neutral { border-color: #ffc107; }
+
+        .tweet-example {
+            background: #1da1f2;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-style: italic;
+            position: relative;
+        }
+
+        .tweet-example::before {
+            content: "🐦";
+            position: absolute;
+            top: -8px;
+            left: 10px;
+            background: #1da1f2;
+            padding: 0 5px;
+        }
+
+        .alert-example {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1));
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .advantage-card {
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(233, 30, 99, 0.05));
+            border: 1px solid #e91e63;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2);
+        }
+
+        .advantage-card h4 {
+            color: #e91e63;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .advantage-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .advantage-list li {
+            padding: 0.3rem 0;
+            color: #e0e0e0;
+            border-left: 2px solid #e91e63;
+            padding-left: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #e91e63, #9c27b0);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-left: 60px;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -45px;
+            top: 20px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #e91e63;
+            border: 3px solid #000;
+        }
+
+        .timeline-title {
+            color: #e91e63;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .integration-diagram {
+            background: #111;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .integration-box {
+            background: rgba(233, 30, 99, 0.1);
+            border: 1px solid #e91e63;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem;
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .integration-arrow {
+            color: #4ecdc4;
+            font-size: 1.5rem;
+            margin: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .influencer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .platform-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .advantage-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                margin-left: 40px;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item::before {
+                left: -35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav-breadcrumb">
+            <a href="../index.html">← Back to Qantika Home</a> / Documentation / Social Intelligence Engine
+        </nav>
+
+        <header class="header">
+            <h1>🗣️ Social Intelligence Engine</h1>
+            <p class="subtitle">Revolutionary Smart People Tracker for Market-Moving Social Signals</p>
+            <p class="tagline">"Predict market movements before they happen through social intelligence"</p>
+        </header>
+
+        <section class="section">
+            <h2>🎯 Revolutionary Concept</h2>
+            <p>While traditional "smart money trackers" only show what happened after whales move, Qantika's Social Intelligence Engine predicts market movements before they occur by monitoring the social media activity of market-moving personalities and crypto influencers.</p>
+            
+            <div class="highlight-box">
+                <h4>🧠 Beyond Smart Money - Smart People</h4>
+                <p>When Michael Saylor tweets about Bitcoin, the market moves 3-5% instantly. When Vitalik posts about Ethereum scaling, the entire ecosystem rallies. Our engine identifies these signals in real-time, providing 10-second response times vs hours of manual monitoring.</p>
+            </div>
+
+            <div class="tweet-example">
+                <strong>@MichaelSaylor:</strong> "Bitcoin is digital gold 🚀 #BTC #DigitalAssets"
+                <br><br>
+                <strong>AI Analysis:</strong> 95% bullish sentiment • BTC mention detected • Signal strength: 9/10 • Action: Increase BTC allocation
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🏗️ Triple Intelligence Architecture</h2>
+            
+            <div class="intelligence-layers">
+                <div class="intelligence-layer layer-social">
+                    <div class="layer-title" style="color: #e91e63;">🗣️ SOCIAL INTELLIGENCE (New!)</div>
+                    <p><strong>Real-time monitoring</strong> of 100+ crypto influencers across Twitter, Reddit, YouTube, and news platforms. Advanced NLP sentiment analysis identifies bullish/bearish signals before market reactions.</p>
+                    <div style="margin-top: 1rem; font-size: 0.9rem; color: #ccc;">
+                        <strong>Key Features:</strong> Tweet analysis • Reddit post monitoring • YouTube transcript analysis • News sentiment tracking • Influence scoring • Cascade effect prediction
+                    </div>
+                </div>
+
+                <div class="intelligence-layer layer-whale">
+                    <div class="layer-title" style="color: #9c27b0;">🐋 WHALE INTELLIGENCE</div>
+                    <p><strong>Blockchain transparency analysis</strong> using Moralis API to track actual wallet movements of high-value holders. Identifies accumulation and distribution patterns in real-time.</p>
+                    <div style="margin-top: 1rem; font-size: 0.9rem; color: #ccc;">
+                        <strong>Key Features:</strong> Wallet classification • Transaction analysis • Profitability tracking • Flow patterns • Network effects • Smart money following
+                    </div>
+                </div>
+
+                <div class="intelligence-layer layer-technical">
+                    <div class="layer-title" style="color: #2196f3;">📊 TECHNICAL ANALYSIS</div>
+                    <p><strong>Advanced mathematical indicators</strong> including MACD, RSI, Bollinger Bands with multi-timeframe analysis. Provides quantitative signals for entry/exit timing.</p>
+                    <div style="margin-top: 1rem; font-size: 0.9rem; color: #ccc;">
+                        <strong>Key Features:</strong> Multi-timeframe MACD • Progressive signals • Trend analysis • Momentum indicators • Volume analysis • Pattern recognition
+                    </div>
+                </div>
+
+                <div class="intelligence-layer layer-execution">
+                    <div class="layer-title" style="color: #4caf50;">🚀 INTELLIGENT EXECUTION</div>
+                    <p><strong>AI-supervised trading decisions</strong> combining all three intelligence layers with risk management and position sizing. Desktop AI provides final approval for all trades.</p>
+                    <div style="margin-top: 1rem; font-size: 0.9rem; color: #ccc;">
+                        <strong>Key Features:</strong> Signal confluence • Risk management • Position sizing • AI supervision • Automated execution • Performance tracking
+                    </div>
+                </div>
+            </div>
+
+            <div class="integration-diagram">
+                <h3 style="color: #e91e63; margin-bottom: 1.5rem;">Signal Integration Flow</h3>
+                
+                <div class="integration-box">
+                    <strong>Social Signals</strong><br>
+                    Influencer posts, sentiment analysis
+                </div>
+                
+                <div class="integration-arrow">+</div>
+                
+                <div class="integration-box">
+                    <strong>Whale Signals</strong><br>
+                    On-chain wallet movements
+                </div>
+                
+                <div class="integration-arrow">+</div>
+                
+                <div class="integration-box">
+                    <strong>Technical Signals</strong><br>
+                    Mathematical indicators
+                </div>
+                
+                <div class="integration-arrow">⬇️</div>
+                
+                <div class="integration-box" style="background: rgba(76, 175, 80, 0.2); border-color: #4caf50;">
+                    <strong>Master Signal</strong><br>
+                    Weighted combination with AI validation
+                </div>
+                
+                <div class="integration-arrow">⬇️</div>
+                
+                <div class="integration-box" style="background: rgba(255, 193, 7, 0.2); border-color: #ffc107;">
+                    <strong>Trading Action</strong><br>
+                    Optimized position adjustments
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>👑 Influencer Classification System</h2>
+            
+            <h3>Tier 1: Market Movers (Weight: 8-10)</h3>
+            <div class="influencer-grid">
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-1">1</div>
+                    <div class="influencer-name">Michael Saylor</div>
+                    <div class="influencer-handle">@MichaelSaylor</div>
+                    <div class="influencer-weight">Weight: 10</div>
+                    <div class="influencer-specialty">Bitcoin • Institutional Adoption</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-1">1</div>
+                    <div class="influencer-name">Vitalik Buterin</div>
+                    <div class="influencer-handle">@VitalikButerin</div>
+                    <div class="influencer-weight">Weight: 9</div>
+                    <div class="influencer-specialty">Ethereum • DeFi Innovation</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-1">1</div>
+                    <div class="influencer-name">Elon Musk</div>
+                    <div class="influencer-handle">@elonmusk</div>
+                    <div class="influencer-weight">Weight: 8</div>
+                    <div class="influencer-specialty">Bitcoin • Dogecoin • Mainstream</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-1">1</div>
+                    <div class="influencer-name">Changpeng Zhao</div>
+                    <div class="influencer-handle">@cz_binance</div>
+                    <div class="influencer-weight">Weight: 8</div>
+                    <div class="influencer-specialty">Exchange Trends • Trading</div>
+                </div>
+            </div>
+
+            <h3>Tier 2: Trend Setters (Weight: 5-7)</h3>
+            <div class="influencer-grid">
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-2">2</div>
+                    <div class="influencer-name">Anatoly Yakovenko</div>
+                    <div class="influencer-handle">@aeyakovenko</div>
+                    <div class="influencer-weight">Weight: 7</div>
+                    <div class="influencer-specialty">Solana • High Performance</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-2">2</div>
+                    <div class="influencer-name">Anthony Pompliano</div>
+                    <div class="influencer-handle">@APompliano</div>
+                    <div class="influencer-weight">Weight: 6</div>
+                    <div class="influencer-specialty">Bitcoin • Investment</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-2">2</div>
+                    <div class="influencer-name">Coin Bureau</div>
+                    <div class="influencer-handle">@coinbureau</div>
+                    <div class="influencer-weight">Weight: 6</div>
+                    <div class="influencer-specialty">Analysis • Education</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-2">2</div>
+                    <div class="influencer-name">Raoul Pal</div>
+                    <div class="influencer-handle">@RaoulPal</div>
+                    <div class="influencer-weight">Weight: 5</div>
+                    <div class="influencer-specialty">Macro • Institutional</div>
+                </div>
+            </div>
+
+            <h3>Tier 3: Alpha Hunters (Weight: 3-4)</h3>
+            <div class="influencer-grid">
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-3">3</div>
+                    <div class="influencer-name">DeFi Pulse</div>
+                    <div class="influencer-handle">@DeFiPulse</div>
+                    <div class="influencer-weight">Weight: 4</div>
+                    <div class="influencer-specialty">DeFi • Protocol Analysis</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-3">3</div>
+                    <div class="influencer-name">Lookonchain</div>
+                    <div class="influencer-handle">@lookonchain</div>
+                    <div class="influencer-weight">Weight: 4</div>
+                    <div class="influencer-specialty">On-chain Analysis</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-3">3</div>
+                    <div class="influencer-name">Whale Alert</div>
+                    <div class="influencer-handle">@whale_alert</div>
+                    <div class="influencer-weight">Weight: 3</div>
+                    <div class="influencer-specialty">Large Transactions</div>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-tier tier-3">3</div>
+                    <div class="influencer-name">CT Anon Whales</div>
+                    <div class="influencer-handle">Various</div>
+                    <div class="influencer-weight">Weight: 3-4</div>
+                    <div class="influencer-specialty">Alpha • Early Trends</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🕷️ Multi-Platform Monitoring</h2>
+            
+            <div class="platform-grid">
+                <div class="platform-card">
+                    <div class="platform-icon">🐦</div>
+                    <div class="platform-name">Twitter/X</div>
+                    <div class="platform-desc">Real-time tweets, threads, engagement metrics</div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">📱</div>
+                    <div class="platform-name">Reddit</div>
+                    <div class="platform-desc">r/cryptocurrency, r/bitcoin, r/solana discussions</div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">📺</div>
+                    <div class="platform-name">YouTube</div>
+                    <div class="platform-desc">Video titles, descriptions, transcript analysis</div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">📰</div>
+                    <div class="platform-name">News Sites</div>
+                    <div class="platform-desc">CoinDesk, CoinTelegraph, Decrypt headlines</div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">💬</div>
+                    <div class="platform-name">Telegram</div>
+                    <div class="platform-desc">Alpha groups, protocol announcements</div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">🎮</div>
+                    <div class="platform-name">Discord</div>
+                    <div class="platform-desc">DeFi protocol servers, community sentiment</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🧠 AI-Powered Sentiment Analysis</h2>
+            
+            <div class="sentiment-analyzer">
+                <h3 style="color: #4ecdc4; margin-bottom: 1rem;">Natural Language Processing Engine</h3>
+                
+                <div class="sentiment-example sentiment-bullish">
+                    <strong>Bullish Detection:</strong> "Just bought the dip 🚀 Bitcoin to $100K this cycle #HODL #BTC"
+                    <br><strong>AI Analysis:</strong> 92% bullish • Action words: "bought", "to $100K" • Confidence: High • Urgency: Immediate
+                </div>
+                
+                <div class="sentiment-example sentiment-bearish">
+                    <strong>Bearish Detection:</strong> "Taking profits here, market looking overheated 📉 #caution"
+                    <br><strong>AI Analysis:</strong> 78% bearish • Action words: "taking profits", "overheated" • Confidence: Medium • Urgency: Medium
+                </div>
+                
+                <div class="sentiment-example sentiment-neutral">
+                    <strong>Neutral/Mixed:</strong> "Interesting developments in DeFi, watching closely but no position yet"
+                    <br><strong>AI Analysis:</strong> 15% bullish • Observation only • No action indicators • Confidence: Low • Urgency: None
+                </div>
+            </div>
+
+            <div class="code-block">
+<span class="comment">// Advanced sentiment analysis engine</span>
+<span class="keyword">class</span> <span class="function">SentimentAnalyzer</span> {
+    <span class="function">analyzeTweet</span>(tweet, influencer) {
+        <span class="keyword">const</span> sentiment = <span class="keyword">this</span>.nlpEngine.process(tweet.text);
+        <span class="keyword">const</span> signals = {
+            bullishScore: <span class="keyword">this</span>.detectBullishSignals(tweet.text),
+            bearishScore: <span class="keyword">this</span>.detectBearishSignals(tweet.text),
+            urgency: <span class="keyword">this</span>.detectUrgencyLevel(tweet.text),
+            assetMentions: <span class="keyword">this</span>.extractAssetMentions(tweet.text),
+            actionWords: <span class="keyword">this</span>.detectActionWords(tweet.text)
+        };
+        
+        <span class="keyword">const</span> weightedScore = signals.bullishScore * influencer.weight;
+        <span class="keyword">const</span> confidence = <span class="keyword">this</span>.calculateConfidence(signals, influencer);
+        
+        <span class="keyword">return</span> {
+            sentiment: weightedScore > <span class="string">5</span> ? <span class="string">'bullish'</span> : <span class="string">'bearish'</span>,
+            strength: weightedScore,
+            confidence: confidence,
+            tradingSignal: <span class="keyword">this</span>.generateTradingSignal(signals, influencer)
+        };
+    }
+    
+    <span class="function">detectBullishSignals</span>(text) {
+        <span class="keyword">const</span> bullishTerms = [
+            <span class="string">'buying'</span>, <span class="string">'bullish'</span>, <span class="string">'moon'</span>, <span class="string">'rocket'</span>, <span class="string">'accumulating'</span>,
+            <span class="string">'all in'</span>, <span class="string">'bottom'</span>, <span class="string">'cheap'</span>, <span class="string">'undervalued'</span>, <span class="string">'gem'</span>
+        ];
+        <span class="keyword">return</span> <span class="keyword">this</span>.calculateTermScore(text, bullishTerms);
+    }
+}
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>⚡ Real-Time Alert System</h2>
+            
+            <div class="signal-flow">
+                <h3 style="color: #e91e63; margin-bottom: 1rem;">Signal Processing Pipeline</h3>
+                
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div>
+                        <strong>Content Ingestion</strong><br>
+                        Real-time monitoring of 100+ influencers across all platforms with sub-second latency
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div>
+                        <strong>NLP Processing</strong><br>
+                        Advanced sentiment analysis, asset mention detection, and urgency scoring
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div>
+                        <strong>Signal Weighting</strong><br>
+                        Apply influencer weights and historical accuracy scores to raw sentiment
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div>
+                        <strong>Multi-Signal Fusion</strong><br>
+                        Combine social signals with whale intelligence and technical analysis
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div>
+                        <strong>AI Validation</strong><br>
+                        Desktop AI supervisor evaluates signal quality and market context
+                    </div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-number">6</div>
+                    <div>
+                        <strong>Trading Execution</strong><br>
+                        Automated position adjustments with real-time risk management
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-example">
+                <strong>🚨 Live Alert Example:</strong><br>
+                <strong>Time:</strong> 14:32:15 GMT<br>
+                <strong>Source:</strong> @MichaelSaylor Twitter<br>
+                <strong>Content:</strong> "MicroStrategy acquired another 1,000 BTC. Bitcoin is inevitable 🚀"<br>
+                <strong>Analysis:</strong> 98% bullish • BTC mention • Action: "acquired" • Weight: 10<br>
+                <strong>Signal Strength:</strong> 9.8/10<br>
+                <strong>Recommended Action:</strong> Increase BTC allocation by 15% • Adjust Volcano ranges upward<br>
+                <strong>Processing Time:</strong> 4.2 seconds
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Strategy Integration</h2>
+            
+            <h3>🌋 Volcano Strategy Enhancement</h3>
+            <div class="advantage-list">
+                <li><strong>Entry Timing:</strong> Enter when influencers bullish + RSI oversold for maximum confluence</li>
+                <li><strong>Position Sizing:</strong> Increase position sizes when multiple Tier 1 influencers align</li>
+                <li><strong>Range Adjustment:</strong> Widen ranges upward when social sentiment strongly bullish</li>
+                <li><strong>Asset Selection:</strong> Prioritize tokens mentioned by key influencers</li>
+                <li><strong>Exit Signals:</strong> Reduce positions when sentiment shifts to distribution mode</li>
+            </div>
+
+            <h3>🎯 Shooter Strategy Enhancement</h3>
+            <div class="advantage-list">
+                <li><strong>Asymmetric Positioning:</strong> Larger upside ranges when influencer sentiment bullish</li>
+                <li><strong>Dynamic Protection:</strong> Adjust downside protection based on bearish signal strength</li>
+                <li><strong>Signal Confluence:</strong> Perfect entry when MACD + whale activity + influencer bullishness align</li>
+                <li><strong>Momentum Capture:</strong> Quick range adjustments following viral influencer posts</li>
+                <li><strong>Risk Management:</strong> Reduce exposure when key influencers signal caution</li>
+            </div>
+
+            <div class="code-block">
+<span class="comment">// Strategy integration example</span>
+<span class="keyword">function</span> <span class="function">enhanceVolcanoStrategy</span>(baseSignal, socialIntelligence) {
+    <span class="keyword">let</span> enhancedSignal = { ...baseSignal };
+    
+    <span class="comment">// Social sentiment boost</span>
+    <span class="keyword">if</span> (socialIntelligence.sentiment === <span class="string">'bullish'</span> && 
+        socialIntelligence.strength > <span class="string">7</span> && 
+        baseSignal.rsi < <span class="string">35</span>) {
+        
+        enhancedSignal.positionSize *= <span class="string">1.5</span>; <span class="comment">// 50% larger position</span>
+        enhancedSignal.rangeUpper *= <span class="string">1.1</span>; <span class="comment">// 10% wider upside</span>
+        enhancedSignal.confidence = <span class="string">'very_high'</span>;
+        
+        <span class="function">log</span>(<span class="string">`🚀 Triple confluence: Social(${socialIntelligence.strength}) + TA(${baseSignal.rsi}) + Entry timing`</span>);
+    }
+    
+    <span class="keyword">return</span> enhancedSignal;
+}
+            </code>
+        </section>
+
+        <section class="section">
+            <h2>💎 Revolutionary Advantages</h2>
+            
+            <div class="advantage-grid">
+                <div class="advantage-card">
+                    <h4>⚡ Speed Advantage</h4>
+                    <ul class="advantage-list">
+                        <li>10-second response time vs hours for manual monitoring</li>
+                        <li>API-driven alerts vs human reaction delays</li>
+                        <li>Automated position adjustments vs manual decision lag</li>
+                        <li>Real-time sentiment tracking vs delayed analysis</li>
+                        <li>Instant signal distribution across all strategies</li>
+                    </ul>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>🧠 Intelligence Advantage</h4>
+                    <ul class="advantage-list">
+                        <li>Multi-platform aggregation vs single-source tracking</li>
+                        <li>Historical accuracy scoring vs treating all voices equally</li>
+                        <li>Context-aware analysis vs simple keyword matching</li>
+                        <li>Influencer network effects vs isolated monitoring</li>
+                        <li>Predictive cascade modeling vs reactive responses</li>
+                    </ul>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>📊 Data Advantage</h4>
+                    <ul class="advantage-list">
+                        <li>100+ monitored influencers vs manual following</li>
+                        <li>Cross-platform correlation analysis</li>
+                        <li>Historical performance backtesting</li>
+                        <li>Sentiment trend identification</li>
+                        <li>Network influence mapping</li>
+                    </ul>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>🎯 Integration Advantage</h4>
+                    <ul class="advantage-list">
+                        <li>Triple signal confirmation (Social + Whale + TA)</li>
+                        <li>Dynamic position sizing based on signal confluence</li>
+                        <li>Risk management when signals conflict</li>
+                        <li>Strategy-specific optimizations</li>
+                        <li>Continuous learning and adaptation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🚀 Implementation Roadmap</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">Phase 1: Foundation (Month 1-2)</div>
+                    <ul class="advantage-list">
+                        <li>Twitter API integration for top 20 influencers</li>
+                        <li>Basic sentiment analysis engine deployment</li>
+                        <li>Real-time alert system setup</li>
+                        <li>Manual signal validation and tuning</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">Phase 2: Intelligence Layer (Month 3-4)</div>
+                    <ul class="advantage-list">
+                        <li>Multi-platform expansion (Reddit, YouTube, News)</li>
+                        <li>Advanced NLP with context understanding</li>
+                        <li>Influencer weight optimization based on accuracy</li>
+                        <li>Signal integration with existing TA and whale intelligence</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">Phase 3: Advanced Features (Month 5-6)</div>
+                    <ul class="advantage-list">
+                        <li>Predictive cascade modeling</li>
+                        <li>Network influence analysis</li>
+                        <li>Automated strategy parameter adjustment</li>
+                        <li>Cross-asset sentiment correlation</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">Phase 4: AI Evolution (Month 7+)</div>
+                    <ul class="advantage-list">
+                        <li>Machine learning influencer discovery</li>
+                        <li>Predictive sentiment modeling</li>
+                        <li>Global sentiment aggregation</li>
+                        <li>Self-improving accuracy algorithms</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Expected Impact</h2>
+            
+            <div class="highlight-box">
+                <h4>🚀 Revolutionary Market Position</h4>
+                <p>This Social Intelligence Engine would make Qantika the first platform to comprehensively combine Technical Analysis, Whale Intelligence, and Social Intelligence. That's literally a monopoly on crypto market intelligence - the Bloomberg Terminal of DeFi.</p>
+            </div>
+
+            <div class="platform-grid">
+                <div class="platform-card">
+                    <div class="platform-icon">⚡</div>
+                    <div class="platform-name">Response Time</div>
+                    <div class="platform-desc">10 seconds vs hours for manual monitoring</div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">🎯</div>
+                    <div class="platform-name">Accuracy Boost</div>
+                    <div class="platform-desc">30-50% improvement in signal quality</div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">📈</div>
+                    <div class="platform-name">Alpha Generation</div>
+                    <div class="platform-desc">First-mover advantage on social signals</div>
+                </div>
+                
+                <div class="platform-card">
+                    <div class="platform-icon">🛡️</div>
+                    <div class="platform-name">Risk Reduction</div>
+                    <div class="platform-desc">Early warning system for market shifts</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>💡 Impossible to Replicate</h4>
+                <p>This system requires deep expertise in AI/NLP, crypto markets, trading strategies, and social media APIs. The combination of technical complexity and domain knowledge creates massive barriers to entry, establishing Qantika as the definitive leader in social trading intelligence.</p>
+            </div>
+        </section>
+
+        <footer style="text-align: center; margin-top: 3rem; padding: 2rem; color: #888; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <p>&copy; 2025 Qantika. Advanced DeFi Analytics & LP Strategy Platform.</p>
+            <p style="margin-top: 0.5rem;">Predicting the future through social intelligence.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animate cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and timeline items
+        document.querySelectorAll('.influencer-card, .platform-card, .timeline-item, .advantage-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add hover effects to intelligence layers
+        document.querySelectorAll('.intelligence-layer').forEach(layer => {
+            layer.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 5px 15px rgba(0, 212, 255, 0.2)';
+            });
+            
+            layer.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Influencer card click effects
+        document.querySelectorAll('.influencer-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>

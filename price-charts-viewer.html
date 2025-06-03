@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Charts - Sanity Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .chart-container {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+        h1 {
+            color: #00d4ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        canvas {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            width: 100%;
+            height: 300px;
+            border-radius: 4px;
+        }
+        .stats {
+            margin-top: 15px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        .stats span {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Price Charts Sanity Check</h1>
+        
+        <div class="chart-container">
+            <h2>WBTC/SOL</h2>
+            <canvas id="wbtcChart"></canvas>
+            <div class="stats">
+                Min: <span id="wbtcMin"></span> | 
+                Max: <span id="wbtcMax"></span> | 
+                Current: <span id="wbtcCurrent"></span> |
+                Range: <span id="wbtcRange"></span>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h2>JLP/SOL</h2>
+            <canvas id="jlpChart"></canvas>
+            <div class="stats">
+                Min: <span id="jlpMin"></span> | 
+                Max: <span id="jlpMax"></span> | 
+                Current: <span id="jlpCurrent"></span> |
+                Range: <span id="jlpRange"></span>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h2>SOL/USD</h2>
+            <canvas id="solChart"></canvas>
+            <div class="stats">
+                Min: <span id="solMin"></span> | 
+                Max: <span id="solMax"></span> | 
+                Current: <span id="solCurrent"></span> |
+                Range: <span id="solRange"></span>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h2>FARTCOIN/SOL</h2>
+            <canvas id="fartChart"></canvas>
+            <div class="stats">
+                Min: <span id="fartMin"></span> | 
+                Max: <span id="fartMax"></span> | 
+                Current: <span id="fartCurrent"></span> |
+                Range: <span id="fartRange"></span>x
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate data programmatically instead of embedding large strings
+        function generateWBTCData() {
+            const keyPoints = [
+                { date: '2024-04-01', price: 380 },
+                { date: '2024-04-20', price: 420 },
+                { date: '2024-05-10', price: 420 },
+                { date: '2024-05-25', price: 460 },
+                { date: '2024-06-04', price: 480 },
+                { date: '2024-06-24', price: 440 },
+                { date: '2024-07-10', price: 400 },
+                { date: '2024-07-20', price: 380 },
+                { date: '2024-08-09', price: 340 },
+                { date: '2024-08-23', price: 410 },
+                { date: '2024-09-09', price: 380 },
+                { date: '2024-09-28', price: 420 },
+                { date: '2024-10-15', price: 396 },
+                { date: '2024-10-31', price: 368 },
+                { date: '2024-11-20', price: 450 },
+                { date: '2024-12-13', price: 560 },
+                { date: '2025-01-15', price: 474 },
+                { date: '2025-01-31', price: 420 },
+                { date: '2025-02-20', price: 480 },
+                { date: '2025-03-18', price: 760 },
+                { date: '2025-03-31', price: 675 }
+            ];
+            return interpolateData(keyPoints);
+        }
+
+        function generateJLPData() {
+            const keyPoints = [
+                { date: '2024-04-01', price: 0.0155 },
+                { date: '2024-05-01', price: 0.0185 },
+                { date: '2024-06-03', price: 0.0245 },
+                { date: '2024-07-01', price: 0.0217 },
+                { date: '2024-08-22', price: 0.0165 },
+                { date: '2024-09-20', price: 0.0194 },
+                { date: '2024-10-15', price: 0.0171 },
+                { date: '2024-11-20', price: 0.0220 },
+                { date: '2024-12-10', price: 0.0260 },
+                { date: '2025-01-24', price: 0.0170 },
+                { date: '2025-02-20', price: 0.0224 },
+                { date: '2025-03-20', price: 0.0280 },
+                { date: '2025-03-31', price: 0.0278 }
+            ];
+            return interpolateData(keyPoints);
+        }
+
+        function generateSOLData() {
+            const keyPoints = [
+                { date: '2024-04-01', price: 180 },
+                { date: '2024-04-09', price: 200 },
+                { date: '2024-05-09', price: 140 },
+                { date: '2024-05-29', price: 180 },
+                { date: '2024-06-28', price: 120 },
+                { date: '2024-07-23', price: 170 },
+                { date: '2024-08-22', price: 110 },
+                { date: '2024-09-11', price: 150 },
+                { date: '2024-10-21', price: 190 },
+                { date: '2024-11-20', price: 240 },
+                { date: '2024-12-15', price: 190 },
+                { date: '2025-01-04', price: 230 },
+                { date: '2025-01-24', price: 190 },
+                { date: '2025-02-18', price: 240 },
+                { date: '2025-03-20', price: 180 },
+                { date: '2025-03-31', price: 202 }
+            ];
+            return interpolateData(keyPoints);
+        }
+
+        function generateFartcoinData() {
+            const keyPoints = [
+                { date: '2024-04-01', price: 0.000005 },
+                { date: '2024-04-20', price: 0.000007 },
+                { date: '2024-05-01', price: 0.000005 },
+                { date: '2024-06-15', price: 0.00001 },
+                { date: '2024-07-01', price: 0.000002 },
+                { date: '2024-07-10', price: 0.00000006 },
+                { date: '2024-08-01', price: 0.000002 },
+                { date: '2024-09-01', price: 0.00002 },
+                { date: '2024-10-01', price: 0.0001 },
+                { date: '2024-11-01', price: 0.001 },
+                { date: '2024-11-20', price: 0.022 },
+                { date: '2024-12-01', price: 0.0055 },
+                { date: '2024-12-31', price: 0.00075 },
+                { date: '2025-01-15', price: 0.00042 },
+                { date: '2025-02-01', price: 0.00029 },
+                { date: '2025-03-01', price: 0.0017 },
+                { date: '2025-03-20', price: 0.0085 },
+                { date: '2025-03-31', price: 0.007 }
+            ];
+            return interpolateData(keyPoints);
+        }
+
+        function interpolateData(keyPoints) {
+            const data = [];
+            const startDate = new Date('2024-04-01');
+            const endDate = new Date('2025-03-31');
+            
+            let currentDate = new Date(startDate);
+            let keyIndex = 0;
+            
+            while (currentDate <= endDate) {
+                // Find the appropriate key points
+                while (keyIndex < keyPoints.length - 1 && 
+                       new Date(keyPoints[keyIndex + 1].date) <= currentDate) {
+                    keyIndex++;
+                }
+                
+                let price;
+                if (keyIndex === 0 && currentDate < new Date(keyPoints[0].date)) {
+                    price = keyPoints[0].price;
+                } else if (keyIndex >= keyPoints.length - 1) {
+                    price = keyPoints[keyPoints.length - 1].price;
+                } else {
+                    // Interpolate between two points
+                    const prevPoint = keyPoints[keyIndex];
+                    const nextPoint = keyPoints[keyIndex + 1];
+                    const prevDate = new Date(prevPoint.date);
+                    const nextDate = new Date(nextPoint.date);
+                    
+                    const progress = (currentDate - prevDate) / (nextDate - prevDate);
+                    price = prevPoint.price + (nextPoint.price - prevPoint.price) * progress;
+                }
+                
+                data.push({
+                    date: currentDate.toISOString().split('T')[0],
+                    price: price
+                });
+                
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return data;
+        }
+
+        // Draw chart
+        function drawChart(canvasId, data, color) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            if (data.length === 0) return;
+            
+            const prices = data.map(d => d.price);
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+            const priceRange = maxPrice - minPrice;
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Horizontal grid lines
+            for (let i = 0; i <= 5; i++) {
+                const y = (canvas.height / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+            
+            // Draw price line
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            data.forEach((point, index) => {
+                const x = (index / (data.length - 1)) * canvas.width;
+                const y = canvas.height - ((point.price - minPrice) / priceRange) * canvas.height;
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+            
+            // Draw moving average
+            const ma20 = calculateMA(prices, 20);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            
+            ma20.forEach((ma, index) => {
+                if (ma !== null) {
+                    const x = (index / (data.length - 1)) * canvas.width;
+                    const y = canvas.height - ((ma - minPrice) / priceRange) * canvas.height;
+                    
+                    if (index === 20) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+            });
+            
+            ctx.stroke();
+            
+            return { minPrice, maxPrice, currentPrice: prices[prices.length - 1] };
+        }
+        
+        // Calculate moving average
+        function calculateMA(prices, period) {
+            const ma = [];
+            for (let i = 0; i < prices.length; i++) {
+                if (i < period - 1) {
+                    ma.push(null);
+                } else {
+                    const sum = prices.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0);
+                    ma.push(sum / period);
+                }
+            }
+            return ma;
+        }
+
+        // Generate all data
+        const wbtcData = generateWBTCData();
+        const jlpData = generateJLPData();
+        const solData = generateSOLData();
+        const fartData = generateFartcoinData();
+
+        // Draw all charts
+        const wbtcStats = drawChart('wbtcChart', wbtcData, '#FF6B6B');
+        document.getElementById('wbtcMin').textContent = wbtcStats.minPrice.toFixed(2);
+        document.getElementById('wbtcMax').textContent = wbtcStats.maxPrice.toFixed(2);
+        document.getElementById('wbtcCurrent').textContent = wbtcStats.currentPrice.toFixed(2);
+        document.getElementById('wbtcRange').textContent = (wbtcStats.maxPrice / wbtcStats.minPrice).toFixed(2) + 'x';
+
+        const jlpStats = drawChart('jlpChart', jlpData, '#4ECDC4');
+        document.getElementById('jlpMin').textContent = jlpStats.minPrice.toFixed(4);
+        document.getElementById('jlpMax').textContent = jlpStats.maxPrice.toFixed(4);
+        document.getElementById('jlpCurrent').textContent = jlpStats.currentPrice.toFixed(4);
+        document.getElementById('jlpRange').textContent = (jlpStats.maxPrice / jlpStats.minPrice).toFixed(2) + 'x';
+
+        const solStats = drawChart('solChart', solData, '#FFE66D');
+        document.getElementById('solMin').textContent = '$' + solStats.minPrice.toFixed(2);
+        document.getElementById('solMax').textContent = '$' + solStats.maxPrice.toFixed(2);
+        document.getElementById('solCurrent').textContent = '$' + solStats.currentPrice.toFixed(2);
+        document.getElementById('solRange').textContent = (solStats.maxPrice / solStats.minPrice).toFixed(2) + 'x';
+
+        const fartStats = drawChart('fartChart', fartData, '#FF00FF');
+        document.getElementById('fartMin').textContent = fartStats.minPrice.toFixed(8);
+        document.getElementById('fartMax').textContent = fartStats.maxPrice.toFixed(8);
+        document.getElementById('fartCurrent').textContent = fartStats.currentPrice.toFixed(8);
+        document.getElementById('fartRange').textContent = (fartStats.maxPrice / fartStats.minPrice).toFixed(0);
+    </script>
+</body>
+</html>

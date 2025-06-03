@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is LP Trading? - Qantika Docs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+            background: 
+                radial-gradient(circle at 20% 50%, #1e3c72 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, #2a5298 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, #7e8ba3 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Main content */
+        .doc-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .doc-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #00d4ff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .doc-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .doc-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+        
+        .doc-content h2 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .doc-content p {
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .doc-content strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .doc-nav {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .doc-nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .doc-nav a:hover {
+            transform: translateX(5px);
+        }
+        
+        .back-to-docs {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-to-docs a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .back-to-docs a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .doc-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="header-content">
+            <a href="../index.html" class="logo-link">
+                <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(50,50)">
+                        <circle cx="0" cy="0" r="40" fill="none" stroke="url(#logoGradient)" stroke-width="8"/>
+                        <rect x="-25" y="5" width="10" height="20" fill="url(#logoGradient)" opacity="0.7"/>
+                        <rect x="-10" y="-5" width="10" height="30" fill="url(#logoGradient)" opacity="0.8"/>
+                        <rect x="5" y="-15" width="10" height="40" fill="url(#logoGradient)" opacity="0.9"/>
+                        <path d="M 20,20 L 35,35" stroke="url(#logoGradient)" stroke-width="8" stroke-linecap="round"/>
+                    </g>
+                </svg>
+                <span class="logo-text">Qantika</span>
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#trading">Trading</a>
+                <a href="../index.html#analysis">Analysis</a>
+                <a href="../index.html#docs">Docs</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="doc-container">
+        <div class="doc-header">
+            <h1>What is LP Trading?</h1>
+            <div class="doc-meta">Understanding Liquidity Provision Fundamentals</div>
+        </div>
+        
+        <div class="doc-content">
+            <p><strong>Liquidity Provider (LP) trading is a revolutionary DeFi strategy where you become a market maker on decentralized exchanges.</strong> Instead of simply buying and holding tokens, you deposit pairs of assets into liquidity pools, enabling other traders to swap between them. In return, you earn a portion of every trade fee that flows through your position.</p>
+            
+            <p>In traditional finance, market making was reserved for large institutions with millions in capital. DeFi democratizes this opportunity. When you provide liquidity to a pool like JLP/SOL, you're essentially offering both tokens for traders to exchange, earning fees every time someone swaps. Modern concentrated liquidity protocols like those on DeFiTuna amplify this further – by focusing your capital within specific price ranges, you can earn significantly higher fees than traditional wide-range positions. The key is finding the sweet spot between maximizing fee collection and managing impermanent loss risk, which is exactly what our tools help you optimize.</p>
+            
+            <div class="doc-nav">
+                <span></span>
+                <a href="leverage-in-lp.html">Next: Use of Leverage in LP Trading →</a>
+            </div>
+        </div>
+        
+        <div class="back-to-docs">
+            <a href="../index.html#docs">← Back to Documentation</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Benefits of TA Signals - Qantika Docs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+            background: 
+                radial-gradient(circle at 20% 50%, #1e3c72 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, #2a5298 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, #7e8ba3 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Main content */
+        .doc-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .doc-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #00d4ff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .doc-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .doc-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+        
+        .doc-content h2 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .doc-content p {
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .doc-content strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        /* TA Chart Visualization */
+        .ta-chart-section {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .chart-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .chart-title {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .chart-subtitle {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        #taChart {
+            width: 100%;
+            height: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .indicator-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 3px;
+            border-radius: 2px;
+        }
+        
+        .highlight-box {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .doc-nav {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .doc-nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .doc-nav a:hover {
+            transform: translateX(5px);
+        }
+        
+        .doc-nav a.prev:hover {
+            transform: translateX(-5px);
+        }
+        
+        .back-to-docs {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-to-docs a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .back-to-docs a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .doc-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .indicator-legend {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="header-content">
+            <a href="../index.html" class="logo-link">
+                <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(50,50)">
+                        <circle cx="0" cy="0" r="40" fill="none" stroke="url(#logoGradient)" stroke-width="8"/>
+                        <rect x="-25" y="5" width="10" height="20" fill="url(#logoGradient)" opacity="0.7"/>
+                        <rect x="-10" y="-5" width="10" height="30" fill="url(#logoGradient)" opacity="0.8"/>
+                        <rect x="5" y="-15" width="10" height="40" fill="url(#logoGradient)" opacity="0.9"/>
+                        <path d="M 20,20 L 35,35" stroke="url(#logoGradient)" stroke-width="8" stroke-linecap="round"/>
+                    </g>
+                </svg>
+                <span class="logo-text">Qantika</span>
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#trading">Trading</a>
+                <a href="../index.html#analysis">Analysis</a>
+                <a href="../index.html#docs">Docs</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="doc-container">
+        <div class="doc-header">
+            <h1>The Benefits of TA Signals</h1>
+            <div class="doc-meta">Technical Analysis for Entry Optimization</div>
+        </div>
+        
+        <div class="doc-content">
+            <p><strong>Technical Analysis (TA) is a complex subject that provides trading buy and sell signals based on mathematical analysis of price movements and market behavior.</strong> At its most basic form, TA uses signals drawn from crossover points on various timings of indicators such as MACD (Moving Average Convergence Divergence). In more advanced implementations, these signals can be combined with "overbought/oversold" indications from RSI (Relative Strength Index) and bounding areas taken from Bollinger Bands.</p>
+            
+            <div class="ta-chart-section">
+                <div class="chart-header">
+                    <div class="chart-title">cbBTC/SOL Technical Analysis Example</div>
+                    <div class="chart-subtitle">Showing MACD crossovers, RSI levels, and Bollinger Bands</div>
+                </div>
+                <canvas id="taChart"></canvas>
+                <div class="indicator-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #00d4ff;"></div>
+                        <span>Price Action</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #26a69a;"></div>
+                        <span>MACD Line</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ef5350;"></div>
+                        <span>Signal Line</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ffc107;"></div>
+                        <span>RSI (70/30)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: rgba(255,255,255,0.3);"></div>
+                        <span>Bollinger Bands</span>
+                    </div>
+                </div>
+            </div>
+            
+            <p>Through extensive analysis of the MACD methodology, I have developed a comprehensive system that combines signals from four different timeframes: 1-minute, 5-minute, 15-minute, and 1-hour intervals. This multi-timeframe approach provides more robust signals by confirming trends across different time horizons, reducing false signals that plague single-timeframe analysis.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Our Multi-Timeframe MACD System:</strong> By analyzing crossovers across 1m, 5m, 15m, and 1h timeframes simultaneously, we can identify high-probability entry points with greater confidence than traditional single-timeframe approaches.</p>
+            </div>
+            
+            <p>The results from this technical analysis approach are decent and provide valuable timing insights for volcano strategy entries. However, we must acknowledge a fundamental limitation: <strong>this type of TA returns us to the old zero-sum game where we do not have a significant advantage over other traders.</strong> Every trader has access to the same price data, the same indicators, and increasingly sophisticated algorithms analyzing the same patterns.</p>
+            
+            <div class="warning-box">
+                <p><strong>The Zero-Sum Reality:</strong> While TA signals can improve entry timing, they cannot escape the fundamental limitation that we're competing against other traders using similar tools and data. Our edge must come from something beyond traditional technical analysis.</p>
+            </div>
+            
+            <p>This is why at Qantika, we use technical analysis only as a foundational indicator – a baseline signal that we then enhance with additional systems that go beyond the zero-sum game. TA provides the timing framework, but our real advantage comes from incorporating data and insights that most traders simply don't have access to or don't know how to interpret effectively.</p>
+            
+            <p>The true power emerges when we combine these TA signals with our next-generation approach: <strong>wallet-based signals that track and analyze the movements of successful DeFi participants.</strong> This creates a multi-layered signal system that leverages both mathematical analysis and behavioral intelligence, giving us a genuine edge in the competitive DeFi landscape.</p>
+            
+            <div class="doc-nav">
+                <a href="dca-volcano.html" class="prev">← Previous: The Power of DCA on Volcano Trades</a>
+                <a href="wallet-signals.html">Next: Qantika Wallet Signals →</a>
+            </div>
+        </div>
+        
+        <div class="back-to-docs">
+            <a href="../index.html#docs">← Back to Documentation</a>
+        </div>
+    </div>
+    
+    <script>
+        // Generate realistic cbBTC/SOL price data for TA visualization
+        function generateTAData() {
+            const data = [];
+            const startPrice = 3500;
+            let currentPrice = startPrice;
+            
+            // Generate 200 data points (representing several days of hourly data)
+            for (let i = 0; i < 200; i++) {
+                // Add some trend and noise
+                const trend = Math.sin(i / 20) * 0.02;
+                const noise = (Math.random() - 0.5) * 0.04;
+                currentPrice += currentPrice * (trend + noise);
+                
+                data.push({
+                    time: i,
+                    price: currentPrice,
+                    volume: Math.random() * 1000 + 500
+                });
+            }
+            
+            return data;
+        }
+        
+        // Calculate technical indicators
+        function calculateIndicators(data) {
+            const prices = data.map(d => d.price);
+            
+            // Simple Moving Averages for MACD
+            const ema12 = calculateEMA(prices, 12);
+            const ema26 = calculateEMA(prices, 26);
+            const macd = ema12.map((val, i) => val - ema26[i]);
+            const signal = calculateEMA(macd, 9);
+            
+            // RSI calculation
+            const rsi = calculateRSI(prices, 14);
+            
+            // Bollinger Bands
+            const sma20 = calculateSMA(prices, 20);
+            const bb = calculateBollingerBands(prices, sma20, 20);
+            
+            return { macd, signal, rsi, bb, sma20 };
+        }
+        
+        function calculateEMA(prices, period) {
+            const k = 2 / (period + 1);
+            const ema = [prices[0]];
+            
+            for (let i = 1; i < prices.length; i++) {
+                ema.push(prices[i] * k + ema[i - 1] * (1 - k));
+            }
+            
+            return ema;
+        }
+        
+        function calculateSMA(prices, period) {
+            const sma = [];
+            for (let i = 0; i < prices.length; i++) {
+                if (i < period - 1) {
+                    sma.push(null);
+                } else {
+                    const sum = prices.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0);
+                    sma.push(sum / period);
+                }
+            }
+            return sma;
+        }
+        
+        function calculateRSI(prices, period) {
+            const gains = [];
+            const losses = [];
+            
+            for (let i = 1; i < prices.length; i++) {
+                const change = prices[i] - prices[i - 1];
+                gains.push(change > 0 ? change : 0);
+                losses.push(change < 0 ? -change : 0);
+            }
+            
+            const rsi = [50]; // Start at neutral
+            for (let i = period; i < gains.length; i++) {
+                const avgGain = gains.slice(i - period, i).reduce((a, b) => a + b, 0) / period;
+                const avgLoss = losses.slice(i - period, i).reduce((a, b) => a + b, 0) / period;
+                const rs = avgGain / (avgLoss || 0.01);
+                rsi.push(100 - (100 / (1 + rs)));
+            }
+            
+            return rsi;
+        }
+        
+        function calculateBollingerBands(prices, sma, period) {
+            const bands = { upper: [], lower: [] };
+            
+            for (let i = 0; i < prices.length; i++) {
+                if (i < period - 1 || !sma[i]) {
+                    bands.upper.push(null);
+                    bands.lower.push(null);
+                } else {
+                    const slice = prices.slice(i - period + 1, i + 1);
+                    const mean = sma[i];
+                    const variance = slice.reduce((sum, price) => sum + Math.pow(price - mean, 2), 0) / period;
+                    const stdDev = Math.sqrt(variance);
+                    
+                    bands.upper.push(mean + stdDev * 2);
+                    bands.lower.push(mean - stdDev * 2);
+                }
+            }
+            
+            return bands;
+        }
+        
+        // Draw the TA chart
+        function drawTAChart() {
+            const canvas = document.getElementById('taChart');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            const data = generateTAData();
+            const indicators = calculateIndicators(data);
+            
+            const margin = { top: 40, right: 60, bottom: 60, left: 60 };
+            const chartWidth = canvas.width - margin.left - margin.right;
+            const priceHeight = 280;
+            const macdHeight = 100;
+            const rsiHeight = 100;
+            
+            // Clear canvas
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Price range
+            const prices = data.map(d => d.price);
+            const minPrice = Math.min(...prices) * 0.98;
+            const maxPrice = Math.max(...prices) * 1.02;
+            
+            // Draw price chart with Bollinger Bands
+            drawPriceSection(ctx, data, indicators, margin, chartWidth, priceHeight, minPrice, maxPrice);
+            
+            // Draw MACD
+            drawMACDSection(ctx, indicators.macd, indicators.signal, margin, chartWidth, macdHeight, priceHeight + 50);
+            
+            // Draw RSI
+            drawRSISection(ctx, indicators.rsi, margin, chartWidth, rsiHeight, priceHeight + macdHeight + 60);
+            
+            // Add buy/sell signals
+            addSignalArrows(ctx, data, indicators, margin, chartWidth, priceHeight, minPrice, maxPrice);
+        }
+        
+        function drawPriceSection(ctx, data, indicators, margin, width, height, minPrice, maxPrice) {
+            const priceRange = maxPrice - minPrice;
+            
+            // Draw Bollinger Bands
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 1;
+            
+            // Upper band
+            ctx.beginPath();
+            indicators.bb.upper.forEach((val, i) => {
+                if (val !== null) {
+                    const x = margin.left + (i / (data.length - 1)) * width;
+                    const y = margin.top + height - ((val - minPrice) / priceRange) * height;
+                    if (i === indicators.bb.upper.findIndex(v => v !== null)) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+            });
+            ctx.stroke();
+            
+            // Lower band
+            ctx.beginPath();
+            indicators.bb.lower.forEach((val, i) => {
+                if (val !== null) {
+                    const x = margin.left + (i / (data.length - 1)) * width;
+                    const y = margin.top + height - ((val - minPrice) / priceRange) * height;
+                    if (i === indicators.bb.lower.findIndex(v => v !== null)) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+            });
+            ctx.stroke();
+            
+            // Draw price line
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            data.forEach((point, i) => {
+                const x = margin.left + (i / (data.length - 1)) * width;
+                const y = margin.top + height - ((point.price - minPrice) / priceRange) * height;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            // Price chart label
+            ctx.fillStyle = '#00d4ff';
+            ctx.font = '14px Arial';
+            ctx.fillText('Price Action', margin.left, margin.top - 10);
+        }
+        
+        function drawMACDSection(ctx, macd, signal, margin, width, height, offsetY) {
+            const macdMin = Math.min(...macd, ...signal);
+            const macdMax = Math.max(...macd, ...signal);
+            const macdRange = macdMax - macdMin || 1;
+            
+            // Draw zero line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 1;
+            const zeroY = margin.top + offsetY + height - ((0 - macdMin) / macdRange) * height;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, zeroY);
+            ctx.lineTo(margin.left + width, zeroY);
+            ctx.stroke();
+            
+            // Draw MACD line
+            ctx.strokeStyle = '#26a69a';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            macd.forEach((val, i) => {
+                const x = margin.left + (i / (macd.length - 1)) * width;
+                const y = margin.top + offsetY + height - ((val - macdMin) / macdRange) * height;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            // Draw Signal line
+            ctx.strokeStyle = '#ef5350';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            signal.forEach((val, i) => {
+                const x = margin.left + (i / (signal.length - 1)) * width;
+                const y = margin.top + offsetY + height - ((val - macdMin) / macdRange) * height;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            // MACD label
+            ctx.fillStyle = '#26a69a';
+            ctx.font = '12px Arial';
+            ctx.fillText('MACD', margin.left, margin.top + offsetY - 5);
+        }
+        
+        function drawRSISection(ctx, rsi, margin, width, height, offsetY) {
+            // Draw RSI levels
+            ctx.strokeStyle = 'rgba(255, 193, 7, 0.5)';
+            ctx.lineWidth = 1;
+            
+            // 70 line (overbought)
+            const overboughtY = margin.top + offsetY + height - (70 / 100) * height;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, overboughtY);
+            ctx.lineTo(margin.left + width, overboughtY);
+            ctx.stroke();
+            
+            // 30 line (oversold)
+            const oversoldY = margin.top + offsetY + height - (30 / 100) * height;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, oversoldY);
+            ctx.lineTo(margin.left + width, oversoldY);
+            ctx.stroke();
+            
+            // Draw RSI line
+            ctx.strokeStyle = '#ffc107';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            rsi.forEach((val, i) => {
+                const x = margin.left + (i / (rsi.length - 1)) * width;
+                const y = margin.top + offsetY + height - (val / 100) * height;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            // RSI label
+            ctx.fillStyle = '#ffc107';
+            ctx.font = '12px Arial';
+            ctx.fillText('RSI (14)', margin.left, margin.top + offsetY - 5);
+            
+            // Add RSI level labels
+            ctx.fillStyle = 'rgba(255, 193, 7, 0.7)';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'right';
+            ctx.fillText('70', margin.left - 5, overboughtY + 3);
+            ctx.fillText('30', margin.left - 5, oversoldY + 3);
+            ctx.fillText('50', margin.left - 5, margin.top + offsetY + height/2 + 3);
+            ctx.textAlign = 'left'; // Reset
+        }
+        
+        function addSignalArrows(ctx, data, indicators, margin, width, height, minPrice, maxPrice) {
+            const priceRange = maxPrice - minPrice;
+            
+            // Find MACD crossovers
+            for (let i = 1; i < indicators.macd.length - 1; i++) {
+                const prevMacd = indicators.macd[i - 1];
+                const currMacd = indicators.macd[i];
+                const prevSignal = indicators.signal[i - 1];
+                const currSignal = indicators.signal[i];
+                
+                // Bullish crossover (MACD crosses above signal)
+                if (prevMacd <= prevSignal && currMacd > currSignal) {
+                    const x = margin.left + (i / (data.length - 1)) * width;
+                    const y = margin.top + height - ((data[i].price - minPrice) / priceRange) * height;
+                    
+                    // Draw green arrow pointing up
+                    ctx.fillStyle = '#26a69a';
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + 20);
+                    ctx.lineTo(x - 8, y + 35);
+                    ctx.lineTo(x + 8, y + 35);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // Add "BUY" label
+                    ctx.fillStyle = '#26a69a';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('BUY', x, y + 50);
+                }
+                
+                // Bearish crossover (MACD crosses below signal)
+                if (prevMacd >= prevSignal && currMacd < currSignal) {
+                    const x = margin.left + (i / (data.length - 1)) * width;
+                    const y = margin.top + height - ((data[i].price - minPrice) / priceRange) * height;
+                    
+                    // Draw red arrow pointing down
+                    ctx.fillStyle = '#ef5350';
+                    ctx.beginPath();
+                    ctx.moveTo(x, y - 20);
+                    ctx.lineTo(x - 8, y - 35);
+                    ctx.lineTo(x + 8, y - 35);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    // Add "SELL" label
+                    ctx.fillStyle = '#ef5350';
+                    ctx.font = 'bold 10px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('SELL', x, y - 40);
+                }
+            }
+            
+            ctx.textAlign = 'left'; // Reset text alignment
+        }
+        
+        // Initialize chart when page loads
+        window.addEventListener('load', () => {
+            drawTAChart();
+        });
+        
+        // Redraw on resize
+        window.addEventListener('resize', () => {
+            setTimeout(drawTAChart, 100);
+        });
+    </script>
+</body>
+</html>

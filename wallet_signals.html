@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qantika Wallet Signals - Qantika Docs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+            background: 
+                radial-gradient(circle at 20% 50%, #1e3c72 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, #2a5298 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, #7e8ba3 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Main content */
+        .doc-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .doc-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #00d4ff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .doc-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .doc-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+        
+        .doc-content h2 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .doc-content p {
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .doc-content strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        /* Wallet Intelligence Dashboard */
+        .intelligence-dashboard {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-title {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-subtitle {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .bullish { color: #4CAF50; }
+        .bearish { color: #f44336; }
+        .neutral { color: #FFC107; }
+        
+        /* Whale Classification System */
+        .whale-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .whale-type {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        .whale-type h4 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+        
+        .whale-type .behavior {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .whale-type .usefulness {
+            font-size: 0.85rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .high-value { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .medium-value { background: rgba(255, 193, 7, 0.2); color: #FFC107; }
+        .low-value { background: rgba(244, 67, 54, 0.2); color: #f44336; }
+        
+        /* Signal Visualization */
+        .signal-viz {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .signal-title {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        #walletSignalChart {
+            width: 100%;
+            height: 300px;
+        }
+        
+        /* Trade Trigger Controls */
+        .trade-trigger-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .trigger-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .trigger-title {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .trigger-subtitle {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .trigger-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .slider-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        .slider-container label {
+            display: block;
+            color: #00d4ff;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .threshold-slider {
+            flex: 1;
+            height: 6px;
+            background: linear-gradient(to right, #f44336, #FFC107, #4CAF50);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .threshold-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #00d4ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 212, 255, 0.3);
+        }
+        
+        .threshold-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #00d4ff;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 212, 255, 0.3);
+        }
+        
+        .slider-value {
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            min-width: 50px;
+        }
+        
+        .threshold-explanation {
+            color: #aaa;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        .prediction-box {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        .prediction-header {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .prediction-details {
+            space-y: 0.8rem;
+        }
+        
+        .prediction-details > div {
+            margin-bottom: 0.8rem;
+        }
+        
+        .timeframe {
+            color: #e0e0e0;
+            font-size: 0.95rem;
+        }
+        
+        .countdown {
+            color: #00d4ff;
+            font-weight: bold;
+            font-family: monospace;
+        }
+        
+        .signal-strength {
+            color: #e0e0e0;
+            font-size: 0.95rem;
+        }
+        
+        .signal-result {
+            font-weight: bold;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .signal-result.bullish {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        
+        .signal-result.bearish {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+        
+        .confidence {
+            color: #e0e0e0;
+            font-size: 0.95rem;
+        }
+        
+        .confidence-level {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        /* Score Meter */
+        .score-meter {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .meter-container {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            margin: 0 auto;
+        }
+        
+        .meter-bg {
+            width: 300px;
+            height: 150px;
+            border-radius: 150px 150px 0 0;
+            background: linear-gradient(to right, #f44336, #FFC107, #4CAF50);
+            position: relative;
+        }
+        
+        .meter-needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            height: 120px;
+            background: #fff;
+            transform-origin: bottom;
+            transition: transform 0.5s ease;
+        }
+        
+        .score-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-top: 1rem;
+        }
+        
+        .highlight-box {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .revolutionary-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #FFD700;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .target-selection {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .target-title {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .pair-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .pair-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .pair-name {
+            color: #00d4ff;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pair-mcap {
+            color: #aaa;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pair-status {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+        }
+        
+        .optimal { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .risky { background: rgba(255, 193, 7, 0.2); color: #FFC107; }
+        .unsuitable { background: rgba(244, 67, 54, 0.2); color: #f44336; }
+        
+        .doc-nav {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .doc-nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .doc-nav a:hover {
+            color: #ffffff;
+        }
+        
+        .back-to-docs {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-to-docs a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .back-to-docs a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .doc-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .whale-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .trigger-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="header-content">
+            <a href="../index.html" class="logo-link">
+                <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(50,50)">
+                        <circle cx="0" cy="0" r="40" fill="none" stroke="url(#logoGradient)" stroke-width="8"/>
+                        <rect x="-25" y="5" width="10" height="20" fill="url(#logoGradient)" opacity="0.7"/>
+                        <rect x="-10" y="-5" width="10" height="30" fill="url(#logoGradient)" opacity="0.8"/>
+                        <rect x="5" y="-15" width="10" height="40" fill="url(#logoGradient)" opacity="0.9"/>
+                        <path d="M 20,20 L 35,35" stroke="url(#logoGradient)" stroke-width="8" stroke-linecap="round"/>
+                    </g>
+                </svg>
+                <span class="logo-text">Qantika</span>
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#trading">Trading</a>
+                <a href="../index.html#analysis">Analysis</a>
+                <a href="../index.html#docs">Docs</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="doc-container">
+        <div class="doc-header">
+            <h1>Qantika Wallet Signals</h1>
+            <div class="doc-meta">Following Smart Money Movements</div>
+        </div>
+        
+        <div class="doc-content">
+            <div class="revolutionary-box">
+                <p><strong>🚀 This is our revolutionary edge:</strong> While everyone else analyzes the same price charts with the same indicators, we're tracking the actual behavior of the wallets that move markets. This intelligence gives us a genuine advantage in the zero-sum trading game.</p>
+            </div>
+            
+            <h2>The DeFi Intelligence Advantage</h2>
+            
+            <p><strong>DeFi provides an unprecedented level of market transparency that traditional equity and commodity trading simply cannot match.</strong> In legacy markets, institutional trading activity is hidden behind closed doors – you might see the final price impact, but you never know which specific institutions are buying or selling, how much they're transacting, or what their historical patterns reveal about future moves.</p>
+            
+            <p>Blockchain technology changes everything. <strong>Every single transaction is permanently recorded and publicly accessible.</strong> Every wallet can be scanned, analyzed, and tracked across time. We can see exactly when a whale accumulates, how they distribute, their position sizes, their timing patterns, and even correlate their behavior with price movements. This creates an intelligence goldmine that traditional markets have never offered retail traders.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Blockchain Transparency Benefits:</strong></p>
+                <ul style="margin-left: 2rem; color: #e0e0e0;">
+                    <li><strong>Complete Transaction History:</strong> Every buy, sell, and transfer is permanently recorded</li>
+                    <li><strong>Real-time Position Tracking:</strong> See exactly how much each whale currently holds</li>
+                    <li><strong>Behavioral Pattern Analysis:</strong> Track trading patterns across months and years</li>
+                    <li><strong>Cross-pair Intelligence:</strong> Monitor whale activity across multiple trading pairs</li>
+                    <li><strong>Network Effect Mapping:</strong> Identify connected wallets and coordinated movements</li>
+                </ul>
+            </div>
+            
+            <p><strong>Traditional technical analysis suffers from a fundamental flaw – everyone has access to the same limited data.</strong> Every trader can see the same MACD crossovers, RSI levels, and Bollinger Bands. But very few are systematically analyzing the behavioral patterns of the wallets that actually control price movements. This is where Qantika's wallet intelligence system creates an unfair advantage by leveraging DeFi's unique transparency.</p>
+            
+            <div class="target-selection">
+                <div class="target-title">Strategic Pair Selection</div>
+                <p>Our system targets pairs where individual wallets can actually move markets. There's no point analyzing SOL/USDC whale behavior – no single wallet can move a $100B+ market cap token. But with emerging high-value tokens, the dynamics change completely:</p>
+                
+                <div class="pair-grid">
+                    <div class="pair-card">
+                        <div class="pair-name">FARTCOIN/SOL</div>
+                        <div class="pair-mcap">~$1.2B Market Cap</div>
+                        <div class="pair-status optimal">Optimal Target</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-name">POPCAT/SOL</div>
+                        <div class="pair-mcap">~$800M Market Cap</div>
+                        <div class="pair-status risky">High Potential</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-name">AI16Z/SOL</div>
+                        <div class="pair-mcap">~$250M Market Cap</div>
+                        <div class="pair-status risky">Very Volatile</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-name">SOL/USDC</div>
+                        <div class="pair-mcap">$100B+ Market Cap</div>
+                        <div class="pair-status unsuitable">Too Large</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Whale Classification System</h2>
+            
+            <p>Once we've identified our target pair, we systematically classify the most influential wallets based on their behavioral patterns. Our system identifies wallets through Dexscreener's "Top Traders" lists and by monitoring transactions exceeding $30K.</p>
+            
+            <div class="whale-types">
+                <div class="whale-type">
+                    <h4>🔄 Arbitrage Traders</h4>
+                    <div class="behavior">High-frequency trades across multiple exchanges, capitalizing on price differences. Hundreds of transactions per day.</div>
+                    <div class="usefulness low-value">Low Intelligence Value - Too noisy for our signals</div>
+                </div>
+                
+                <div class="whale-type">
+                    <h4>📈 Swing Traders</h4>
+                    <div class="behavior">Gradual accumulation over hours/days, followed by strategic distribution. Clear entry and exit patterns.</div>
+                    <div class="usefulness high-value">High Intelligence Value - Perfect for our signals</div>
+                </div>
+                
+                <div class="whale-type">
+                    <h4>🐋 Market Movers</h4>
+                    <div class="behavior">Massive single transactions that immediately impact price. Pure size-based market influence.</div>
+                    <div class="usefulness high-value">Extreme Intelligence Value - Can predict immediate moves</div>
+                </div>
+                
+                <div class="whale-type">
+                    <h4>💎 Top Holders</h4>
+                    <div class="behavior">Diamond hands wallets holding enormous token positions without selling for extended periods. When they finally move, markets shift dramatically.</div>
+                    <div class="usefulness high-value">Critical Intelligence Value - Movement triggers major events</div>
+                </div>
+                
+                <div class="whale-type">
+                    <h4>⚡ Fast Movers</h4>
+                    <div class="behavior">First whale wallets to react during significant movements (>1% in 30min). Consistently among the earliest to buy/sell before major moves.</div>
+                    <div class="usefulness high-value">Premium Intelligence Value - Leading indicators for timing</div>
+                </div>
+                
+                <div class="whale-type">
+                    <h4>🏛️ Long-term Holders</h4>
+                    <div class="behavior">Large positions held for weeks/months. Occasional major position adjustments signal macro trends.</div>
+                    <div class="usefulness medium-value">Medium Intelligence Value - Shows overall sentiment</div>
+                </div>
+            </div>
+            
+            <div class="intelligence-dashboard">
+                <div class="dashboard-header">
+                    <div class="dashboard-title">Live Wallet Intelligence Dashboard</div>
+                    <div class="dashboard-subtitle">Real-time analysis of FARTCOIN/SOL whale behavior</div>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value bullish">73</div>
+                        <div class="metric-label">Qantika Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value bullish">12</div>
+                        <div class="metric-label">Active Whales Buying</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value bearish">4</div>
+                        <div class="metric-label">Active Whales Selling</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value neutral">34%</div>
+                        <div class="metric-label">Whale Token Holdings</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value neutral">8</div>
+                        <div class="metric-label">Whales Dormant >24h</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value bullish">BUY in 3min</div>
+                        <div class="metric-label">Pending MACD Signal</div>
+                    </div>
+                </div>
+                
+                <div class="signal-viz">
+                    <div class="signal-title">Whale Activity vs Price Movement</div>
+                    <canvas id="walletSignalChart"></canvas>
+                </div>
+                
+                <div class="trade-trigger-section">
+                    <div class="trigger-header">
+                        <div class="trigger-title">Automated Trade Trigger Settings</div>
+                        <div class="trigger-subtitle">Combines TA signals with Qantika Intelligence Score</div>
+                    </div>
+                    
+                    <div class="trigger-controls">
+                        <div class="slider-container">
+                            <label for="buyThreshold">Minimum Qantika Score for Trade Trigger:</label>
+                            <div class="slider-wrapper">
+                                <input type="range" id="buyThreshold" min="50" max="95" value="85" class="threshold-slider">
+                                <div class="slider-value" id="thresholdValue">85%</div>
+                            </div>
+                            <div class="threshold-explanation">
+                                Current setting: Trade will trigger on TA crossover if Qantika Score ≥ <span id="thresholdDisplay">85</span>%
+                            </div>
+                        </div>
+                        
+                        <div class="prediction-box">
+                            <div class="prediction-header">📈 Next Potential Signal</div>
+                            <div class="prediction-details">
+                                <div class="timeframe">5-minute MACD crossover expected in <span class="countdown">2:47</span></div>
+                                <div class="signal-strength">If confirmed: <span class="signal-result bullish">BUY TRIGGER</span> (Score: 73% ≥ 85% threshold)</div>
+                                <div class="confidence">Confidence: <span class="confidence-level">High</span> (Fast Movers already accumulating)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>The Qantika Intelligence Score</h2>
+            
+            <p>All wallet intelligence data flows into our proprietary 0-100 scoring system. This single number combines multiple behavioral factors:</p>
+            
+            <div class="score-meter">
+                <div class="meter-container">
+                    <div class="meter-bg">
+                        <div class="meter-needle" id="scoreNeedle"></div>
+                    </div>
+                </div>
+                <div class="score-display" id="scoreDisplay">73</div>
+                <div style="color: #aaa; margin-top: 0.5rem;">Current Signal Strength</div>
+            </div>
+            
+            <div class="highlight-box">
+                <p><strong>Scoring Components:</strong></p>
+                <ul style="margin-left: 2rem; color: #e0e0e0;">
+                    <li><strong>Whale Buy/Sell Ratio:</strong> Number of influential wallets currently accumulating vs distributing</li>
+                    <li><strong>Transaction Size Analysis:</strong> Average size of recent whale transactions indicates conviction level</li>
+                    <li><strong>Holdings Concentration:</strong> Total percentage of supply held by tracked whales (high = bearish, low = bullish)</li>
+                    <li><strong>Behavioral Pattern Recognition:</strong> Historical accuracy of each wallet's signals</li>
+                    <li><strong>First Mover Identification:</strong> Fast Mover wallets receive premium weighting for early signal detection</li>
+                    <li><strong>Top Holder Monitoring:</strong> Diamond hands wallet activity triggers maximum alert status</li>
+                </ul>
+            </div>
+            
+            <p>When combined with traditional TA signals, this creates a multi-dimensional trading intelligence system that goes far beyond what retail traders can access. <strong>We're not just following price – we're following the money that moves the price.</strong></p>
+            
+            <div class="revolutionary-box">
+                <p><strong>The Revolutionary Advantage:</strong> While other traders react to price movements, we anticipate them by tracking the wallets that create those movements. This is genuine alpha in an increasingly efficient market.</p>
+            </div>
+            
+            <!-- Navigation Links -->
+            <div class="doc-nav">
+                <a href="compound_interest.html">← Previous: The Power of Compound Interest</a>
+                <a href="shooter-strategy.html">Next: SOL Shooter Strategy →</a>
+            </div>
+        </div>
+        
+        <div class="back-to-docs">
+            <a href="../index.html#docs">← Back to Documentation</a>
+        </div>
+    </div>
+    
+    <script>
+        // Simulate wallet activity data
+        function generateWalletData() {
+            const data = [];
+            const hours = 48; // 48 hours of data
+            
+            for (let i = 0; i < hours; i++) {
+                // Simulate whale buy/sell activity
+                const whalesBuying = Math.floor(Math.random() * 15) + 2;
+                const whalesSelling = Math.floor(Math.random() * 10) + 1;
+                
+                // Simulate price (normalized)
+                const basePrice = 50;
+                const trend = Math.sin(i / 12) * 20; // 12-hour cycles
+                const noise = (Math.random() - 0.5) * 10;
+                const price = basePrice + trend + noise;
+                
+                // Calculate signal strength
+                const buyPressure = whalesBuying / (whalesBuying + whalesSelling);
+                const signal = buyPressure * 100;
+                
+                data.push({
+                    hour: i,
+                    whalesBuying: whalesBuying,
+                    whalesSelling: whalesSelling,
+                    price: price,
+                    signal: signal
+                });
+            }
+            
+            return data;
+        }
+        
+        // Draw wallet signal chart
+        function drawWalletSignalChart() {
+            const canvas = document.getElementById('walletSignalChart');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            const data = generateWalletData();
+            const margin = { top: 30, right: 60, bottom: 40, left: 60 };
+            const chartWidth = canvas.width - margin.left - margin.right;
+            const chartHeight = canvas.height - margin.top - margin.bottom;
+            
+            // Clear canvas
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Find ranges
+            const maxPrice = Math.max(...data.map(d => d.price));
+            const minPrice = Math.min(...data.map(d => d.price));
+            const priceRange = maxPrice - minPrice;
+            
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i <= 4; i++) {
+                const y = margin.top + (chartHeight / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(margin.left + chartWidth, y);
+                ctx.stroke();
+            }
+            
+            // Draw whale activity bars
+            data.forEach((point, i) => {
+                const x = margin.left + (i / (data.length - 1)) * chartWidth;
+                const barWidth = chartWidth / data.length * 0.8;
+                
+                // Buy bars (green)
+                const buyHeight = (point.whalesBuying / 20) * (chartHeight / 2);
+                ctx.fillStyle = 'rgba(76, 175, 80, 0.6)';
+                ctx.fillRect(x - barWidth/2, margin.top + chartHeight - buyHeight, barWidth, buyHeight);
+                
+                // Sell bars (red, inverted)
+                const sellHeight = (point.whalesSelling / 20) * (chartHeight / 2);
+                ctx.fillStyle = 'rgba(244, 67, 54, 0.6)';
+                ctx.fillRect(x - barWidth/2, margin.top + chartHeight, barWidth, sellHeight);
+            });
+            
+            // Draw price line
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            data.forEach((point, i) => {
+                const x = margin.left + (i / (data.length - 1)) * chartWidth;
+                const y = margin.top + chartHeight - ((point.price - minPrice) / priceRange) * chartHeight;
+                
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+            
+            // Labels
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'center';
+            
+            // Time labels
+            for (let i = 0; i <= 4; i++) {
+                const x = margin.left + (chartWidth / 4) * i;
+                const hours = (data.length / 4) * i;
+                ctx.fillText(`${Math.round(hours)}h`, x, canvas.height - 15);
+            }
+            
+            // Legend
+            ctx.fillStyle = '#4CAF50';
+            ctx.font = '11px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText('■ Whale Buying', margin.left, 20);
+            
+            ctx.fillStyle = '#f44336';
+            ctx.fillText('■ Whale Selling', margin.left + 100, 20);
+            
+            ctx.fillStyle = '#00d4ff';
+            ctx.fillText('— Price Movement', margin.left + 200, 20);
+        }
+        
+        // Update score needle
+        function updateScoreNeedle() {
+            const needle = document.getElementById('scoreNeedle');
+            const display = document.getElementById('scoreDisplay');
+            const score = 73; // Current score
+            
+            // Rotate needle (-90 degrees to +90 degrees for 0-100 scale)
+            const angle = (score / 100) * 180 - 90;
+            needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+            
+            // Update color based on score
+            if (score >= 70) {
+                display.style.color = '#4CAF50';
+            } else if (score >= 30) {
+                display.style.color = '#FFC107';
+            } else {
+                display.style.color = '#f44336';
+            }
+        }
+        
+        // Initialize visualizations and controls
+        function initVisualizations() {
+            drawWalletSignalChart();
+            updateScoreNeedle();
+            initSliderControls();
+            startCountdown();
+        }
+        
+        // Initialize slider controls
+        function initSliderControls() {
+            const slider = document.getElementById('buyThreshold');
+            const valueDisplay = document.getElementById('thresholdValue');
+            const thresholdDisplay = document.getElementById('thresholdDisplay');
+            
+            slider.addEventListener('input', function() {
+                const value = this.value;
+                valueDisplay.textContent = value + '%';
+                thresholdDisplay.textContent = value;
+                
+                // Update signal result based on current score vs threshold
+                updateSignalPrediction(parseInt(value));
+            });
+        }
+        
+        // Update signal prediction based on threshold
+        function updateSignalPrediction(threshold) {
+            const currentScore = 73; // Current Qantika score
+            const signalResult = document.querySelector('.signal-result');
+            const signalStrength = document.querySelector('.signal-strength');
+            
+            if (currentScore >= threshold) {
+                signalResult.textContent = 'BUY TRIGGER';
+                signalResult.className = 'signal-result bullish';
+                signalStrength.innerHTML = `If confirmed: <span class="signal-result bullish">BUY TRIGGER</span> (Score: ${currentScore}% ≥ ${threshold}% threshold)`;
+            } else {
+                signalResult.textContent = 'NO TRIGGER';
+                signalResult.className = 'signal-result bearish';
+                signalStrength.innerHTML = `If confirmed: <span class="signal-result bearish">NO TRIGGER</span> (Score: ${currentScore}% < ${threshold}% threshold)`;
+            }
+        }
+        
+        // Countdown timer for next MACD signal
+        function startCountdown() {
+            let seconds = 167; // 2:47 in seconds
+            const countdownElement = document.querySelector('.countdown');
+            
+            setInterval(() => {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                countdownElement.textContent = `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+                
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 300; // Reset to 5 minutes
+                    // Simulate new signal check
+                    setTimeout(() => {
+                        updateSignalPrediction(parseInt(document.getElementById('buyThreshold').value));
+                    }, 100);
+                }
+            }, 1000);
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', initVisualizations);
+        
+        // Redraw on resize
+        window.addEventListener('resize', () => {
+            setTimeout(initVisualizations, 100);
+        });
+        
+        // Simulate real-time updates
+        setInterval(() => {
+            // Update with slight variations
+            const currentScore = parseInt(document.getElementById('scoreDisplay').textContent);
+            const newScore = Math.max(0, Math.min(100, currentScore + (Math.random() - 0.5) * 6));
+            document.getElementById('scoreDisplay').textContent = Math.round(newScore);
+            updateScoreNeedle();
+        }, 3000);
+    </script>
+</body>
+</html>

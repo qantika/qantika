@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Going Beyond Delta-Neutral - Qantika Docs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+            background: 
+                radial-gradient(circle at 20% 50%, #1e3c72 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, #2a5298 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, #7e8ba3 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Main content */
+        .doc-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .doc-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #00d4ff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .doc-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .doc-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 3rem;
+        }
+        
+        .doc-content h2 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .doc-content p {
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .doc-content strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .highlight-box {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid #00d4ff;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .doc-nav {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .doc-nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .doc-nav a:hover {
+            transform: translateX(5px);
+        }
+        
+        .doc-nav a.prev:hover {
+            transform: translateX(-5px);
+        }
+        
+        .back-to-docs {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .back-to-docs a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .back-to-docs a:hover {
+            color: #00d4ff;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .doc-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="header-content">
+            <a href="../index.html" class="logo-link">
+                <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(50,50)">
+                        <circle cx="0" cy="0" r="40" fill="none" stroke="url(#logoGradient)" stroke-width="8"/>
+                        <rect x="-25" y="5" width="10" height="20" fill="url(#logoGradient)" opacity="0.7"/>
+                        <rect x="-10" y="-5" width="10" height="30" fill="url(#logoGradient)" opacity="0.8"/>
+                        <rect x="5" y="-15" width="10" height="40" fill="url(#logoGradient)" opacity="0.9"/>
+                        <path d="M 20,20 L 35,35" stroke="url(#logoGradient)" stroke-width="8" stroke-linecap="round"/>
+                    </g>
+                </svg>
+                <span class="logo-text">Qantika</span>
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#trading">Trading</a>
+                <a href="../index.html#analysis">Analysis</a>
+                <a href="../index.html#docs">Docs</a>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="doc-container">
+        <div class="doc-header">
+            <h1>Going Beyond Delta-Neutral</h1>
+            <div class="doc-meta">Advanced Positioning Strategies</div>
+        </div>
+        
+        <div class="doc-content">
+            <p><strong>Traditional trading is fundamentally a zero-sum game.</strong> Whether you're trading equities, commodities, or crypto, every transaction requires a buyer and seller – one wins, one loses. The net delta across all participants is neutral. This harsh mathematical reality explains why creating profitable automated trading systems is extraordinarily difficult. Everyone has access to the same technical indicators – RSI, MACD, Bollinger Bands – and the same price data. In this zero-sum arena, your edge must come from being faster, smarter, or luckier than other participants.</p>
+            
+            <p>LP trading breaks this paradigm entirely by introducing a third source of revenue: transaction fees. While traditional traders fight over price movements in a zero-sum battle, liquidity providers collect fees from both winners and losers. This transforms the game from zero-sum to positive-sum – you're no longer competing against other traders but rather providing a service and getting paid for it. Every swap that occurs in your pool adds to your returns, regardless of who profits from the price movement.</p>
+            
+            <div class="highlight-box">
+                <p><strong>The Volcano Strategy Advantage:</strong> By using wide ranges and pseudo delta-neutral positioning, we create trades built to endure market volatility rather than predict it.</p>
+            </div>
+            
+            <p>The true power of this model emerges over extended time horizons. While a day trader might celebrate a 2% gain, an LP position earning 0.5% daily in fees achieves 6x returns through compounding over just one year. The Volcano strategy is specifically designed to maximize position longevity – if a position can survive for a month, fee accumulation becomes significant. If it lasts six months, the compounding effects become astronomical. By using wide ranges and pseudo delta-neutral positioning, we create trades built to endure market volatility rather than predict it, allowing the relentless mathematics of daily compounding to work in our favor. This is how we escape the zero-sum trap that ensnares traditional trading strategies.</p>
+            
+            <div class="doc-nav">
+                <a href="leverage-in-lp.html" class="prev">← Previous: Use of Leverage in LP Trading</a>
+                <a href="dca-volcano-trades.html">Next: The Power of DCA on Volcano Trades →</a>
+            </div>
+        </div>
+        
+        <div class="back-to-docs">
+            <a href="../index.html#docs">← Back to Documentation</a>
+        </div>
+    </div>
+</body>
+</html>
