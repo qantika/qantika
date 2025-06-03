@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qantika - Advanced DeFi Analytics & LP Strategy Platform</title>
+    <title>Qantika - Revolutionary DeFi Trading Intelligence</title>
     <style>
         * {
             margin: 0;
@@ -12,419 +12,535 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            background-attachment: fixed;
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 20px;
         }
 
-        header {
-            padding: 2rem 0;
-            text-align: center;
-            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 180, 216, 0.05));
+        /* Header */
+        .header {
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 212, 255, 0.2);
         }
 
-        .logo {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #00d4ff, #00b4d8, #0077b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: #a0a0a0;
-            margin-bottom: 2rem;
-        }
-
         .nav {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .nav a {
-            color: #ffffff;
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
         }
 
-        .nav a:hover {
-            background: rgba(0, 212, 255, 0.2);
-            border-color: rgba(0, 212, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .section {
-            padding: 4rem 0;
-        }
-
-        .section h2 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            background: linear-gradient(45deg, #00d4ff, #00b4d8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(0, 212, 255, 0.3);
-            box-shadow: 0 16px 48px rgba(0, 212, 255, 0.1);
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        .nav-links a:hover {
             color: #00d4ff;
         }
 
-        .card p {
-            color: #cccccc;
-            margin-bottom: 1.5rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background: linear-gradient(45deg, #00d4ff, #0077b6);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 0.8rem 2rem;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .feature {
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
             text-align: center;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
         }
 
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00d4ff, #ff6b35, #00d4ff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            color: #bbb;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Business Plan Section */
+        .business-plan-section {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            padding: 40px 20px;
+            margin: 40px 0;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .business-plan-section h3 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .business-plan-section p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .business-plan-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .business-plan-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section h2 {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-tile {
+            background: linear-gradient(145deg, #2a2a3e 0%, #1e1e3a 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .feature-tile:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .feature-tile h3 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .feature-tile p {
+            color: #bbb;
+            line-height: 1.6;
+        }
+
+        /* Documentation Grid */
+        .docs-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 60px 20px;
+            margin: 40px 0;
+            border-radius: 20px;
+        }
+
+        .docs-section h3 {
+            text-align: center;
+            color: #00d4ff;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
         }
 
         .docs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .doc-card {
-            background: rgba(255, 255, 255, 0.05);
+        .docs-tile {
+            background: linear-gradient(145deg, #2a2a3e 0%, #1e1e3a 100%);
+            border: 1px solid #444;
             border-radius: 15px;
-            padding: 1.5rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .doc-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 212, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .doc-card h4 {
-            color: #00d4ff;
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        .doc-card p {
-            color: #cccccc;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .doc-link {
-            color: #00d4ff;
+            padding: 25px;
             text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.3s ease;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .doc-link:hover {
-            border-bottom-color: #00d4ff;
+        .docs-tile:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+            background: linear-gradient(145deg, #3a3a4e 0%, #2e2e4a 100%);
         }
 
-        .footer {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 2rem 0;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 4rem;
-        }
-
-        .strategy-highlight {
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 180, 216, 0.05));
-            border: 2px solid rgba(0, 212, 255, 0.3);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .strategy-highlight h3 {
+        .docs-tile h4 {
             color: #00d4ff;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 10px;
+            font-size: 1.3em;
         }
 
-        .new-badge {
-            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
-            font-size: 0.7rem;
+        .docs-tile p {
+            color: #bbb;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .business-plan-tile {
+            background: linear-gradient(145deg, #4a2a4e 0%, #3e1e4a 100%);
+            border-color: #ff6b35;
+        }
+
+        .business-plan-tile:hover {
+            border-color: #ff6b35;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .business-plan-tile h4 {
+            color: #ff6b35;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            color: #00d4ff;
             font-weight: bold;
-            margin-left: 0.5rem;
-            animation: pulse 2s infinite;
+            display: block;
         }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+        .stat-label {
+            color: #bbb;
+            margin-top: 10px;
         }
 
+        /* Footer */
+        .footer {
+            background: #0c0c0c;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .footer p {
+            color: #666;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .nav {
-                flex-direction: column;
-                gap: 1rem;
+            .hero h1 {
+                font-size: 2.5em;
             }
-            
-            .cards {
-                grid-template-columns: 1fr;
+
+            .hero p {
+                font-size: 1.2em;
             }
-            
-            .container {
-                padding: 0 1rem;
+
+            .section h2 {
+                font-size: 2em;
             }
-            
-            .logo {
-                font-size: 2rem;
+
+            .nav-links {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- Header -->
+    <header class="header">
         <div class="container">
-            <div class="logo">QANTIKA</div>
-            <p class="tagline">Advanced DeFi Analytics & LP Strategy Optimization Platform</p>
             <nav class="nav">
-                <a href="#trading">Automated Trading</a>
-                <a href="#analytics">Data Analysis</a>
-                <a href="#docs">Documentation</a>
+                <div class="logo">⚡ Qantika</div>
+                <div class="nav-links">
+                    <a href="#strategies">Strategies</a>
+                    <a href="#docs">Documentation</a>
+                    <a href="#tools">Tools</a>
+                    <a href="#about">About</a>
+                </div>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section id="trading" class="section">
-            <h2>🚀 Automated Trading Strategies</h2>
-            <div class="strategy-highlight">
-                <h3>Revolutionary LP Trading Intelligence</h3>
-                <p>Escape the zero-sum game with our sophisticated liquidity provider strategies that generate alpha through fees, compound interest, and whale intelligence systems.</p>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Revolutionary DeFi Trading Intelligence</h1>
+            <p>Leverage blockchain transparency to create systematic alpha through advanced LP strategies and whale intelligence</p>
+            <a href="#strategies" class="cta-button">Explore Strategies</a>
+        </div>
+    </section>
 
-            <!-- Business Plan Section -->
-            <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.05)); border: 2px solid rgba(102, 126, 234, 0.3); border-radius: 15px; padding: 2rem; margin: 2rem 0; text-align: center;">
-                <h3 style="color: #667eea; margin-bottom: 1rem; font-size: 1.5rem;">📋 Qantika Business Plan</h3>
-                <p style="color: #e0e0e0; margin-bottom: 1.5rem; font-size: 1.1rem;">Comprehensive business strategy, financial projections, and market analysis for our revolutionary DeFi intelligence platform.</p>
-                <a href="docs/qantika_business_plan.html" style="display: inline-block; background: linear-gradient(45deg, #667eea, #764ba2); color: #ffffff; text-decoration: none; padding: 0.8rem 2rem; border-radius: 25px; font-weight: 600; transition: all 0.3s ease;">View Business Plan</a>
-            </div>
-            
-            <div class="cards">
-                <div class="card">
+    <!-- Business Plan Section -->
+    <section class="business-plan-section">
+        <div class="container">
+            <h3>📋 Qantika Business Plan</h3>
+            <p>Comprehensive business strategy, market analysis, and investment framework for revolutionary DeFi trading intelligence</p>
+            <a href="docs/qantika_business_plan.html" class="business-plan-button">View Business Plan</a>
+        </div>
+    </section>
+
+    <!-- Trading Strategies Section -->
+    <section id="strategies" class="section">
+        <div class="container">
+            <h2>🚀 Trading Strategies</h2>
+            <div class="feature-grid">
+                <div class="feature-tile">
                     <h3>🌋 Volcano Strategy</h3>
-                    <p>Pseudo delta-neutral LP positions with wide ranges and daily mechanical entries. Time makes positions safer through fee accumulation and compound interest growth.</p>
-                    <a href="docs/dca-volcano-trades.html" class="btn">Learn Volcano Strategy</a>
+                    <p>Revolutionary DCA approach using wide-range LP positions with pseudo delta-neutral positioning. Time-based risk reduction through compound interest accumulation over 100+ day campaigns.</p>
                 </div>
-
-                <div class="card">
+                
+                <div class="feature-tile">
                     <h3>🎯 Shooter Strategy</h3>
-                    <p>Asymmetric LP ranges (10% down, 90% up) with dynamic short protection. Quality over quantity - signal-driven entries with 3:1 risk management.</p>
-                    <a href="docs/shooter-strategy.html" class="btn">Explore Shooter Strategy</a>
+                    <p>Asymmetric LP positioning with yield farming hedge protection. Combines wide-range primary positions with high-yield short hedges for optimal risk-adjusted returns.</p>
                 </div>
-
-                <div class="card">
-                    <h3>📊 Multi-Timeframe MACD <span class="new-badge">NEW</span></h3>
-                    <p>Revolutionary progressive signal cascading across 1m→5m→15m timeframes with dynamic position sizing. Combines perfect timing with high accuracy.</p>
-                    <a href="docs/multi-timeframe-macd.html" class="btn">Discover MACD System</a>
+                
+                <div class="feature-tile">
+                    <h3>📊 Multi-Timeframe MACD</h3>
+                    <p>Cascading signal system across 1m/5m/15m/1h timeframes with dynamic position sizing. Solves the classic timing vs accuracy dilemma in technical analysis.</p>
                 </div>
-            </div>
-
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">🧠</div>
-                    <h4>Whale Intelligence</h4>
-                    <p>Blockchain transparency provides unprecedented market insight through sophisticated whale behavior analysis.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">⚡</div>
-                    <h4>Signal Integration</h4>
-                    <p>Multiple intelligence layers (MACD + RSI + Whale + Sentiment) create genuine alpha through signal confluence.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">📈</div>
-                    <h4>Compound Interest</h4>
-                    <p>Mathematical foundation: 0.46% daily = 533% annual with proper risk management and time-based safety.</p>
+                
+                <div class="feature-tile">
+                    <h3>🐋 Whale Intelligence</h3>
+                    <p>Revolutionary blockchain transparency advantage. Track and analyze whale behavior patterns for leading market indicators beyond traditional TA.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="analytics" class="section">
-            <h2>📊 Advanced Analytics</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>📈 Price Data Analysis</h3>
-                    <p>Real-time price tracking and historical analysis with advanced charting capabilities for informed decision making.</p>
-                    <a href="backtester/index.html" class="btn">View Charts</a>
-                </div>
-
-                <div class="card">
-                    <h3>🔍 Backtesting Tools</h3>
-                    <p>Comprehensive backtesting framework for LP strategies with detailed performance metrics and risk analysis.</p>
-                    <a href="backtester/index.html" class="btn">Run Backtest</a>
-                </div>
-
-                <div class="card">
-                    <h3>🎯 Signal Dashboard</h3>
-                    <p>Live dashboard combining technical analysis, whale intelligence, and sentiment scoring for optimal entry timing.</p>
-                    <a href="#" class="btn">Live Dashboard</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="docs" class="section">
-            <h2>📚 Documentation</h2>
-            <p style="text-align: center; color: #cccccc; margin-bottom: 2rem;">
-                Comprehensive guides covering our revolutionary LP trading strategies, technical analysis systems, and mathematical foundations.
-            </p>
-            
+    <!-- Documentation Section -->
+    <section id="docs" class="docs-section">
+        <div class="container">
+            <h3>📚 Complete Strategy Documentation</h3>
             <div class="docs-grid">
-                <div class="doc-card">
-                    <h4>🎯 What is LP Trading?</h4>
-                    <p>Fundamental concepts and introduction to liquidity provider trading strategies</p>
-                    <a href="docs/what-is-lp.html" class="doc-link">Read Guide →</a>
-                </div>
+                <!-- Core LP Fundamentals -->
+                <a href="docs/what-is-lp.html" class="docs-tile">
+                    <h4>What is LP Trading</h4>
+                    <p>Understanding liquidity provision fundamentals and the foundation of DeFi yield generation</p>
+                </a>
+                
+                <a href="docs/leverage-in-lp.html" class="docs-tile">
+                    <h4>Use of Leverage in LP Trading</h4>
+                    <p>Risk management and capital efficiency through intelligent leverage deployment</p>
+                </a>
+                
+                <a href="docs/beyond-delta-neutral.html" class="docs-tile">
+                    <h4>Going Beyond Delta-Neutral</h4>
+                    <p>Advanced positioning strategies that transcend traditional market-making approaches</p>
+                </a>
+                
+                <!-- Advanced Strategies -->
+                <a href="docs/dca-volcano-trades.html" class="docs-tile">
+                    <h4>The Power of DCA on Volcano Trades</h4>
+                    <p>Time-based risk reduction with interactive visualization of position building</p>
+                </a>
+                
+                <a href="docs/compound_interest.html" class="docs-tile">
+                    <h4>The Power of Compound Interest</h4>
+                    <p>Mathematical foundation of theta-positive positioning and systematic wealth building</p>
+                </a>
+                
+                <a href="docs/shooter_strategy.html" class="docs-tile">
+                    <h4>SOL Shooter Strategy</h4>
+                    <p>Asymmetric positioning with yield farming hedge - demonstrated 100%+ returns</p>
+                </a>
+                
+                <!-- Technical Analysis Suite -->
+                <a href="docs/ta_signals.html" class="docs-tile">
+                    <h4>The Benefits of TA Signals</h4>
+                    <p>Technical analysis integration, limitations, and the zero-sum game reality</p>
+                </a>
+                
+                <a href="docs/multi-timeframe-macd.html" class="docs-tile">
+                    <h4>Multi-Timeframe MACD Strategy</h4>
+                    <p>Revolutionary cascading signal approach across multiple timeframes</p>
+                </a>
+                
+                <!-- Intelligence Systems -->
+                <a href="docs/wallet_signals.html" class="docs-tile">
+                    <h4>Qantika Wallet Signals</h4>
+                    <p>Revolutionary blockchain intelligence system leveraging DeFi transparency</p>
+                </a>
+                
+                <a href="docs/social_intelligence_engine.html" class="docs-tile">
+                    <h4>Social Intelligence Engine</h4>
+                    <p>Market sentiment and social signal analysis for enhanced decision making</p>
+                </a>
+                
+                <a href="docs/whale_intelligence_moralis.html" class="docs-tile">
+                    <h4>Whale Intelligence via Moralis</h4>
+                    <p>Advanced whale tracking and behavioral analysis using premium APIs</p>
+                </a>
+                
+                <!-- System Architecture -->
+                <a href="docs/qantika_system_design.html" class="docs-tile">
+                    <h4>Qantika System Design</h4>
+                    <p>Complete platform architecture and technical implementation overview</p>
+                </a>
+                
+                <a href="docs/continuous_optimization_engine.html" class="docs-tile">
+                    <h4>Continuous Optimization Engine</h4>
+                    <p>AI-driven strategy improvement and adaptive system enhancement</p>
+                </a>
+                
+                <!-- Business Plan -->
+                <a href="docs/qantika_business_plan.html" class="docs-tile business-plan-tile">
+                    <h4>📋 Qantika Business Plan</h4>
+                    <p>Complete business strategy, market analysis, and investment framework</p>
+                </a>
+            </div>
+        </div>
+    </section>
 
-                <div class="doc-card">
-                    <h4>⚡ Leverage in LP Trading</h4>
-                    <p>Understanding leverage mechanics and risk management in LP positions</p>
-                    <a href="docs/leverage-in-lp.html" class="doc-link">Learn More →</a>
+    <!-- Tools Section -->
+    <section id="tools" class="section">
+        <div class="container">
+            <h2>🛠️ Analysis Tools</h2>
+            <div class="feature-grid">
+                <a href="backtester/index.html" class="feature-tile">
+                    <h3>📊 Price Data Analysis</h3>
+                    <p>Advanced price data collection and analysis with premium API integration. Historical and real-time data processing for strategy optimization.</p>
+                </a>
+                
+                <a href="backtester/index.html" class="feature-tile">
+                    <h3>🔬 Backtesting Tools</h3>
+                    <p>Comprehensive strategy backtesting with multi-timeframe data. Test Volcano, Shooter, and MACD strategies against historical market conditions.</p>
+                </a>
+                
+                <div class="feature-tile">
+                    <h3>📈 Live TA Dashboard</h3>
+                    <p>Real-time technical analysis with SMA, RSI, MACD, and Bollinger Bands. Combined with whale intelligence for superior market timing.</p>
                 </div>
-
-                <div class="doc-card">
-                    <h4>🚀 Beyond Delta Neutral</h4>
-                    <p>Philosophy of escaping zero-sum games through innovative LP strategies</p>
-                    <a href="docs/beyond-delta-neutral.html" class="doc-link">Explore Philosophy →</a>
-                </div>
-
-                <div class="doc-card">
-                    <h4>🌋 DCA Volcano Strategy</h4>
-                    <p>Complete guide to our flagship volcano strategy with interactive visualizations</p>
-                    <a href="docs/dca-volcano-trades.html" class="doc-link">Master Volcano →</a>
-                </div>
-
-                <div class="doc-card">
-                    <h4>📊 Technical Analysis Signals</h4>
-                    <p>MACD, RSI, and Bollinger Bands integration for enhanced decision making</p>
-                    <a href="docs/ta_signals.html" class="doc-link">Technical Analysis →</a>
-                </div>
-
-                <div class="doc-card">
-                    <h4>💰 Compound Interest Math</h4>
-                    <p>Mathematical foundation showing $100K → $633K growth potential</p>
-                    <a href="docs/compound_interest.html" class="doc-link">View Mathematics →</a>
-                </div>
-
-                <div class="doc-card">
-                    <h4>🐋 Wallet Intelligence System</h4>
-                    <p>Revolutionary whale behavior classification and signal generation</p>
-                    <a href="docs/wallet_signals.html" class="doc-link">Whale Intelligence →</a>
-                </div>
-
-                <div class="doc-card">
-                    <h4>🎯 Shooter Strategy</h4>
-                    <p>Asymmetric risk strategy with dynamic protection and signal-driven entries</p>
-                    <a href="docs/shooter-strategy.html" class="doc-link">Shooter Strategy →</a>
-                </div>
-
-                <div class="doc-card">
-                    <h4>📈 Multi-Timeframe MACD <span class="new-badge">NEW</span></h4>
-                    <p>Progressive signal cascading with dynamic position sizing across multiple timeframes</p>
-                    <a href="docs/multi-timeframe-macd.html" class="doc-link">MACD System →</a>
+                
+                <div class="feature-tile">
+                    <h3>🎯 Portfolio Optimizer</h3>
+                    <p>Dynamic position sizing and risk management across multiple strategies. Automated rebalancing and compound interest optimization.</p>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <h2>Platform Performance</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">100%+</span>
+                    <div class="stat-label">Demonstrated Returns<br>(29-day Shooter Strategy)</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">6</span>
+                    <div class="stat-label">Premium APIs<br>Integrated</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">4</span>
+                    <div class="stat-label">Trading Pairs<br>Optimized</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">13</span>
+                    <div class="stat-label">Strategy Documents<br>Complete</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Qantika. Advanced DeFi Analytics & LP Strategy Platform.</p>
-            <p style="margin-top: 0.5rem; color: #888;">Revolutionizing crypto trading through mathematical precision and blockchain intelligence.</p>
+            <p>&copy; 2025 Qantika. Revolutionary DeFi Trading Intelligence Platform.</p>
         </div>
     </footer>
 </body>
